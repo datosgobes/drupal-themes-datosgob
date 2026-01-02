@@ -1,0 +1,129 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+
+<div class="mt-8">
+
+  <form{{ attributes }}>
+    {% set params = {
+      element: element
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-obligatorios.html.twig' with params %}
+
+    {% set params = { element: element } %}
+    {% include directory ~ '/templates/form/dge-custom-form-informacion-general.html.twig' with params %}
+
+    
+    <div class="container">
+      <div class="col-3">
+        {{ element.field_year_create_reuse_co }}
+      </div>
+      <div class="col-3">
+        {{ element.field_tamano_de_la_empresa }}
+      </div>
+      <div class="col-3 {{ not is_admin ? 'frontend-field-web-empresa' }}">
+         {{ element.field_pagina_web_de_la_empresa }}
+      </div>
+      <div class="col-3">
+        {{ element.field_sede_central }}
+      </div>
+      <div class="col-3">
+        {{ element.field_grado_de_internacionalizac }}
+      </div>
+      <div class="col-3">
+        {{ element.field_oficinas_en }}
+      </div>
+    </div>
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_principales_productos_y_se }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_clave_del_exito}}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_planes_de_futuro }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_crecimiento }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_clientes }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_modelo_de_comercializacion }}
+      </div>
+    </div>
+   
+    {% set params = {
+      element: element
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-fuente.html.twig' with params %}
+
+     {% set params = {
+      image: element.field_imagen
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-recursos-y-multimedia.html.twig' with params %}
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_mas_informacion }}
+      </div>
+    </div>
+
+    {% set params = {
+      title: 'Applicant details' | t,
+      name_and_surname: element.group_datos_de_contacto[3],
+      email: element.group_datos_de_contacto[1],
+      phone_number: element.group_datos_de_contacto[4],
+      consent_1: element.group_datos_de_contacto[2],
+      consent_2: element.group_datos_de_contacto[0],
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-de-contacto.html.twig' with params %}
+
+    {% set params = {
+      actions: element.actions
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-action-buttons.html.twig' with params %}
+
+  </form>
+</div>

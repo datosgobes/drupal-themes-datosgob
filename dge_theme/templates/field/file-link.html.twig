@@ -1,0 +1,61 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override for a link to a file.
+ *
+ * Available variables:
+ * - attributes: The HTML attributes for the containing element.
+ * - link: A link to the file.
+ * - icon: The icon image representing the file type.
+ * - file_size: The size of the file.
+ *
+ * @see template_preprocess_file_link()
+ */
+#}
+{{ attach_library('dge_theme/file') }}
+
+{% set label = file.getFilename() %}
+{% set extension = label|split('.')|last %}
+<span{{ attributes }}>
+    <span class="file--link">
+
+        {% set title_string = link['#title'] %}
+
+        {% set link = link|merge({
+            '#options': link['#url'].options|merge({
+                'attributes': link['#url'].options.attributes|merge({
+                    'target': '_blank',
+                    'title': ('Download the document'|t ~ ' "' ~ title_string ~ '". ' ~ 'Open a new window'|t)
+                })
+            })
+        }) %}
+
+         {{ link }}
+    </span>
+    <span class="file--extension-size">
+        {{ file_size }} 
+        {{ extension }}
+    </span>
+</span>

@@ -1,0 +1,936 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* Cards view styles */
+.view-header{
+  font-size: 1rem;
+  color: $primary-600;
+  font-family: 'montserrat-medium';
+  border-bottom: .125rem solid $primary-500;
+  margin-bottom: 1rem;
+  padding-bottom: .75rem;
+  width: 100%;
+}
+
+
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  .views-row {
+    background-color: $background-light-gray;
+    box-shadow: 0px 2px 3px rgb(0 0 0 / 16%);
+    border-radius: 6px;
+    border: 1px solid transparent;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    transition: 0.3s;
+    .container--card{
+      min-height: 13.75rem;
+    }
+    &:hover{
+      background-color: $white;
+      border: 1px solid $primary-700;
+      box-shadow: none;
+      transition: 0.3s;
+    }
+    a{
+      text-decoration: auto !important;
+    }
+    .views-field-title, .views-field-title-1{
+      font-size: 1.25rem;
+      color: $primary-700;
+      font-family: 'montserrat-semiBold';
+    }
+    .views-field-field-categoria, .views-field-field-initiative-category, .views-field-field-bio-sector{
+      font-size: .875rem;
+      font-family: 'montserrat-medium';
+      color: $primary-700 !important;
+      flex-flow: wrap;
+      display: flex;
+      .field-content{
+        display: flex;
+        gap: 0.5rem 2rem;
+        flex-flow: wrap;
+        a{
+          font-size: 0.875rem;
+          text-decoration: none;
+          color: $primary-700 !important;
+        }
+      }
+    }
+    .views-field-field-imagen,
+    .views-field-field-image { 
+      span{
+        display: flex;
+        width: 13rem;
+        height: 7rem;
+        border-radius: 0.875rem !important;
+        box-shadow: $box-shadow;
+        background-color: #fff;
+        img {
+          display: flex;
+          border-radius: 0.875rem;
+          background-color: transparent;
+          width: 100%;
+          height: 100%;
+          object-position: center;
+          object-fit: cover;
+        }
+      }
+    }
+    &__company{
+      span{
+        display: flex;
+        width: 13rem !important;
+        height: 7rem !important;
+        border-radius: 0.875rem !important;
+        box-shadow: $box-shadow;
+        background-color: #fff;
+        img{
+          border-radius: 0.875rem;
+          background-color: transparent;
+          width: 100%;
+          height: 100%;
+          object-position: center;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .views-field-field-autor-desarrollador{
+      font-family: 'montserrat-italic';
+      color: $primary-600;
+      font-size: 0.875rem;
+    }
+    .views-field-field-descripcion-terms,
+    .views-field-field-descripcion,
+    .views-field-field-descripcion-1{
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      color: $primary-600;
+      font-size: 1rem;
+      font-family: 'montserrat-medium';
+      p{
+        font-size: 1rem;
+        color: $primary-600 !important;
+      }
+    }
+    .views-field-field-etiquetas,
+    .views-field-field-etiquetas-1{
+      display: flex;
+      flex-flow: wrap;
+      width: 100%;
+      .field-content{
+        width: 100%;
+        display: flex;
+        flex-flow: wrap;
+        gap: .5rem;
+        align-items: center;
+        a{
+          background-color: $third-300;
+          padding: 0.375rem 0.875rem;
+          border-radius: 1.25rem;
+          color: $primary-700;
+          text-decoration: none;
+          font-family: 'montserrat-medium';
+          font-size: 0.875rem;
+          white-space: nowrap;
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+          &:hover, &:focus {
+            background-color: $primary-700;
+            color: $white;
+            transition: 0.3s;
+          }
+        }
+      }
+    }
+    .views-field-field-plataforma{
+      display: flex;
+      align-items: flex-end;
+      gap: 0.5rem;
+      .views-label{
+        font-family: 'montserrat';
+        color: $primary-700;
+        font-size: 0.875rem;
+      }
+      span a{
+        font-family: 'montserrat-medium';
+        color: $primary-700;
+        font-size: 0.875rem;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// Regla específica para underline cuando esté dentro de .views-row__content__answer (FAQ)
+
+  .view-content {
+    .views-row {
+      .views-row__content__answer {
+      a {
+        text-decoration: underline !important;
+      }
+    }
+  }
+}
+
+.layout-content--otros{
+  .view-content {
+    .views-row {
+      .container--card{
+        min-height: auto !important;
+      }
+    }
+  }
+}
+
+.view-noticias,
+.view-noticias-o-eventos,
+.view-conocimiento-o-entrevistas,
+.view-blog,
+.view-entrevistas,
+.view-conocimiento,
+.view-duplicado-de-conocimiento,
+.view-informes-y-guias,
+.view-infografias,
+.view-eventos {
+  .view-content {
+    .views-row {
+      padding: 0rem !important;
+      .views-field-field-image{
+        height: 100%;
+        align-content: center;
+        span{
+          background-color: transparent;
+          box-shadow: none;
+          padding: 0.5rem;
+          min-width: 20.625rem;
+          aspect-ratio: 1.89;
+          max-width: 20.625rem;
+          width: 20.625rem;
+          /* Mantenemos el aspect ratio solicitado por aporta 1000px / 530px = 1.89 */
+          height: calc(20.625rem / 1.89);
+          overflow: hidden;
+
+          img{
+            border-radius: 0.375rem !important;
+            align-self: center;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Recorta la imagen si es más grande */
+            object-position: center; /* Centra el recorte */
+          }
+        }
+      }
+      .views-field-field-fecha-de-la-noticia-1{
+        color: $primary-700;
+      }
+      .container.flex-nowrap.flex-column{
+        .view-noticias--desc, .view-blog--desc, .view-entrevistas--desc, .view--desc {
+          width: calc(100%);
+          overflow: auto;
+        }
+      }
+    }
+  }
+}
+
+.view-eventos .view-content .views-row {
+  .views-field-field-descripcion{
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+  .views-field-field-image {
+    height: calc(100% - 1.25rem);
+    align-content: center;
+    margin: 0.625rem;
+  }
+  .min-w-event{
+    min-width: 14.688rem;
+  }
+  .display-only-home{
+    display: none;
+  }
+}
+
+.view-desafio-aporta{
+  .view-content{
+    .views-row{
+      background-color: transparent !important;
+      box-shadow: none !important;
+      transition: none !important;
+      border: none !important;
+      padding: 0rem !important;
+      &:hover{
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        transition: none !important;
+      }
+      .desafio{
+        background-color: $background-light-gray;
+        box-shadow: 0px 2px 3px rgb(0 0 0 / 16%);
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition: 0.3s;
+        &:hover{
+          background-color: $white;
+          border: 1px solid $primary-700;
+          box-shadow: none;
+          transition: 0.3s;
+        }
+        &-card{
+          padding: 1.5rem 1.5rem 1rem 0rem;
+        }
+        &--anterior{
+          &__title{
+            align-content: center;
+            h2{
+              font-family: 'montserrat-medium';
+              margin: 0rem;
+              color: $primary-700;
+              font-size: 1.25rem;
+            }
+          }
+          &__img{
+            position: relative;
+            display: inline-block; 
+            align-content: center;
+            &-opacity{
+              pointer-events: none; 
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-radius: 0.375rem;
+              z-index: 2;
+              background-image: linear-gradient(to bottom, rgb(255 255 255 / 0), rgb(157 173 195 / 0.3), rgba(7, 33, 66, 0.62));
+            }
+            .field--name-field-image{
+              position: relative;
+              z-index: 1;
+              a{
+                display: flex;
+                padding: 1.275rem 1.275rem;
+                width: 13.5rem;
+                height: 13.125rem;
+                img{
+                  border-radius: 6px;
+                  width: calc(100%);
+                  display: flex;
+                  object-fit: cover;
+                  height: auto;
+                  align-self: center;
+                }
+              }
+            }
+          }
+          .desafio__descripcion {
+            .field--name-field-descripcion{
+              color: $primary-600 !important;
+              overflow: hidden;
+              display: -webkit-box;
+              -webkit-line-clamp: 4;
+              line-clamp: 4;
+              -webkit-box-orient: vertical;
+              font-size: 0.875rem;
+              p{
+                color: $primary-600 !important;
+              }
+            }
+          }
+        }
+        &--actual{
+          &__title{
+            align-content: center;
+            span{
+              font-family: 'montserrat';
+              margin: 0rem;
+              color: $primary-500;
+              font-size: 1.5rem;
+            }
+          }
+          &__subtitle{
+            .field--name-field-aporta-subtitle{
+              font-family: 'montserrat-medium';
+              margin-top: 1rem;
+              color: $primary-500;
+              font-size: 1.5rem;
+            }
+          }
+          &__img{
+            position: relative;
+            display: inline-block; 
+            align-content: center;
+            align-content: start;
+            padding-top: 1.5rem;
+            .field--name-field-image{
+              position: relative;
+              z-index: 1;
+              a{
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                img{
+                  width: 20.5rem;
+                  height: auto;
+                  padding: .275rem 1.275rem;
+                  border-radius: 6px;
+                }
+              }
+            }
+          }
+          .desafio__descripcion {
+            .field--name-field-descripcion{
+              color: $primary-700 !important;
+              font-size: 0.875rem;
+              /*margin-bottom: 2rem;*/
+              p{
+                color: $primary-700 !important;
+              }
+            }
+          }
+        }
+        &__estado{
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          background-color: $primary-300;
+          padding: .5rem .875rem;
+          border-radius: 0.5rem;
+          color: $primary-700;
+          font-family: 'montserrat';
+          font-size: .875rem;
+          gap: 0.5rem;
+          height: fit-content;
+          width: fit-content;
+          &__text{
+            white-space: nowrap;
+          }
+          &.concluido{
+            background-color: rgba(75,75,75,25%);
+            .decoration-dot{
+              background-color: #404040;
+            }
+          }
+        }
+        &__date{
+          .field.field--name-field-aporta-date {
+            margin-top: 0rem;
+            margin-top: 0;
+            font-size: 1rem;
+            color: $primary-700;
+          }
+        }
+      }
+    }
+  }
+}
+.block-views-blockdesafio-aporta-inactivos{
+  h2{
+    font-size: 1.5rem;
+    padding-top: 3rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid $primary-600;
+    &:after {
+      height: 0.25rem;
+      width: 2.25rem;
+      background-color: $primary-500;
+      position: relative;
+      top: 0.375rem;
+      display: block;
+      content: "\00a0" !important;
+    }
+  }
+}
+
+.event-date{
+  background-color: $white;
+  border-radius: 0.375rem;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  gap: 0.3rem;
+  min-width: 6.275rem;
+  &--month {
+    font-size: 0.875rem;
+    font-family: 'montserrat-medium';
+    border-bottom: 1px solid $primary-700;
+    padding: 0.3rem 0.5rem;
+  }
+  &--day {
+    &_number{
+      font-size: 1.875rem;
+      font-family: 'montserrat-semiBold';
+      color: $primary-500;
+      padding: 0rem 0.5rem;
+    }
+    &_week{
+      font-family: 'montserrat-italic';
+      color: $primary-700;
+      padding: 0rem 0.5rem;
+      font-size: 0.875rem;
+    }
+  }
+  &--year {
+    font-size: 0.875rem;
+    font-family: 'montserrat-medium';
+    color: $primary-700;
+    background-color: $primary-300;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0 0 0.375rem 0.375rem;
+  }
+}
+
+.view-disponibilidad-de-datos {
+  .view-content {
+    .views-row {
+      .views-field-moderation-state{
+        background-color: $asigned;
+        border-radius: $border-radius;
+        padding: 0.435rem 0.938rem;
+        display: flex;
+        .field-content{
+          color: $white;
+          display: flex;
+          gap: 0.375rem;
+          span {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  } 
+}
+
+#block-dge-theme-estadodemoderaciondisponibilidaddedatos .facets-widget-links .items-filter{
+  display: flex;
+  gap: 0.375rem;
+  padding-bottom: 5rem;
+  justify-content: center;
+  width: 100%;
+  flex-flow: row;
+  .item-filter{
+    position: relative;
+    width: calc(100%);
+    display: flex;
+    &:empty {
+      display: none;
+    }
+    .card-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.625rem;
+      border-radius: 0.375rem;
+      justify-content: center;
+      &__icon{
+        height: 1.3rem;
+        width: auto;
+        display: flex;
+        color: $white;
+        a{
+          text-decoration: none;
+          img {
+            height: 100%;
+          }
+        }
+      }
+      &__name{
+        color: white;
+        min-inline-size: max-content;
+        a{
+          text-decoration: none !important;
+          color: $white;
+          font-family: 'montserrat-medium';
+          .facet-item__status{
+            display: none;
+          }
+        }
+      }
+    }
+    &.alternative {
+      position: absolute;
+      top: 65px;
+      display: flex;
+      flex-flow: row;
+      left: 68px;
+      .item-arrow__child{
+        &__pre {
+          height: 45px;
+          border-left: 3px solid $primary-700;
+          position: absolute;
+          top: -30px;
+        }
+        &__body {
+          min-width: 40px;
+          border-top: 2px solid $primary-700;
+          -webkit-align-self: center;
+          -ms-flex-item-align: center;
+          align-self: center;
+          top: 13px;
+          position: absolute;
+        }
+        &__head {
+          width: 0;
+          height: 0;
+          border-top: .375rem solid transparent;
+          border-bottom: .375rem solid transparent;
+          border-left: .75rem solid $primary-700;
+          left: 40px;
+          position: absolute;
+          top: 8px;
+        }
+      }
+      .card-status.filter {
+        top: -5px;
+        position: absolute;
+        left: 52px;
+      }
+    }
+    &.disable{
+      & > .card-status{
+        background-color: $background-light-gray !important;
+        border: 1px solid $border;
+        &:hover, &:active, &:focus{
+          background-color: $primary-300 !important;
+        }
+        .card-status__icon{
+          img{
+            filter: $filter-primary-white-to-500;
+          }
+        }
+        .card-status__name{
+          a{
+            text-decoration: none !important;
+            color: $primary-500;
+            font-family: 'montserrat';
+          }
+        }
+      }
+    }
+    &.inactive{
+      & > .card-status{
+        background-color: $background-dark-gray !important;
+        border: 1px solid $border;
+        &:hover, &:active, &:focus{
+          background-color: $background-dark-gray !important;
+        }
+        .card-status__icon{
+          img{
+            filter: brightness(0.5);
+          }
+        }
+        .card-status__name{
+          span{
+            .facet-item__value, .facet-item__count{
+              text-decoration: none !important;
+              color: $dark-gray;
+              font-family: 'montserrat-italic';
+            }
+          }
+        }
+      }
+    }
+  }
+  .item-arrow{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    .arrow-body {
+      min-width: 20px;
+      border-top: 2px solid $primary-700;
+      align-self: center;
+      width: 100%;
+    }
+    .arrow-head {
+      width: 0;
+      height: 0;
+      border-top: 0.375rem solid transparent;
+      border-bottom: 0.375rem solid transparent;
+      border-left: 0.75rem solid $primary-700;
+    }
+  }
+}
+
+.card-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: 0.375rem;
+  &__icon{
+    height: 1.3rem;
+    width: auto;
+    img {
+      height: 100%;
+      align-items: center;
+    }
+    a{
+      color: #fff;
+    }
+  }
+  &__name{
+    color: white;
+  }
+}
+
+.view-iniciativas{
+  .view-content{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1rem;
+    .views-row{
+      padding: 0rem;
+      transition: none;
+      background-color: white;
+      box-shadow: $box-shadow;
+      border-radius: $border-radius;
+      border: none;
+      .views-row--inititive{
+        display: flex;
+        flex-flow: column;
+        gap: 0.5rem;
+        padding: 1.5rem;
+        border-top: 8px solid $primary-500;
+        border-radius: $border-radius;
+        height: calc(100% - 3rem - 8px);
+        .nivel-administracion {
+          background-color: rgb(21 68 129 / 20%);
+          border-radius: 1.25rem;
+          padding: 0.375rem 1rem;
+          width: fit-content;
+          font-family: 'montserrat-semiBold';
+          color: $primary-700;
+          font-size: 0.875rem;          
+        }
+        .nivel-administracion-org{
+          font-family: 'montserrat-italic';
+          font-size: medium;
+        }
+        .views-field.views-field-field-initiative-category{
+          .field-content {
+            display: flex;
+            gap: 0.5rem 1rem;
+            flex-flow: wrap;
+          }
+        }
+      }
+    }
+  }
+}
+
+.datetimeViews{
+  color: $primary-600;
+  font-size: .875rem;
+  font-family: montserrat-medium;
+}
+
+// Desktop - SM
+@media (max-width: 64rem) {
+  .view-noticias,
+  .view-blog,
+  .view-entrevistas,
+  .view-conocimiento,
+  .view-noticias-o-eventos,
+  .view-conocimiento-o-entrevistas,
+  .view-duplicado-de-conocimiento,
+  .view-informes-y-guias,
+  .view-infografias,
+  .view-eventos {
+    .view-content {
+      .views-row {
+        .container.flex-nowrap.flex-column{
+          flex-direction: column;
+          flex-direction: column-reverse;
+          a.h--100{
+            width: 100%;
+            .views-field-field-image{
+              width: 100%;
+              span{
+                max-width: initial;
+                min-width: initial;
+                width: calc(100% - 1rem);
+                height: auto;
+                aspect-ratio: 1.89;
+                max-height: 18.75rem;
+                overflow: hidden;
+                img{
+                  border-radius: 0.375rem 0.375rem 0 0 !important;
+                  max-height: 20rem;
+                }
+              }
+            }
+          }
+          .view-noticias--desc, .view-blog--desc, .view-entrevistas--desc, .view--desc {
+            padding: 1rem;
+            width: calc(100% - 2rem) !important;
+          }
+        }
+        .views-field-field-image{
+          span{
+            img{
+              border-radius: 0.375rem 0.375rem 0 0 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .view-eventos {
+    .view-content {
+      .views-row {
+        .container.flex-nowrap.flex-column{
+          .container--img-calendar{
+            width: 100%;
+          }
+          a.h--100{
+            .views-field-field-image {
+              margin: 0px;
+              span{
+                object-fit: cover;
+                display: flex;
+              }
+            }
+          }
+        }
+      }
+    } 
+  }
+  .view-empresas-reutilizadoras, .view-applications, .view-disponibilidad-de-datos{
+    .view-content {
+      .views-row {
+        .container--first{
+          flex-direction: column;
+          flex-direction: column-reverse;
+        }
+      }
+    }
+  }
+  .view-desafio-aporta{
+    .view-content {
+      .views-row {
+        .container.flex-nowrap.flex-column{
+          flex-direction: column;
+          .desafio-card{
+            padding: 1.5rem;
+          }
+        }
+        .desafio{
+          &--anterior{
+            &__img{
+              .field--name-field-image{
+                a{
+                  place-content: center;
+                  width: fit-content;
+                  max-height: 13.125rem;
+                  margin-left: auto;
+                  margin-right: auto;
+                }
+              }
+            }
+          }
+          &--actual{
+            &__img{
+              .field--name-field-image{
+                img{
+                  max-width: 100%;
+                  height: auto;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  #block-dge-theme-estadodemoderaciondisponibilidaddedatos .facets-widget-links .items-filter{
+    flex-direction: column;
+    padding-bottom: 0rem;
+    .item-arrow{
+      display: none;
+    }
+    .item-filter{
+      display: block;
+      .card-status {
+        &.filter{
+          width: fit-content;
+        }
+      }
+      &.alternative{
+        position: relative;
+        top: auto;
+        left: auto;
+        .item-arrow__child{
+          &__pre{
+            position: relative;
+            top: 0rem;
+            left: 1rem;
+            height: 1.5rem;
+          }
+          &__body{
+            position: relative;
+            top: 0rem;
+            left: 1rem;
+            min-width: 1rem;
+          }
+          &__head{
+            position: relative;
+            top: -0.425rem;
+            left: 2rem;
+          }
+        }
+        & > .card-status.filter{
+          position: relative;
+          left: 2rem;
+          top: .3rem;
+          max-height: max-content;
+        }
+      }
+    }
+  }
+}
+
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+  .view-content {
+    .views-row {
+      .views-field-field-etiquetas{
+        .field-content{
+          display: flex; 
+          flex-flow: wrap;
+          gap: 0.5rem;
+          line-height: 1rem;
+        }
+      }
+    }
+  }
+}
+/*----------------------------------------*/
+/* END - MEDIA QUERIES */
+/*----------------------------------------*/

@@ -1,0 +1,87 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    var reportContainerId = 'reportContainer' + '{{ report_id|escape('js') }}'; 
+    var reportContainer = document.getElementById(reportContainerId); 
+
+    if (!reportContainer) {
+      console.error("El contenedor del informe no se encontró.");
+      return;
+    }
+
+    var variableFromDrupal = '{{ embed_token|escape('js') }}';
+    var variableFromDrupal_url = '{{ report_url|escape('js') }}';
+    var variableReportId = '{{ report_id|escape('js') }}';
+    var organization_id_ckan = '{{ organization_id_ckan|escape('js') }}';
+
+    var models = window['powerbi-client'].models;
+
+    var filters = [
+      {
+        $schema: "http://powerbi.com/product/schema#basic",
+        target: {
+          table: "group", 
+          column: "id" 
+        },
+        operator: "In", 
+        values: [organization_id_ckan] 
+      }
+    ];
+
+
+    var embedConfiguration = {
+
+      type: 'report',
+      tokenType: models.TokenType.Embed,
+      accessToken: variableFromDrupal,  
+      embedUrl: variableFromDrupal_url,
+
+      id: variableReportId,  
+
+      settings: {
+        filterPaneEnabled: false,
+        navContentPaneEnabled: false,
+        background: models.BackgroundType.Transparent
+
+      },
+      filters: filters 
+
+    };
+
+    var report = powerbi.embed(reportContainer, embedConfiguration);
+
+    report.on("loaded", function () {
+      console.log("Reporte cargado con éxito");
+    });
+
+    report.on("error", function (event) {
+      console.error("Error al cargar el reporte: ", event);
+    });
+
+
+  });
+
+</script>
+<div id="reportContainer{{ report_id }}" class="reportContainer" style="height:800px;"></div>

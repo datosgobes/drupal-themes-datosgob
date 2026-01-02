@@ -1,0 +1,55 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('dge_theme/node') }}
+<article{{ attributes.addClass(classes) }}>
+  <div{{ content_attributes.addClass('node__content') }}>
+
+    {% if node.field_share_social_media.value == '1'%}
+         {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', wrapper: false,label : 'Social Sharing block',label_display : 0,provider : 'social_media' }) }}
+    {% endif %}
+
+    {{ content.field_photo }}
+
+    {% if label and not page %}
+        {{ label }}
+    {% endif %}
+
+    {{ content.links }}
+    {{ content.field_departament }}
+
+    {{ content.field_twitter }}
+    {{ content.field_linkedin }}
+
+  </div>
+
+</article>

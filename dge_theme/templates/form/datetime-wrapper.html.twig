@@ -1,0 +1,58 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override of a datetime form wrapper.
+ *
+ * Available variables:
+ * - content: The form element to be output, usually a datelist, or datetime.
+ * - title: The title of the form element.
+ * - title_attributes: HTML attributes for the title wrapper.
+ * - description: Description text for the form element.
+ * - required: An indicator for whether the associated form element is required.
+ *
+ * @see template_preprocess_datetime_wrapper()
+ */
+#}
+{%
+  set title_classes = [
+    'label',
+    required ? 'js-form-required',
+    required ? 'form-required',
+  ]
+%}
+{% if title %}
+  <h4{{ title_attributes.addClass(title_classes) }}>{{ title }}</h4>
+{% endif %}
+{{ content }}
+{% if errors %}
+  <div class="form-item--error-message">
+    <strong>{{ errors }}</strong>
+  </div>
+{% endif %}
+{% if description %}
+  <div{{ description_attributes.addClass('description') }}>
+    {{ description }}
+  </div>
+{% endif %}

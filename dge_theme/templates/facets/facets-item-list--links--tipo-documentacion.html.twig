@@ -1,0 +1,176 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Default theme implementation for a facets item list.
+ *
+ * Available variables:
+ * - items: A list of items. Each item contains:
+ *   - attributes: HTML attributes to be applied to each list item.
+ *   - value: The content of the list element.
+ * - title: The title of the list.
+ * - list_type: The tag for list element ("ul" or "ol").
+ * - wrapper_attributes: HTML attributes to be applied to the list wrapper.
+ * - attributes: HTML attributes to be applied to the list.
+ * - empty: A message to display when there are no items. Allowed value is a
+ *   string or render array.
+ * - context: A list of contextual data associated with the list. May contain:
+ *   - list_style: The ID of the widget plugin this facet uses.
+ * - facet: The facet for this result item.
+ *   - id: the machine name for the facet.
+ *   - label: The facet label.
+ *
+ * @see facets_preprocess_facets_item_list()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="facets-widget- {{- facet.widget.type -}} ">
+  {% if facet.widget.type %}
+    {%- set attributes = attributes.addClass('item-list__' ~ facet.widget.type) %}
+  {% endif %}
+  {% if items or empty %}
+    {%- if title is not empty -%}
+      <h3>{{ title }}</h3>
+    {%- endif -%}
+    
+    {%- if items -%}
+      <div class="items-filter item-list__links">
+        {# To set a custom order of the filters #}
+        {%- set types = [
+            { 'name': 'Ejercicios de datos', 'id_type': '342' },
+            { 'name': 'Infografías', 'id_type': '345' },
+            { 'name': 'Informes y estudios', 'id_type': '340' },
+            { 'name': 'Guías', 'id_type': '343' },
+            { 'name': 'Materiales formativos', 'id_type': '344' },
+            { 'name': 'Normativas y estrategias', 'id_type': '346' }
+        ] -%}
+        {%- set facet_url = 'tipo/' -%}
+
+        {# Retrieve the literal (depending on the language) and the counter from drupal #}
+        {%- set translations_types = {} -%}
+        {%- set counts_types = {} -%}
+        {%- for item in items -%}
+          {%- set raw_value_types = item.value['#title']['#raw_value']|json_encode -%}
+          {%- set title_types = item.value['#title']['#value'] -%}
+          {%- set count_types = item.value['#title']['#count'] -%}
+
+          {%- set translations_types = translations_types|merge({ (raw_value_types): title_types }) -%}
+          {%- set counts_types = counts_types|merge({ (raw_value_types): count_types }) -%}
+        {%- endfor -%}
+
+        {# Form the tabs #}
+        {%- for type in types -%}
+          {%- set translated_type = translations_types[type.id_type|json_encode]|default(type.name|trans) -%}
+          {%- set formatted_name = translated_type|lower|replace({'á':'a','à':'a','é':'e','è':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
+          {%- set formatted_name_es = type.name|lower|replace({'á':'a','à':'a','é':'e','è':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
+          {%- set count = counts_types[type.id_type|json_encode]|default(0) -%}
+
+          {% set type_filter = facet_url ~ formatted_name ~ '-' ~ type.id_type %}
+          {%- set url_aux = '?' in complete_url
+            ? complete_url|split('?')[0]
+            : complete_url
+          -%}
+
+          {# It is deleted if it was already there #}
+          {% if type.id_type in url_aux %}
+            {% set segments = url_aux|split('/tipo/') %}
+            {% set filtered_segments = [] %}
+
+            {% for segment in segments %}
+              {% if type.id_type not in segment %}
+                {% set filtered_segments = filtered_segments|merge([segment]) %}
+              {% endif %}
+            {% endfor %}
+
+            {% set url_aux = filtered_segments|length > 1 
+              ? filtered_segments[0] ~ '/tipo/' ~ filtered_segments[1:]|join('/tipo/')
+              : filtered_segments[0] 
+            %}
+
+          {% else %}
+            {% set url_aux = url_aux ~ '/' ~ type_filter %}
+          {% endif %}
+
+          <div class="facet-item item-filter filter-{{ formatted_name }}-{{ type.id_type }} {% if formatted_name != formatted_name_es  %}filter-{{ formatted_name_es }}-{{ type.id_type }}{% endif %} {% if count == 0 %}inactive{% endif %}">
+            <div class="card-types filter">
+              <div class="card-types__name">
+                {%- if count != 0 -%}
+                  {% set base_url = '?' in complete_url
+                    ? url_aux ~ '?' ~ complete_url|split('?')[1]
+                    : url_aux
+                  %}
+                  <a href="{{ base_url }}"
+                    rel="nofollow" data-drupal-facet-item-id="tipo-documentacion-{{ translated_type }}" 
+                    data-drupal-facet-item-value="{{ translated_type }}" 
+                    data-drupal-facet-item-count="{{ count }}">
+                    <span class="facet-item__value">{{ translated_type }}</span>
+                    <span class="facet-item__count">({{ count }})</span>
+                  </a>
+                {%- else -%}
+                  <span rel="nofollow" data-drupal-facet-item-id="tipo-documentacion-{{ translated_type }}" 
+                  data-drupal-facet-item-value="{{ translated_type }}" 
+                  data-drupal-facet-item-count="{{ count }}">
+                  <span class="facet-item__value">{{ translated_type }}</span>
+                  <span class="facet-item__count">({{ count }})</span>
+                  </span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      {{- empty -}}
+    {%- endif -%}
+  {%- endif %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const path = window.location.pathname;
+    const segments = path.split('/').filter(Boolean);
+    const values = [];
+    segments.forEach((segment, index) => {
+      if (segment === "tipo" && segments[index + 1]) {
+        values.push(segments[index + 1]);
+      }
+    });
+ 
+    values.forEach(state => {
+      let id = state.split('-').pop();
+      let filterContainer = Array.from(document.querySelectorAll("[class]")).find(el =>
+        [...el.classList].some(cls => cls.startsWith("filter-") && cls.endsWith(`-${id}`))
+      );
+
+      let filterElement = filterContainer ? filterContainer.querySelector("a") : null;
+      
+      if (filterElement) {
+        filterElement.classList.add("is-active");
+      }
+    });
+  });
+</script>

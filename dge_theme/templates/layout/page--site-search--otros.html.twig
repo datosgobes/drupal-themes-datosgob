@@ -1,0 +1,66 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+  <header role="banner">
+    <div class="banner-container">
+      {{ page.header_left }}
+      {{ page.header_right }}
+      </div>
+  </header>
+  
+  <div class="banner-fixed">
+    <div class="banner-fixed-container">
+      {{ page.primary_menu }}
+      {{ page.secondary_menu }}
+    </div>
+  </div>
+
+  <div class="breadcrumb-container">
+    {{ page.breadcrumb }}
+  </div>
+
+<div class="layout-container">
+
+  {{ page.highlighted }}
+  <main role="main">
+    <a id="main-content" tabindex="-1"></a>
+
+    <div class="layout-content layout-content--otros">
+      {{ page.content }}
+    </div>
+
+  </main>
+
+</div>
+
+<footer role="contentinfo">
+  {{ page.footer_top }}
+  <div class="footer-info">
+    <div class="footer-info__container">
+      {{ page.footer_left }}
+      {{ page.footer_right }}
+    </div>
+  </div>
+  <div class="footer-colaborators">
+    {{ page.footer }}
+  </div>
+</footer>

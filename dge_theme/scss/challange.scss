@@ -1,0 +1,900 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// DESAFIO PAGE STYLES
+.content-state{
+  flex-flow: wrap;
+  gap: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  &__item{
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    &__img{
+      display: flex;
+      min-width: 2rem;
+      max-width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      align-content: center;
+      padding: 0.8rem;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+      &.active {
+        background-color: $primary-300;
+        box-shadow: none;
+      }
+      &:not(.active){
+        background-color: $light-gray;
+        box-shadow: $box-shadow;
+        img{
+          filter: $filter-primary-to-gray;
+        }
+      }
+    }
+    &__title{
+      font-size: 1rem;
+      text-align: start;
+      span{
+        font-family: 'montserrat-medium';
+        text-decoration: none !important;
+        color: $dark-gray;
+      }
+      &.active {
+        span {
+          font-family: 'montserrat-medium';
+          color: $primary-500;
+          text-decoration: none !important;
+        }
+      }
+    }
+  }
+  .item-arrow{
+    display: flex;
+    align-items: center;
+    .arrow-body {
+      min-width: 3rem;
+      border-top: 2px solid $normal-gray;
+      align-self: center;
+    }
+    .arrow-head {
+      width: 0;
+      height: 0;
+      border-top: 0.375rem solid transparent;
+      border-bottom: 0.375rem solid transparent;
+      border-left: 0.75rem solid $normal-gray;
+    }
+    &.active {
+      .arrow-body {
+        border-top: 2px solid $primary-700;
+
+      }
+      .arrow-head {
+        border-left: 0.75rem solid $primary-700;
+      }
+    }
+  }
+}
+
+.content-intro{
+  .desafio--actual__subtitle{
+    .field__label{
+      display: none;
+    }
+  }
+  .node__content{
+    .desafio__descripcion{
+      .field__label{
+        display: none;
+      }
+    }
+  }
+}
+.section-links{
+  display: flex;
+  gap: 1.5rem 1rem;
+  justify-content: center;
+  text-align: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+  &__item{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    max-width: 185px;
+    min-width: 185px;
+    a{
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      text-decoration: none;
+      padding: 0px;
+      cursor: pointer;
+      .section-links__content{
+        background-color: $background-light-gray;
+        padding: 0.5rem 0.5rem;
+        box-shadow: $box-shadow-centered;
+        display: flex;
+        gap: 0.313rem;
+        flex: 1;
+        border: 1px solid transparent;
+        flex-direction: row;
+        align-items: center;
+        align-self: start;
+        width: calc(100% - 1rem);
+        position: relative;
+        &:focus, &:active, &:hover {
+          border: 1px solid $primary-500;
+          background-color: white;
+          transition: 0.3s;
+        }
+        &__title{
+          font-size: 15px;
+          text-align: start;
+          span{
+            font-family: 'montserrat-medium';
+            text-decoration: none !important;
+          }
+        }
+        &__img{
+          display: flex;
+          min-width: 2rem;
+          max-width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          background-color: $primary-300;
+          align-content: center;
+          padding: 0.8rem;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        &.active{
+          background-color: $primary-500;
+          box-shadow: none;
+          .section-links__content__title{
+            span{
+              color: white;
+            }
+          }
+        }
+      }
+    }
+    .section-links__content__num{
+      position: absolute;
+      background-color: white;
+      width: 25px;
+      height: 25px;
+      top: -15px;
+      border-radius: 50%;
+      place-content: center;
+      display: flex;
+      border: 1px solid $primary-700;
+      font-family: 'montserrat-semiBold';
+      left: -1px;
+      font-size: 20px;
+      align-items: center;
+    }
+  }
+}
+.section-content{
+  &__title{
+    .field__label{
+      display: none;
+    }
+    .field__item{
+      width: 100%;
+      text-align: center;
+      font-size: 2rem;
+      font-family: 'montserrat-medium';
+      margin-bottom: .6rem;
+      margin-top: 2rem;
+      color: $primary-700;
+    }
+  }
+  &__desc{
+    .field__label{
+      display: none;
+    }
+    .field--name-field-selected-image{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      .field__item{
+        img{
+          width: 100%;
+          height: auto;
+        }
+      }
+      & + div:not([class]) {
+        display: none;
+      }
+      & + .field--name-field-image-position{
+        display: none;
+        & + div{
+          & > span{
+            display: none;
+          }
+        }
+      }
+    }
+
+    /* Seleccionados */
+    .imagen-container{
+      &.derecha {
+        float: right;
+        width: calc(50% - 2rem);
+        &+.field--name-field-selected-ideas {
+          float: left;
+          width: calc(50% - 2rem);
+        }
+      }
+      &.izquierda {
+        float: left;
+        width: calc(50% - 2rem);
+        &+.field--name-field-selected-ideas {
+          float: right;
+          width: calc(50% - 2rem);
+        }
+      }
+    }
+    .field__items{
+      .field__item{
+        .paragraph--type--seleccionados{
+          padding-top: 2rem;
+          padding-bottom: 2rem;
+          border-bottom: 1px solid $border;
+          .field--name-field-idea-name{
+            .field__item{
+              font-family: 'montserrat-medium';
+              margin-top: 1rem;
+              color: $primary-500;
+              font-size: 1.5rem;
+            }
+          }
+          .field--name-field-idea-person{
+            font-family: 'montserrat-italic';
+            color: $dark-gray;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+          }
+          .field.field--name-field-idea-image{
+            display: inline-block;
+            margin-right: 1rem;
+            float: left;
+            .field__item{
+              width: 5rem;
+              img{
+                width: 100%;
+                height: auto;
+              }
+            }
+          }
+          .field--name-field-idea-description{
+            display: block;
+            width: calc(100% - 6rem);
+            margin-left: 6rem;
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+
+    /* Jurado */
+    .field--name-field-person-challenge{
+      .field__items {
+        display: flex;
+        gap: 5rem;
+        flex-flow: wrap;
+        justify-content: center;
+        margin-top: 3rem;
+        .field__item{
+          .node--type-ponentes-aporta {
+            .node__content{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              max-width: 18rem;
+              text-align: -webkit-center;
+              .field--name-field-photo{
+                .field__item{
+                  width: 7.5rem;
+                  height: 7.5rem;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  img{
+                    border-radius: 50%;
+                    width: 100%;
+                    height: auto;
+                    object-position: center;
+                    object-fit: cover;
+                  }
+                }
+              }
+              .field--name-title{
+                color: $primary-700;
+                font-family: 'montserrat-medium' !important;
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+              }
+              .field--name-body{
+                p{
+                  margin-bottom: 0.375rem;
+                  margin-top: 0;
+                  color: $primary-600;
+                }
+              }
+              .field--name-field-departament{
+                .field__item{
+                  font-family: 'montserrat-italic' !important;
+                  color: $primary-600;
+                  margin-bottom: 0.375rem;
+                }
+              }
+              .field--name-field-position{
+                .field__item{
+                  font-family: 'montserrat-italic' !important;
+                  color: $primary-600;
+                  margin-bottom: 0.375rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+     /* RRSS */
+    .field--name-field-linkedin,
+    .field--name-field-youtube,
+    .field--name-field-twitter,
+    .field--name-field-idea-linkedin,
+    .field--name-field-idea-youtube,
+    .field--name-field-idea-twitter,
+    .field--name-field-web-link {
+      position: relative;
+      margin-right: 1rem;
+      display: inline-flex;
+      .field__item{
+        width: fit-content;
+        margin-right: 1rem;
+        position: relative;
+        padding-left: 2rem;
+        a{
+          display: flex;
+          align-items: center;
+          margin: 0.375rem 0rem;
+          &::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-image: url('/themes/custom/dge_theme/images/icons/web.svg'); /* Ruta de la imagen by default */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+        }
+      }
+    }
+    .field--name-field-idea-linkedin .field__item a::before,
+    .field--name-field-linkedin .field__item a::before{
+      background-image: url('/themes/custom/dge_theme/images/icons/linkedin.svg');
+    }
+    .field--name-field-idea-youtube .field__item a::before,
+    .field--name-field-youtube .field__item a::before{
+      background-image: url('/themes/custom/dge_theme/images/icons/youtube.svg');
+    }
+    .field--name-field-idea-twitter .field__item a::before,
+    .field--name-field-twitter .field__item a::before{
+      background-image: url('/themes/custom/dge_theme/images/icons/twitter.svg');
+    }
+    .field--name-field-web-link .field__item a::before{
+      background-image: url('/themes/custom/dge_theme/images/icons/web.svg');
+    }
+    
+    /* Fase */
+    .field--name-field-fase{
+      .field__items{
+        .field__item{
+          .entity-paragraphs-item{
+            .content{
+              .contenidoFase {
+                display: flex;
+                align-items: flex-start;
+                gap: 1.5rem;
+                &.image-left{
+                  .imagen {
+                    order: 0;
+                  }
+                  .descripcion {
+                    order: 1;
+                  }
+                }
+                &.image-right{
+                  .imagen {
+                    order: 1;
+                  }
+                  .descripcion {
+                    order: 0;
+                  }
+                }
+                .imagen {
+                  max-width: 45%;
+                  flex-shrink: 0;
+                  .field--name-field-image{
+                    .field__item{
+                      img{
+                        width: 100%;
+                        height: auto;
+                      }
+                    }
+                  }
+                }
+                .descripcion {
+                  flex: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Evaluacion */
+    .field--name-field-evaluation-fases{
+      .field__items{
+        .field__item{
+          .entity-paragraphs-item{
+            .content{
+              .contenidoFase {
+                display: flex;
+                align-items: flex-start;
+                gap: 1.5rem;
+                &.image-left{
+                  .imagen {
+                    order: 0;
+                  }
+                  .descripcion {
+                    order: 1;
+                  }
+                }
+                &.image-right{
+                  .imagen {
+                    order: 1;
+                  }
+                  .descripcion {
+                    order: 0;
+                  }
+                }
+                .imagen {
+                  max-width: 45%;
+                  flex-shrink: 0;
+                  .field--name-field-image{
+                    .field__item{
+                      img{
+                        width: 100%;
+                        height: auto;
+                      }
+                    }
+                  }
+                }
+                .descripcion {
+                  flex: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Premiados */
+    &__intro{
+      display: flex;
+      gap: 1rem;
+      flex-flow: wrap;
+      flex-direction: row;
+      .field--name-field-winners-description, .field--name-field-media-premiados {
+        width: calc(50% - .5rem);
+      }
+    }
+    &__winners {
+      .field--name-field-winners-content{
+        .field__items{
+          .field__item{
+            .paragraph--type--premiados-desafio{
+              .field--name-field-title-final{
+                width: 100%;
+                font-size: 2rem;
+                font-family: 'montserrat-medium';
+                margin-bottom: 1.6rem;
+                margin-top: 2rem;
+                color: $primary-700;
+              }
+              .field--name-field-final{
+                .field__items{
+                  display: flex;
+                  flex-direction: column;
+                  width: 100%;
+                  gap: 3rem;
+                  &>.field__item{
+                    box-shadow: $box-shadow;
+                    padding: 1.5rem;
+                    border-radius: 0.625rem;
+                    background-color: $background-light-gray;
+                    .paragraph--type--premiados{
+                      .field--name-field-winners-title{
+                        float: left;
+                        padding-right: 0.5rem;
+                        .field__item{
+                          width: 100%;
+                          font-size: 2rem;
+                          font-family: 'montserrat-medium';
+                          margin-top: 1rem;
+                          color: $primary-500;
+
+                        }
+                      }
+                      .field--name-field-winners-subtitle{
+                        padding-top: 0.65rem;
+                        padding-bottom: 0.5rem;
+                        float: left;
+                        .field__item{
+                          width: 100%;
+                          font-size: 1.75rem;
+                          font-family: 'montserrat-italic';
+                          margin-top: 0.6rem;
+                          color: $primary-700;
+                          min-width: 40rem;
+                        }
+                      }
+                      .field--name-field-winners-description-item{
+                        width: calc(60% - 0.75rem);
+                        float: left;
+                        padding-top: 0.75rem;
+                      }
+                      .field--name-field-media-premiados{
+                        width: calc(40% - 0.75rem);
+                        float: right;
+                        padding-top: 2rem;
+                        img{
+                          width: calc(100%);
+                          height: auto;
+                        }
+                      }
+                      .field--name-field-linkedin,
+                      .field--name-field-youtube,
+                      .field--name-field-twitter,
+                      .field--name-field-idea-linkedin,
+                      .field--name-field-idea-youtube,
+                      .field--name-field-idea-twitter,
+                      .field--name-field-web-link {
+                        margin-top: 0.5rem;
+                        justify-content: left;
+                        width: calc(60% - .75rem);
+                        float: left;
+                        padding-top: 0rem;
+                        margin-right: 0rem;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    &__finalist {
+      .field--name-field-finalist-content{
+        .field__items{
+          .field__item{
+            .paragraph--type--finalistas-desafio{
+              .field--name-field-title-final{
+                width: 100%;
+                font-size: 2rem;
+                font-family: 'montserrat-medium';
+                margin-bottom: 1.6rem;
+                margin-top: 2rem;
+                color: $primary-700;
+              }
+              .field--name-field-final{
+                .field__items{
+                  display: flex;
+                  flex-direction: row;
+                  width: 100%;
+                  gap: 1rem;
+                  flex-wrap: wrap;
+                  justify-content: space-between;
+                  &>.field__item{
+                    box-shadow: $box-shadow;
+                    padding: 1.5rem;
+                    border-radius: 0.625rem;
+                    background-color: $background-light-gray;
+                    width: calc(50% - 1rem - 3rem);
+                    .paragraph--type--finalistas{
+                      display: flex;
+                      flex-direction: column;
+                      .field--name-field-winners-title{
+                        order: 0;
+                        .field__item{
+                          width: 100%;
+                          font-size: 2rem;
+                          font-family: 'montserrat-medium';
+                          margin-bottom: .6rem;
+                          margin-top: 1rem;
+                          color: $primary-500;
+                        }
+                      }
+                      .field--name-field-winners-subtitle{
+                        padding-top: 0.65rem;
+                        padding-bottom: 0.5rem;
+                        order: 1;
+                        width: 100%;
+                        .field__item{
+                          width: 100%;
+                          font-size: 1.75rem;
+                          font-family: 'montserrat-italic';
+                          margin-top: 0.6rem;
+                          color: $primary-700;
+                          min-width: 40rem;
+                        }
+                      }
+                      .field--name-field-winners-description{
+                        width: 100%;
+                        padding-top: 0.75rem;
+                        order: 3;
+                      }
+                      .field--name-field-media-premiados {
+                        width: calc(100%);
+                        padding-top: 2rem;
+                        order: 2;
+                        img{
+                          width: calc(100%);
+                          height: auto;
+                        }
+                      }
+                      .field--name-field-linkedin,
+                      .field--name-field-youtube,
+                      .field--name-field-twitter,
+                      .field--name-field-idea-linkedin,
+                      .field--name-field-idea-youtube,
+                      .field--name-field-idea-twitter,
+                      .field--name-field-web-link {
+                        margin-top: 0.5rem;
+                        justify-content: left;
+                        width: calc(60% - .75rem);
+                        float: left;
+                        padding-top: 0rem;
+                        margin-right: 0rem;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  iframe{
+    height: 25rem;
+    max-width: 100%;
+    width: 100%;
+    border: none;
+  }
+}
+
+// Small devices (phones, less than 1024px)
+@media (max-width: 64rem) {
+  .section-links{
+    gap: 2rem;
+    &__item{
+      max-width: 100%;
+      min-width: 100%;
+    }
+    &__content{
+      gap: 1rem;
+    }
+  }
+  .content-state{
+    gap: 1rem;
+    margin-bottom: 2rem;
+    &__item{
+      max-width: 6.6rem;
+    }
+    .item-arrow{
+      .arrow-body {
+        min-width: 1rem;
+      }
+    }
+  }
+  .section-content{
+    &__desc{
+      // Seleccionados
+      .imagen-container{
+        &.derecha {
+          float: right;
+          width: calc(100% - 2rem);
+          &+.field--name-field-selected-ideas {
+            float: left;
+            width: calc(100% - 2rem);
+          }
+        }
+        &.izquierda {
+          float: left;
+          width: calc(100% - 2rem);
+          &+.field--name-field-selected-ideas {
+            float: right;
+            width: calc(100% - 2rem);
+          }
+        }
+      } 
+      .field__items{
+        .field__item{
+          .paragraph--type--seleccionados{
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            .field--name-field-idea-person{
+              font-size: 0.875rem;
+            }
+            .field--name-field-idea-description{
+              width: calc(100%);
+              margin-left: 0rem;
+            }
+          }
+        }
+      }
+      .field--name-field-fase{
+        .field__items{
+          .field__item{
+            .entity-paragraphs-item{
+              .content{
+                .contenidoFase {
+                  flex-direction: column;
+                  .imagen, .descripcion {
+                    order: 0;
+                    max-width: 100%; 
+                    align-self: center;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      /* Premiados */
+      &__intro{
+        display: flex;
+        gap: 1rem;
+        flex-flow: wrap;
+        flex-direction: row;
+        .field--name-field-winners-description, .field--name-field-media-premiados {
+          width: calc(100%);
+        }
+      }
+      &__winners{
+        .field--name-field-winners-content{
+          .field__items{
+            .field__item{
+              .paragraph--type--premiados-desafio{
+                .field--name-field-final{
+                  .field__items{
+                    &>.field__item{
+                      .paragraph--type--premiados{
+                        .field--name-field-winners-description-item{
+                          width: calc(100%) !important;
+                          float: left;
+                          padding-top: 0.75rem;
+                        }
+                        .field--name-field-media-premiados{
+                          width: calc(100%) !important;
+                          float: right;
+                          padding-top: 2rem;
+                        }
+                        .field--name-field-winners-subtitle{
+                          .field__item{
+                            min-width: auto !important;
+                          }
+                        }
+                        .field--name-field-linkedin,
+                        .field--name-field-youtube,
+                        .field--name-field-twitter,
+                        .field--name-field-idea-linkedin,
+                        .field--name-field-idea-youtube,
+                        .field--name-field-idea-twitter,
+                        .field--name-field-web-link {
+                          margin-top: 1rem;
+                          justify-content: center;
+                          width: calc(100%);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      &__finalist {
+        .field--name-field-finalist-content{
+          .field__items{
+            .field__item{
+              .paragraph--type--finalistas-desafio{
+                .field--name-field-final{
+                  .field__items{
+                    flex-direction: column;
+                    gap: 2rem;
+                    &>.field__item{
+                      width: calc(100% - 3rem);
+                      .paragraph--type--finalistas{
+                        .field--name-field-winners-description{
+                          width: calc(100%) !important;
+                          float: right;
+                          padding-top: 0.75rem;
+                        }
+                        .field--name-field-media-premiados{
+                          width: calc(100%) !important;
+                          float: left;
+                          padding-top: 2rem;
+                        }
+                        .field--name-field-winners-subtitle{
+                          .field__item{
+                            min-width: auto !important;
+                          }
+                        }
+                        .field--name-field-linkedin,
+                        .field--name-field-youtube,
+                        .field--name-field-twitter,
+                        .field--name-field-idea-linkedin,
+                        .field--name-field-idea-youtube,
+                        .field--name-field-idea-twitter,
+                        .field--name-field-web-link {
+                          margin-top: 1rem;
+                          justify-content: center;
+                          width: calc(100%);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

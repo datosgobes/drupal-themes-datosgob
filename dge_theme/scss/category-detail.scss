@@ -1,0 +1,469 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// Página Detalle de Sector -  PAGE STYLES
+.detail-sector{
+  .layout{
+    &--title-sector{
+      margin-bottom: 4rem;
+    }
+    &--widget-sector{
+      padding-top: 1rem;
+      padding-bottom: 4rem;
+      .layout__region{
+        max-width: calc($max-width-screen);
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        .field--name-field-contenido-paragrhaphs{
+          &>.field__items{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            &>.field__item{
+              display: flex;
+              flex-direction: column;
+              border: 1px solid $border;
+              overflow: hidden;
+              background-color: white;
+              .paragraph--type--free-content{
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                .dataset-card{
+                  display: flex;
+                  flex-direction: column;
+                  height: 100%;
+                  &__image{
+                    position: relative;
+                    &__src{
+                      .field--name-field-imagen-media{
+                        .field__label{
+                          display: none;
+                        }
+                        .field__item{
+                          position: relative;
+                          display: flex;
+                          justify-content: center;
+                          align-items: flex-end;
+                          height: 13.375rem;
+                          overflow: hidden;
+                          img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                          }
+                        }
+                      }
+                    }
+                    &__title{
+                      position: absolute;
+                      bottom: 0px;
+                      left: 0px;
+                      margin: 0;
+                      color: #fff;
+                      font-size: 1rem;
+                      text-align: center;
+                      width: calc(100% - 2rem);
+                      padding: 1rem;
+                      height: calc(100% - 2rem);
+                      align-content: end;
+                      background: $gradient-card;
+                      transition: 0.3s;
+                      font-family: 'montserrat-medium';
+                      &:hover, &:focus, &:active{
+                        background-color:$gradient-card-hover;
+                        transition: 0.3s;
+                      }
+                    }
+                  }
+                  &__description{
+                    padding: 1rem;
+                    display: flex;
+                    flex-direction: column;
+                    flex-grow: 1;
+                    &__date{
+                      .field--name-field-fecha{
+                        .field__label{
+                          display: none;
+                        }
+                        .field__item{
+                          color: $primary-700;
+                          font-family: 'montserrat-italic';
+                        }
+                      }
+                    }
+                    &__text{
+                      .field--name-field-description{
+                        .field__label{
+                          display: none;
+                        }
+                        .field__item p{
+                          margin: 0.5rem 0;
+                          display: -webkit-box;
+                          -webkit-line-clamp: 3;
+                          -webkit-box-orient: vertical;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                        }
+                      }
+                    }
+                    &__link{
+                      justify-self: center;
+                      margin-bottom: 0rem;
+                      width: 100%;
+                      text-align: end;
+                      margin-top: auto;
+                      a{
+                        text-decoration: none;
+                        font-family: 'montserrat-medium';
+                        &::after{
+                          content: '';
+                          display: inline-block;
+                          width: 2.5rem;
+                          height: 1.125rem;
+                          background-image: url("/themes/custom/dge_theme/images/icons/decoration-arrow_yellow.svg") !important;
+                          background-size: contain;
+                          background-repeat: no-repeat;
+                          margin-left: 8px;
+                          vertical-align: middle;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              &:nth-of-type(6) {
+                .dataset-card{
+                  &__description{
+                    &__date{
+                      display: none;
+                    }
+                    &__link{
+                      display: none;
+                    }
+                    &__text{
+                      .field__item{
+                        p{
+                          font-family: 'montserrat-medium';
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    &--latest-apps-companies{
+      padding-bottom: 4rem;
+      gap: 2rem;
+      justify-content: space-between;
+      .layout__region{
+        flex: 0 1 calc(50% - 1rem);
+        display: flex;
+        .views-element-container{
+          display: flex;
+          flex-direction: column;
+          height: calc(100% - 4rem);
+          padding: 2rem;
+          box-shadow: $box-shadow;
+          min-width: 25rem !important;
+          width: 100%;
+          &>h2{
+            margin-bottom: 2rem;
+            margin-top: 0px;
+          }
+          &>div:first-of-type:not(.contextual),
+          &>div.contextual-region {
+            flex-grow: 1;
+            height: 100%;
+            .view{
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              .view-content{
+                .views-row{
+                  background-color: transparent;
+                  border: none !important;
+                  padding: 0rem;
+                  box-shadow: none;
+                  a{
+                    .container{
+                      gap: 1rem;
+                      justify-content: flex-start;
+                      flex-wrap: nowrap;
+                      flex-direction: row !important;
+                      &>div:first-child{
+                        order: 1;
+                        justify-content: center;
+                        gap: 0.5rem;
+                        place-content: flex-start;
+                        align-self: center;
+                        &.container--company-card{
+                          flex-direction: row !important;
+                          gap: 1rem !important;
+                          &>.flex-display.flex-column{
+                            order: 1;
+                            align-self: center;
+                            .views-field-field-imagen__company{
+                              order: 0;
+                            }
+                          }
+                        }
+                      }
+                      .views-field-title{
+                        font-size: 1rem;
+                      }
+                      .views-field-field-imagen{
+                        .field-content{
+                          box-shadow: $box-shadow;
+                          width: 13rem !important;
+                          height: 7rem !important;
+                          border-radius: 6px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              .more-link{
+                justify-self: center;
+                margin-bottom: 0rem;
+                width: 100%;
+                text-align: end;
+                margin-top: auto;
+                a{
+                  text-decoration: none;
+                  font-family: 'montserrat-medium';
+                  &::after{
+                    content: '';
+                    display: inline-block;
+                    width: 2.5rem;
+                    height: 1.125rem;
+                    background-image: url("/themes/custom/dge_theme/images/icons/decoration-arrow_yellow.svg") !important;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    margin-left: 8px;
+                    vertical-align: middle;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &__header{
+    display: flex;
+    gap: 1rem;
+    width: 100vw;
+    margin-left: calc(-50.5vw + 50%);
+    position: relative;
+    margin-bottom: -2rem !important;
+    &__desc{
+      width: 50%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: calc(87.5rem * 0.6 - 4rem);
+      margin-left: auto;
+      padding-bottom: 3rem;
+      .title-sector{
+        .decoration-line--full{
+          position: absolute;
+          left: 50%;
+          right: 50%;
+          transform: translateX(-50%);
+          width: calc(100vw - 10px);
+          overflow: hidden;
+          place-content: center;
+          height: 2.125rem;
+        }
+      }
+    }
+    &__img{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      z-index: 2;
+      max-width: calc(87.5rem * 0.4);
+      max-height: 26rem;
+      min-height: 26rem;
+      span{
+        width: 100%;
+        height: 100%;
+        img{
+          width: 100%;
+          object-fit: cover;
+          border-radius: 2.5rem 0 3rem 0;
+          object-position: left;
+          max-height: 31rem;
+        }
+      }
+      .decorative-arrow{
+        position: absolute;
+        top: 17.65rem;
+        right: 0;
+        width: 7.188rem;
+        span{
+          width: auto;
+          height: auto;
+          display: block;
+          img{
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* End of large devices (desktops, 1440px) */
+@media only screen and (max-width: 90rem) {
+  .detail-sector{
+    &__header{
+      position: relative;
+      justify-content: start;
+      padding-left: 2rem;
+      width: calc(100%);
+    }
+  }
+}
+
+// Desktop - SM
+@media (max-width: 75rem) {
+  .detail-sector{
+    .field--name-field-contenido-paragrhaphs{
+      &>.field__items{
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+  }
+  .layout{
+    &--latest-apps-companies{
+      .layout__region{
+        flex: 0 1 calc(50% - 4rem);
+      }
+    }
+  }
+}
+
+@media (max-width: 64rem) {
+  .layout{
+    &--latest-apps-companies{
+      .layout__region{
+        flex: 0 1 calc(100%) !important;
+      }
+    }
+  }
+}
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 48rem) {
+  .detail-sector{
+    .layout{
+      &--title-sector{
+        margin-bottom: 4rem;
+      }
+      &--widget-sector{
+        padding-top: 1rem;
+        padding-bottom: 4rem;
+        .layout__region{
+          max-width: calc($max-width-screen);
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      &--latest-apps-companies{
+        .layout__region{
+          flex: 0 1 calc(100%);
+          .views-element-container{
+            width: 100%;
+            padding: 1rem;
+            min-width: auto !important;
+            height: calc(100% - 2rem);
+          }
+        }
+      }
+    }
+    &__header{
+      flex-direction: column;
+      width: 100%;
+      margin-left: 0;
+      padding-right: 0;
+      padding-left: 0rem;
+      width: calc(100% - 0rem);
+      &__desc{
+        flex: none;
+        width: 100%;
+        max-width: none;
+        padding-bottom: 0rem;
+        .title-sector{
+          .decoration-line--full{
+            position: absolute;
+            left: 50%;
+            right: 50%;
+            transform: translateX(-50%);
+            width: calc(100vw - 10px);
+            overflow: hidden;
+            place-content: center;
+            height: 2.125rem;
+          }
+        }
+      }
+      &__img{
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        max-height: 20rem;
+        margin-top: 1rem;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 1.5rem 0 2.5rem 0;
+        min-height: auto;
+        .decorative-arrow{
+          width: 6.188rem;
+          bottom: -2.575rem;
+          top: auto;
+        }
+      }
+    }
+  }
+}
+
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+  .detail-sector{
+    .field--name-field-contenido-paragrhaphs{
+      &>.field__items{
+        grid-template-columns: 1fr !important;
+      }
+    }
+  }
+}

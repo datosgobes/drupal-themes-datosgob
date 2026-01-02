@@ -1,0 +1,156 @@
+base:
+  version: VERSION
+  js:
+    js/jquery-ui.min.js: { minified: true}
+    js/main-menu-expansion.js: {}
+    js/language-switcher-expansion.js: {}
+    js/header-menu.js: {}
+    js/user-profile-expansion.js: {}
+    js/profile-menu.js: {}
+    js/layouts.js: {}
+    js/mobile-content-filter.js: {}
+    js/facet-dropdown.js: {}
+    js/content-filter-badges.js: {}
+    js/dropdown.js: {}
+    js/facet-searchbox-expansion.js: {}
+    js/facet-badget.js: {}
+    js/date-input-filter.js: {}
+    js/form-element-draggable.js: {}
+    js/comment_scroll_focus.js: {}
+    js/faq-dropdown.js: {}
+    js/facet-custom-behaviour.js: {}
+    js/search-focus.js: {}
+    js/form-content.js: {}
+    js/datatables.min.js: {}
+    js/dataTables.buttons.js: {}
+    js/buttons.dataTables.js: {}
+    js/jszip.min.js: {}
+    js/pdfmake.min.js: {}
+    js/vfs_fonts.js: {}
+    js/buttons.html5.min.js: {}
+    js/buttons.print.min.js: {}
+    js/dge-comments-datatable.js: {}
+    /libraries/swiper/swiper-bundle.min.js: { minified: true }
+    js/swiper-slider.js: {}
+    js/linksContent.js: {}
+    js/truncate-paragraphs.js: {}
+    js/validate-date-filters.js: {}
+    js/profile-form.js: {}
+    
+  css:
+    component:
+      css/styles.min.css:
+        weight: -10
+      css/components/action-links.css:
+        weight: -10
+      css/components/breadcrumb.css:
+        weight: -10
+      css/components/button.css:
+        weight: -10
+      css/components/container-inline.css:
+        weight: -10
+      css/components/details.css:
+        weight: -10
+      css/components/exposed-filters.css:
+        weight: -10
+      css/components/field.css:
+        weight: -10
+      css/components/form.css:
+        weight: -10
+      css/components/icons.css:
+        weight: -10
+      css/components/inline-form.css:
+        weight: -10
+      css/components/item-list.css:
+        weight: -10
+      css/components/link.css:
+        weight: -10
+      css/components/links.css:
+        weight: -10
+      css/components/menu.css:
+        weight: -10
+      css/components/more-link.css:
+        weight: -10
+      css/components/pager.css:
+        weight: -10
+      css/components/tabledrag.css:
+        weight: -10
+      css/components/tableselect.css:
+        weight: -10
+      css/components/tablesort.css:
+        weight: -10
+      css/components/tabs.css:
+        weight: -10
+      css/components/textarea.css:
+        weight: -10
+      css/components/ui-dialog.css:
+        weight: -10
+      css/jquery-ui.min.css:
+        weight: -10
+      css/buttons.dataTables.css:
+        weight: -10
+      css/datatables.min.css:
+        weight: -10
+      /libraries/swiper/swiper-bundle.min.css: { minified: true }
+  dependencies: 
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - core/jquery
+dialog:
+  version: VERSION
+  css:
+    component:
+      css/components/dialog.css:
+        weight: -10
+dropbutton:
+  version: VERSION
+  css:
+    component:
+      css/components/dropbutton.css:
+        weight: -10
+file:
+  version: VERSION
+  css:
+    component:
+      css/components/file.css:
+        weight: -10
+image-widget:
+  version: VERSION
+  css:
+    component:
+      css/components/image-widget.css: {  }
+indented:
+  version: VERSION
+  css:
+    component:
+      css/components/indented.css: {  }
+messages:
+  version: VERSION
+  css:
+    component:
+      css/components/messages.css:
+        weight: -10
+node:
+  version: VERSION
+  css:
+    component:
+      css/components/node.css:
+        weight: -10
+progress:
+  version: VERSION
+  css:
+    component:
+      css/components/progress.css:
+        weight: -10
+search-results:
+  version: VERSION
+  css:
+    component:
+      css/components/search-results.css: {  }
+user:
+  version: VERSION
+  css:
+    component:
+      css/components/user.css:
+        weight: -10

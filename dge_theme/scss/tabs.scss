@@ -1,0 +1,115 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* tabs */
+#block-dge-theme-faqcategoria, .tabs{
+    .facets-widget-links{
+        .item-list__links{
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            text-align: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+            .facet-item{
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                max-width: 220px;
+                min-width: 220px;
+                a{
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                    text-decoration: none;
+                    padding: 0px;
+                    cursor: pointer;
+                    .facet-item__content{
+                        background-color: $background-light-gray;
+                        padding: 0.5rem 0.5rem;
+                        box-shadow: $box-shadow-centered;
+                        display: flex;
+                        gap: 1rem;
+                        flex: 1;
+                        border: 1px solid transparent;
+                        flex-direction: row;
+                        align-items: center;
+                        align-self: start;
+                        width: calc(100% - 1rem);
+                        &:focus, &:active, &:hover {
+                            border: 1px solid $primary-500;
+                            background-color: white;
+                            transition: 0.3s;
+                        }
+                        &__title{
+                            text-align: start;
+                            span{
+                                font-family: 'montserrat-medium';
+                            }
+                        }
+                        &__img{
+                            display: flex;
+                            min-width: 2.3rem;
+                            max-width: 2.3rem;
+                            height: 2.3rem;
+                            border-radius: 50%;
+                            background-color: $primary-300;
+                            align-content: center;
+                            padding: 0.8rem;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        &.active{
+                            background-color: $primary-500;
+                            box-shadow: none;
+                            .facet-item__content__title{
+                                span{
+                                color: white;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tabcontent{
+    display: none;
+    .paragraph--type--tab{
+        .field--name-field-contenido{
+            .field--name-field-titulo{
+                @include H1();
+                font-family: 'montserrat-medium';
+                margin-bottom: 2rem;
+                margin-top: 3rem;
+                color: $primary-700;
+                text-align: center;
+                .decoration-line {
+                margin-left: auto;
+                margin-right: auto;
+                }
+            }
+        }
+    }
+}

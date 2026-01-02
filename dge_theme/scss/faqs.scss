@@ -1,0 +1,116 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// FAQS PAGE STYLES
+.view-faq{
+  .view-content{
+    .views-row{
+      padding: 0rem;
+      border-radius: 0px;
+      border: none;
+      background-color: transparent !important;
+      box-shadow: none !important;
+      &:focus, &:active, &:hover {
+        border: none !important;
+        background-color: none !important;
+      }
+      &__question{
+        display: flex;
+        padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+        border-left: 10px solid $primary-500 !important;
+        font-family: 'montserrat-medium';
+        justify-content: space-between;
+        cursor: pointer;
+        background-color: $background-light-gray;
+        box-shadow: $box-shadow-centered;
+        color: $primary-700;
+        gap: 1rem;
+        &:focus, &:hover {
+          background-color:  white !important;
+          transition: transform 0.3s ease;
+        }
+        .views-field-title{
+          .field-content{
+            font-size: 1.10rem !important;
+            font-family: 'montserrat-semiBold';
+          }
+        }
+        .arrow {
+          display: inline-block;
+          transition: transform 0.3s ease;
+          width: 1rem;
+          height: 1rem;
+          margin: 0px;
+          min-width: 1rem;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .arrow.rotated {
+          transform: rotate(180deg);
+        }
+      }
+      &__content{
+        padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+        display: none;
+        color: $primary-700;
+        &__question-detailed{
+          font-family: 'montserrat-italic';
+          color: $primary-500;
+        }
+        table {
+          margin-left: auto;
+          margin-right: auto;
+          &#customers {
+            tbody tr td:nth-child(2) {
+              min-width: 25rem;
+            }
+          }
+        }
+        ul{
+          list-style: disc;
+          padding-left: 2.5rem;
+          display: flex;
+          flex-direction: column;
+          width: calc(100% - 2.2rem);
+          li{
+            color: $primary-700;
+            line-height: 1.5rem;
+            margin-bottom: 0.625rem;
+          }
+        }
+        ol {
+          list-style: decimal;
+          padding-left: 2.5rem;
+          width: calc(100% - 2.2rem);
+          li{
+            color: $primary-700;
+            line-height: 1.5rem;
+            margin-bottom: 0.625rem;
+            &::marker{
+              color: $primary-500;
+              font-family: 'montserrat-semiBold';
+            }
+          }
+        }
+      }
+    }
+  }
+}

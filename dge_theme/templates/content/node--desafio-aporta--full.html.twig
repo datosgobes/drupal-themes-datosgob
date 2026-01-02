@@ -1,0 +1,396 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('dge_theme/node') }}
+
+{% set inscription_status_id = content.field_inscriptions_taxonomy[0]['#options']['entity'].id %}
+{% set status_number = 0 %}
+
+{% for i, term in terms_data %}
+  {% if inscription_status_id == term.tid %}
+    {% set status_number = i + 1 %}
+  {% endif %}
+{% endfor %}
+
+<div class="content-state">
+  {% for i, term in terms_data %}
+    <!-- Phase Item -->
+    <div class="content-state__item">
+      <div class="content-state__item__img {% if status_number >= i + 1 %} active{% endif %}">
+        <img src="{{ file_url(term.field_icono.uri.value) }}" alt="">
+      </div>
+      <div class="content-state__item__title {% if status_number >= i + 1 %} active{% endif %}">
+        <span class="section-links__value">{{ term.name }}</span>
+      </div>
+    </div>
+
+    {% if i < terms_data|length - 1 %}
+      <!-- Arrow between phases -->
+      <div class="item-arrow {% if status_number >= i + 2 %} active{% endif %}">
+        <div class="arrow-body"></div>
+        <div class="arrow-head"></div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="view-desafio-aporta">
+  <div class="view-content">
+    <div class="views-row">
+  
+      <article class="desafio--actual mb-10">
+        <div class="content-intro container flex-nowrap flex-column">
+          <div class="flex-display flex-center desafio--actual__img">
+            {{ content.field_image }}
+          </div>
+          <div class="flex-display flex-column">
+            <div class="desafio-card flex-display flex-column">
+              <div class="flex-display flex-row flex-gap-1 responsive-md-flex-column">
+                <div class="desafio--actual__title">
+                  {{ label }}
+                </div>
+
+                {% set fecha_aporta = content.field_aporta_date['#object'].get('field_aporta_date').value|date('Y-m-d') %}
+                {% set fecha_actual = "now"|date('Y-m-d') %}
+                {% set editionState = '' %}
+
+                {% if fecha_aporta < fecha_actual %}
+                  {% set editionState = 'Edition concluded' | t %}
+                  <div class="desafio__estado concluido flex-display flex-center">
+                    <div class="flex-display decoration-dot"></div>
+                    <div class="flex-display desafio__estado__text">{{ editionState }}</div>
+                  </div>
+                {% else %}
+                  {% set editionState = 'Edition active' | t %}
+                  <div class="desafio__estado flex-display flex-center" style="background-color:{{ content.field_inscriptions_taxonomy[0]['#entity'].field_color.color }}40;">
+                    <div class="flex-display decoration-dot" style="background-color:{{ content.field_inscriptions_taxonomy[0]['#entity'].field_color.color }}"></div>
+                    <div class="flex-display desafio__estado__text">{{ editionState }}</div>
+                  </div>
+                {% endif %}
+
+                
+                
+              </div>
+              <h2><span class="desafio--actual__subtitle">
+                {{ content.field_aporta_subtitle.0['#context']['value']}}
+              </span></h2>
+
+
+              <div{{ content_attributes.addClass('node__content') }}>
+                <div class="desafio__descripcion">
+                  {{ content.field_descripcion }}
+                </div>
+                
+              </div>
+            </div>
+
+          </div>
+          <div{{ content_attributes.addClass('node__content') }}>
+            {% if node.field_share_social_media.value == '1'%}
+                {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', wrapper: false,label : 'Social Sharing block',label_display : 0,provider : 'social_media' }) }}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="content-sections pb-10">
+          <!-- Navigation Buttons -->
+          <div class="section-links">
+
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('bases', this)" rel="nofollow">
+                <div class="section-links__content active">
+                <span class="section-links__content__num">1</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/bases-desafio.svg" alt="Bases del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Challenge terms and conditions'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('inscriptions', this)" rel="nofollow">
+                <div class="section-links__content">
+                  <span class="section-links__content__num">2</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/inscripciones-desafio.svg" alt="Inscripciones del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Registration'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('fases', this)" rel="nofollow">
+                <div class="section-links__content">
+                  <span class="section-links__content__num">3</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/fases-desafio.svg" alt="Fases del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Phases'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('jurado', this)" rel="nofollow">
+                <div class="section-links__content">
+                  <span class="section-links__content__num">4</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/jurado-desafio.svg" alt="Jurado del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Panel of Judges'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('evaluation', this)" rel="nofollow">
+                <div class="section-links__content">
+                  <span class="section-links__content__num">5</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/evaluacion-desafio.svg" alt="Evaluacion del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Assessment'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('selected', this)" rel="nofollow">
+                <div class="section-links__content">
+                  <span class="section-links__content__num">6</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/seleccionados-desafio.svg" alt="Seleccionados del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Selected'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="section-links__item">
+              <a href="javascript:void(0);" onclick="showSection('winners', this)" rel="nofollow">
+                <div class="section-links__content">
+                  <span class="section-links__content__num">7</span>
+                  <div class="section-links__content__img">
+                  <img src="/themes/custom/dge_theme/images/icons/premiados-desafio.svg" alt="Premiados del desafio icono">
+                  </div>
+                  <div class="section-links__content__title">
+                    <span class="section-links__value">{{ 'Winners'|t }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div class="mt-10 separator separator--gray"></div>
+
+          <!-- Content Blocks -->
+          <div id="bases" class="section-content">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_bases_title.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+              {{ content.field_bases_content }}
+            </div>
+          </div>
+
+          <div id="inscriptions" class="section-content" style="display: none;">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_inscriptions_title.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+            {{ content.field_inscriptions_content }}
+            </div>
+          </div>
+
+          <div id="fases" class="section-content" style="display: none;">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_fase_title.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+            {{ content.field_fase }}
+            </div>
+          </div>
+
+          <div id="jurado" class="section-content" style="display: none;">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_person_title.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+              {{ content.field_jury_description }}
+              {{ content.field_person_challenge }}
+            </div>
+          </div>
+
+          <div id="evaluation" class="section-content" style="display: none;">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_evaluation_title.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+              {{ content.field_evaluation_fases }}
+            </div>
+          </div>
+
+          <div id="selected" class="section-content" style="display: none;">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_selected_title.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+              {{ content.field_selected_description }}
+              {% set image_position = content.field_image_position[0]['#markup'] %}
+              <div class="imagen-container {{ image_position|lower }}">
+                {{ content.field_selected_image }}
+              </div>
+              
+              {{ content.field_selected_ideas }}
+            </div>
+          </div>
+
+          <div id="winners" class="section-content" style="display: none;">
+            <div class="section-content__title">
+              <h3 class="text-align-center">{{ content.field_winners_title_principal.0['#context']['value'] }}</h3>
+              <div class="flex-display flex-justify-center flex-center">
+                <div class="decoration-line mb-6"></div>
+              </div>
+            </div>
+            <div class="section-content__desc">
+              <div class="section-content__desc__intro mt-6">
+                {{ content.field_winners_description }}
+                {{ content.field_media_premiados }}
+              </div>
+
+              <div class="section-content__desc__winners">
+                {{ content.field_winners_content }}
+              </div>
+
+              <div class="section-content__desc__finalist">
+                {{ content.field_finalist_content }}
+              </div>
+
+              {{ content.field_winners_title_meeting }}
+              {{ content.field_winners_meeting }}
+            </div>
+
+          </div>
+        </div>
+
+        {{ content.field_content_related }}
+        {{ content.field_contenido_relacionado }}
+        {{ content.links }}
+      </article>
+    </div>
+  </div>
+</div>
+
+<script>
+function showSection(sectionId, element) {
+  const sections = document.querySelectorAll('.section-content');
+  sections.forEach((section) => {
+    section.style.display = 'none';
+  });
+
+  const selectedSection = document.getElementById(sectionId);
+  if (selectedSection) {
+    selectedSection.style.display = 'block';
+  }
+
+  const linkContents = document.querySelectorAll('.section-links__content');
+  linkContents.forEach((linkContent) => {
+    linkContent.classList.remove('active');
+  });
+
+  element.querySelector('.section-links__content').classList.add('active');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const parentElements = document.querySelectorAll('.paragraph--type--premiados');
+
+  parentElements.forEach(parent => {
+    if (
+      parent.querySelector('.field--name-field-winners-description-item') &&
+      parent.querySelector('.field--name-field-winners-video-2')
+    ) {
+      parent.querySelectorAll('.field--name-field-winners-description-item, .field--name-field-winners-video-2').forEach(el => {
+        el.style.width = 'calc(50% - .75rem)';
+      });
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const parentElements = document.querySelectorAll('.paragraph--type--finalistas');
+
+  parentElements.forEach(parent => {
+    if (
+      parent.querySelector('.field--name-field-winners-description') &&
+      parent.querySelector('.field--name-field-winners-video-2')
+    ) {
+      parent.querySelectorAll('.field--name-field-winners-description, .field--name-field-winners-video-2').forEach(el => {
+        el.style.width = 'calc(50% - .75rem)';
+      });
+    }
+  });
+});
+
+</script>

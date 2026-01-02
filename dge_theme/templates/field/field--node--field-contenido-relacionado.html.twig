@@ -1,0 +1,162 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+  /**
+   * @file
+   * Theme override for a field.
+   *
+   * Available variables:
+   * - attributes: HTML attributes for the containing element.
+   * - label_hidden: Whether to show the field label or not.
+   * - title_attributes: HTML attributes for the title.
+   * - label: The label for the field.
+   * - multiple: TRUE if a field can contain multiple items.
+   * - items: List of all the field items. Each item contains:
+   *   - attributes: List of HTML attributes for each item.
+   *   - content: The field item's content.
+   * - entity_type: The entity type to which the field belongs.
+   * - field_name: The name of the field.
+   * - field_type: The type of the field.
+   * - label_display: The display settings for the label.
+   *
+   * @see template_preprocess_field()
+   */
+  #}
+  {%
+    set classes = [
+      'field',
+      'field--name-' ~ field_name|clean_class,
+      'field--type-' ~ field_type|clean_class,
+      'field--label-' ~ label_display,
+      label_display == 'inline' ? 'clearfix',
+    ]
+  %}
+  {%
+    set title_classes = [
+      'field__label',
+      label_display == 'visually_hidden' ? 'visually-hidden',
+    ]
+  %}
+  
+  {% set current_path = path('<current>') %}
+  {% set path_segments = current_path|split('/') %}
+  {% set base_path = path_segments|slice(0, path_segments|length - 1)|join('/') %}
+  
+  <div class="container flex-justify-between mt-10">
+    <div class="flex-display flex-column">
+      <h3>
+        <span class="field field--name-title">{{ 'Related Content' | t }}</span>
+      </h3>
+      <div class="decoration-line mb-2"></div>
+    </div>
+  </div>
+  
+  <div{{ attributes.addClass(classes) }}>
+  {% if multiple %}
+      <div class="field__items mt-4">
+  {% endif %}
+  
+  {% for item in items %}
+      {% set related_node = item.content['#node'] %}
+      {% set nid = related_node.nid.value %}
+      {% set content_type = related_node.bundle() %}
+     
+      {% set lang_from_url = base_path|split('/') %}
+      {% set lang = path_segments[1] %}
+      <div{{ item.attributes.addClass('field__item') }}>
+        {% if nid is not empty %}
+          {% if content_type == 'iniciativa' %}
+            {% set titleIniciative = related_node.title.value %}
+            <a href="/{{ lang }}/accessible-initiatives?text={{ titleIniciative|url_encode }}">
+
+          {% else %}
+            <a href="{{ path('entity.node.canonical', {'node': nid}) }}">
+          {% endif %}
+
+            {% if content_type == 'aplicacion' or content_type == 'empresa_reutilizadora' %}
+              {% set class_suffix = 'app' %}
+              {% if content_type == 'empresa_reutilizadora' %}
+                {% set class_suffix = 'company' %}
+              {% endif %}
+              <div class="{{ 'content-related-' ~ class_suffix }}">
+                {% if related_node.field_imagen.entity is not empty %}
+                <span class="{{ 'image-related-' ~ class_suffix }}">
+                  <img src="{{ file_url(related_node.field_imagen.entity.uri.value) }}" alt="{{ related_node.field_imagen.alt }}">
+                </span>
+                {% endif %}
+                <div class="{{ 'content-related-' ~ class_suffix ~ '__info' }}">
+                  {% if related_node.title.value is not empty %}
+                  <div class="{{ 'content-related-' ~ class_suffix ~ '__info__text mt-4' }}">
+                    <h4 class="mt-0 mb-3 primary-color-dark">{{ related_node.title.value }}</h4>
+                  </div>
+                  {% endif %}
+                  <div class="{{ 'content-related-' ~ class_suffix ~ '__info__text' }}">
+                    {% if content_type == 'aplicacion' %}
+                    <span class="primary-color-semi-dark text--italic">{{ related_node.field_autor_desarrollador[0].value }}</span>
+                    {% elseif content_type == 'empresa_reutilizadora' %}
+                    <span class="primary-color-semi-dark text--italic">{{ related_node.field_sede_central.value }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+            {% else %} 
+            <div class="default-related-content">
+              <span class="image-related-content">
+                {% if related_node.field_image is not empty %}
+                <img src="{{ file_url(related_node.field_image.entity.uri.value) }}" alt="{{ related_node.field_image.alt }}">
+                {% elseif content_type == 'article' %}
+                <img src="{{ file_url('public://default_images/img_noticia_by-default.jpg') }}" alt="default image">
+                {% elseif content_type == 'blog' %}
+                <img src="{{ file_url('public://default_images/img_blog_by-default.jpg') }}" alt="default image">
+                {% elseif content_type == 'documento' %}
+                <img src="{{ file_url('public://default_images/conocimiento-default_content-1.jpg') }}" alt="default image">
+                {% elseif content_type == 'entrevista' %}
+                <img src="{{ file_url('public://default_images/img_entrevista_by-default.jpg') }}" alt="default image">
+                {% elseif content_type == 'evento' %}
+                <img src="{{ file_url('public://default_images/default-event-img-card.jpg') }}" alt="default image">
+                {% elseif content_type == 'iniciativa' %}
+                <img src="{{ file_url('public://default_images/img_initiative_by-default.jpg') }}" alt="default image">
+                {% elseif content_type == 'noticia' %}
+                <img src="{{ file_url('public://default_images/img_noticia_by-default.jpg') }}" alt="default image">
+                {% else %}
+                <p>{{ 'No image available' | t }}</p>
+                {% endif %}
+              </span>
+              <div class="default-related-content__info">
+                {% if related_node.title.value is not empty %}
+                <div class="default-related-content__info__text mt-4">
+                  <h4 class="mt-0 mb-3 primary-color-dark">{{ related_node.title.value }}</h4>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% if multiple %}
+  </div>
+  {% endif %}
+  </div>

@@ -1,0 +1,494 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// NODE FORM ELEMENTS
+
+.node-aplicacion-form{
+   .field--name-field-capturas-de-pantalla{
+    .file.file--image {
+      width: auto !important;
+    }
+    .tabledrag-toggle-weight-wrapper{
+      display: none;
+    }
+  }
+}
+
+/* Forms styles */
+.user-register-form,
+.node-aplicacion-form,
+.node-empresa-reutilizadora-form,
+.comment-comment-form,
+.node-peticion-de-datos-form,
+.webform-submission-solicitud-acceso-nsip-form,
+.webform-submission-contact-form,
+.webform-submission-accesibilidad-form,
+.node-iniciativa-form,
+.node-peticion-de-datos-edit-form,
+.formulario-generador-form,
+.dge-data-request-subscription-form,
+.dge-data-request-unsubscription-form {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 4rem);
+  background-color: $background-light-gray;
+  box-shadow: 0px 3px 6px rgb(0,0,0,16%);
+  position: relative;
+  padding: 1rem 2rem 1rem 2rem;
+
+  .item-list ul li{
+   margin-left: 0px;
+  }
+}
+.dge-data-request-subscription-form,
+.dge-data-request-unsubscription-form {
+  input.form-submit {
+    max-width: 20rem;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+.user-login-form, .user-pass, .dge-sendinblue-form, .tfa-entry-form, .user-pass-reset {
+  display: flex;
+  flex-direction: column;
+  max-width: 23.75rem;
+  width: 23.75rem;
+  margin: 1.75rem auto 6.25rem;
+  background-color: $background-light-gray;
+  box-shadow: 0px 3px 6px rgb(0,0,0,16%);
+  position: relative;
+}
+.tfa-entry-form{
+  #edit-actions{
+    margin-top: 1rem !important;
+    justify-content: center;
+    .tfa-button {
+      width: 100%;
+    }
+  }
+}
+.user-login-form, .dge-sendinblue-form, .tfa-entry-form, .user-pass-reset {
+  padding: 2rem 4rem 3rem 4rem;
+}
+.user-pass{
+  padding: 2rem 4rem;
+}
+.login-form{
+  display: flex;
+  position: relative;
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  &.field--type-datetime{
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+}
+/*
+Cancel Account Form
+ */
+.dge-sendinblue-form{
+  .sib-form-block{
+    p {
+      margin: 0;
+      line-height: 1.5em;
+      font-size: 16px;
+      text-align: left;
+      font-family: 'montserrat-medium';
+      color: $primary-700;
+    }
+    h2 {
+      font-size: 1.5rem;
+      text-align: left;
+      font-family: 'montserrat-medium';
+      color: $primary-700;
+      margin: 0;
+      margin-bottom: 0.75rem;
+    }
+    .form-item-email {
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      label {
+        font-size: 16px;
+        text-align: left;
+        font-family: 'montserrat';
+        color: $primary-700;
+        max-width: 40em;
+        display: table;
+        padding: 0;
+        white-space: normal;
+        margin-bottom: 10px;
+        width: 100%;
+        word-break: break-word;
+        word-wrap: break-word;
+        span {
+          font-size: 1em;
+          color: $secondary-700;
+          text-decoration: none;
+          word-wrap: break-word;
+          display: inline;
+        }
+      }
+      .description {
+        font-size: 0.875rem;
+        text-align: left;
+        font-family: 'montserrat-italic';
+        color: $primary-700;
+        margin-bottom: 1rem;
+      }
+    }
+    .form-submit {
+      width: 100%;
+      outline: 0;
+      cursor: pointer;
+      border-radius: .375rem;
+      font-size: 1rem;
+      padding: 0 .938rem;
+      min-height: 42px !important;
+      transition: .3s;
+      border: 1px solid transparent;
+      color: $primary-500;
+      color: $white;
+    }
+  }
+}
+
+.field--name-field-year-create-reuse-co,
+.field--name-field-pagina-web-de-la-empresa,
+.field--name-field-initiative-catalog,
+.field--name-field-initiative-resources,
+.field--name-field-initiative-license,
+.field--name-field-initiative-link,
+.field--name-field-initiative-strategy,
+.field--name-field-enlace-al-cat-logo-de-dato,
+.field--name-field-initiative-channel {
+  fieldset{
+    width: 100% !important;
+    padding: 0rem !important;
+    border: none !important;
+    margin: 0rem !important;
+    legend{
+      .fieldset-legend{
+        font-size: 1rem;
+        color: $primary-600;
+        font-family: 'montserrat-medium';
+        display: block;
+        margin-bottom: .5rem;
+      }
+    }
+  }
+}
+.field--name-field-url-catalogo,
+.field--name-field-url-aplicacion,
+.field--name-field-url-del-conjunto-de-datos {
+  .tabledrag-toggle-weight-wrapper{
+    display: none !important;
+  }
+  .form-item{
+    .tabledrag-changed-warning{
+      abbr{
+        display: none;
+      }
+    }
+    .clearfix{
+      text-align: center;
+      .button{
+        width: 100%;
+        max-width: 20rem;
+        outline: none;
+        cursor: pointer;
+        border-radius: 0.375rem;
+        font-size: 1rem;
+        padding: 0 .938rem;
+        min-height: 2.5rem;
+        transition: 0.3s;
+        border: 1px solid $primary-500;
+        background-color: $white;
+        color: $primary-500;
+        margin: 1.5em 0 0;
+        &:hover,
+        &:after,
+        &:active,
+        &:focus  {
+            background-color: $primary-400;
+            transition: 0.3s;
+        }
+      }
+    }
+  }
+}
+
+.field--name-field-capturas-de-pantalla {
+  details{
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    summary{
+      pointer-events: none;
+      padding: 0;
+      font-size: 1rem;
+      color: $primary-600;
+      font-family: 'montserrat';
+      display: block;
+      margin-bottom: .5rem;
+      font-weight: 400;
+      min-height: 42px !important;
+    }
+    .details-wrapper{
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      .table-wrapper {
+        order: 0;
+        margin: 0;
+        .responsive-enabled{
+          width: 100% !important;
+          height: fit-content !important;
+          font-family: montserrat-medium !important;
+          display: grid;
+          thead{
+            align-items: center;
+            background-color: #fafafa;
+            border-bottom: 1px solid #eaeaea;
+            position: relative;
+            width: 100%;
+            min-width: 100%;
+            tr{
+              th{
+                width: 100%;
+              }
+            }
+          }
+          tbody{
+            tr{
+              background-color: #f4f4f4;
+              display: flex;
+              width: 100%;
+              &.draggable td a.tabledrag-handle {
+                overflow: hidden;
+                margin-left: -1.8em;
+                cursor: move;
+                text-decoration: none;
+                min-width: 2.5rem;
+              }
+              td{
+                display: flex;
+                width: 100%;
+                align-items: center;
+                .image-widget.form-managed-file{
+                  display: flex;
+                  flex-direction: row;
+                  gap: 0.5rem;
+                  flex-wrap: wrap;
+                  .image-widget-data {
+                    display: flex;
+                    span.file.file--mime-image-png.file--image {
+                      display: flex;
+                      height: auto !important;
+                      gap: 0.375rem;
+                      flex-direction: column;
+                      min-width: 180px;
+                      background-image: none;
+                      padding-left: 0;
+                      align-self: center;
+                      .file--link{
+                        a.menu-item__link {
+                          word-wrap: anywhere;
+                          font-weight: 500;
+                          margin-bottom: 5px;
+                          word-break: break-all;
+                          font-size: 14px;
+                          line-height: 1.4;
+                        }
+                      }
+                      span.file--extension-size {
+                        word-wrap: anywhere;
+                        word-break: break-all;
+                        display: inline-block;
+                        margin-bottom: 5px;
+                        text-transform: uppercase;
+                        vertical-align: bottom;
+                        color: $dark-gray;
+                        font-size: 11px;
+                        font-weight: 400;
+                        line-height: 1;
+                      }
+                    }
+                  }
+                }
+
+                &:last-child {
+                  width: fit-content;
+                  align-items: center;
+                  justify-content: end;
+                  input.button{
+                    max-width: fit-content;
+                    min-width: fit-content;
+                    height: fit-content;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .form-type-managed-file {
+        order: 1;
+        text-align: center;
+        justify-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        label{
+          width: calc(100% - 2rem);
+          max-width: 18rem;
+          outline: 0;
+          cursor: pointer;
+          border-radius: .375rem;
+          font-size: 1rem;
+          padding: 0 .938rem;
+          -webkit-transition: .3s;
+          -o-transition: .3s;
+          transition: .3s;
+          border: 1px solid $primary-500;
+          background-color: $white;
+          color: $primary-500;
+          -webkit-align-content: center;
+          -ms-flex-line-pack: center;
+          align-content: center;
+          min-height: 42px !important;
+          font-family: montserrat !important;
+          font-weight: 400 !important;
+          margin: 0 2rem;
+          &:hover,
+          &:after,
+          &:active,
+          &:focus  {
+              background-color: $primary-400;
+              transition: 0.3s;
+          }
+        }
+        .image-widget.form-managed-file{
+          .image-widget-data{
+            input[type="file"] {
+              display: none;
+            }
+          }
+        }
+      }
+      .details-description {
+        order: 2;
+        color: $dark-gray;
+        font-style: italic;
+        font-size: .875rem;
+        margin-top: .625rem;
+        word-break: break-word;
+        line-height: 1.5rem;
+      }
+    }
+  }
+}
+
+.field--name-field-pagina-web-de-la-empresa,
+.field--name-field-initiative-catalog,
+.field--name-field-initiative-resources,
+.field--name-field-initiative-license,
+.field--name-field-initiative-link,
+.field--name-field-initiative-strategy,
+.field--name-field-enlace-al-cat-logo-de-dato,
+.field--name-field-initiative-channel {
+  fieldset{
+    .fieldset-wrapper{
+      gap: 0rem 1rem;
+      display: flex;
+      flex-flow: wrap;
+      width: calc(100%);
+      div.form-item{
+        width: calc(50% - 0.5rem);
+      }
+    }
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 48rem) {
+  .field--name-field-pagina-web-de-la-empresa,
+  .field--name-field-initiative-catalog,
+  .field--name-field-initiative-resources,
+  .field--name-field-initiative-license,
+  .field--name-field-initiative-link,
+  .field--name-field-initiative-strategy,
+  .field--name-field-enlace-al-cat-logo-de-dato,
+  .field--name-field-initiative-channel {
+    fieldset{
+      .fieldset-wrapper{
+        div.form-item{
+          width: calc(100%);
+        }
+      }
+    }
+  }
+}
+
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+  .user-register-form,
+  .node-aplicacion-form,
+  .node-empresa-reutilizadora-form,
+  .comment-comment-form,
+  .user-login-form,
+  .tfa-entry-form,
+  .dge-sendinblue-form,
+  .node-peticion-de-datos-form,
+  .webform-submission-solicitud-acceso-nsip-form,
+  .webform-submission-contact-form,
+  .webform-submission-accesibilidad-form,
+  .formulario-generador-form,
+  .node-peticion-de-datos-edit-form,
+  .dge-data-request-subscription-form,
+  .dge-data-request-unsubscription-form,
+  .user-pass-reset  {
+    width: calc(100% - 2rem);
+    margin: 1.75rem auto 1.75rem;
+    padding: 2rem 1rem 3rem 1rem;
+    max-width: none;
+  }
+  form#user-login-form, form#user-pass, form#tfa-entry-form, form#user-pass-reset{
+    width: 100%;
+    margin: 1.75rem auto 1.75rem;
+    padding: 2rem 1rem 3rem 1rem;
+    max-width: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .dge-sendinblue-form {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dge-sendinblue-form {
+    max-width: 380px;
+  }
+}

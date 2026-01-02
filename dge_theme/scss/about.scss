@@ -1,0 +1,103 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// Que hacemos / About PAGE STYLES
+.dge-aporta-tabs {
+  .section-links {
+    margin-top: 1rem;
+    gap: 1rem;
+    &__content {
+      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: $box-shadow-centered;
+      background-color: $background-light-gray;
+      padding: .5rem .5rem;
+      height: 100%;
+      border: 1px solid transparent;
+      justify-content: center;
+      &:hover, &:focus, &:active {
+        box-shadow: none;
+        background-color: white;
+        transition: 0.3s;
+        border: 1px solid $primary-500;
+      }
+      &.active {
+        box-shadow: none;
+        background-color: $primary-300;
+        transition: 0.3s;
+        border: 1px solid $primary-500;
+        .section-links__content__title{
+          a{
+            .section-links__value{
+              color: $primary-700;
+              font-family: 'montserrat-semiBold';
+            }
+          }
+        }
+        &:hover, &:focus, &:active{
+          background-color: $primary-400;
+          transition: 0.3s;
+        }
+      }
+      &__img {
+        a {
+          .embedded-entity {
+            img {
+              width: 80px;
+              height: auto;
+            }
+          }
+        }
+      }
+      &__title{
+        a{
+          text-decoration: none;
+          .section-links__value{
+            font-family: 'montserrat-medium';
+          }
+        }
+      }
+    }
+  }
+  .linias-actuacion-section {
+    background-color: $background-gray;
+    padding: 1rem;
+    border-radius: $border-radius;
+    .title h5{
+      font-size: 2rem;
+      font-family: 'montserrat-medium';
+      color: $primary-700;
+      justify-self: center;
+      margin: 1rem;
+    }
+    ul{
+      list-style: disc;
+      padding-left: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 2.2rem);
+      li{
+        color: $primary-700;
+        line-height: 1.5rem;
+        margin-bottom: 0.625rem;
+      }
+    }
+  }
+}

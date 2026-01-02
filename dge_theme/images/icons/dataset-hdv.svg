@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29" height="39" viewBox="0 0 29 39">
+  <g id="Grupo_1837" data-name="Grupo 1837" transform="translate(-17.5 -17.43)">
+    <g id="dataset-hdv" transform="translate(19.5 17.43)">
+      <path id="Trazado_4437" data-name="Trazado 4437" d="M12,24c-1.228,0-12-.084-12-3V14H24v7C24,23.916,13.228,24,12,24Z" fill="#ffc107"/>
+      <path id="Trazado_4438" data-name="Trazado 4438" d="M12,18c-1.228,0-12-.084-12-3V8H24v7C24,17.916,13.228,18,12,18Z" fill="#ffd54f"/>
+      <path id="Trazado_4439" data-name="Trazado 4439" d="M12,12c-1.228,0-12-.084-12-3V3H24V9C24,11.916,13.228,12,12,12Z" fill="#ffc107"/>
+      <path id="Trazado_4440" data-name="Trazado 4440" d="M12,6C10.772,6,0,5.916,0,3S10.772,0,12,0,24,.084,24,3,13.228,6,12,6Z" fill="#ffd54f"/>
+      <g id="Grupo_1836" data-name="Grupo 1836">
+        <circle id="Elipse_153" data-name="Elipse 153" cx="1.5" cy="1.5" r="1.5" transform="translate(3 7)" fill="#fff"/>
+        <circle id="Elipse_154" data-name="Elipse 154" cx="1.5" cy="1.5" r="1.5" transform="translate(3 13)" fill="#fff"/>
+        <circle id="Elipse_155" data-name="Elipse 155" cx="1.5" cy="1.5" r="1.5" transform="translate(3 19)" fill="#fff"/>
+      </g>
+    </g>
+    <text id="HVD" transform="translate(17.5 53.43)" fill="#ffc132" font-size="12" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">HVD</tspan></text>
+  </g>
+</svg>

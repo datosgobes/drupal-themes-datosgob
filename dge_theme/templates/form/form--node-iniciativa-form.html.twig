@@ -1,0 +1,126 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+<div class="mt-8">
+  <form{{ attributes }}>
+    {% set params = {
+      element: element
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-obligatorios.html.twig' with params %}
+
+    <div class="container">
+      <div class="col-1">
+        <h4 class="mb-3 titleBold" >{{ 'General information' | t }}</h4>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+      {{ element.group_identificacion_de_iniciati[4] }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-3">
+      {{ element.group_identificacion_de_iniciati[2] }}
+      </div>
+      <div class="col-3">
+      {{ element.group_identificacion_de_iniciati[0] }}
+      </div>
+      <div class="col-3">
+      {{ element.group_initiative_catalog[1] }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        <h4 class="mb-3 titleBold">{{ 'Related Links' | t }}</h4>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="col-1">
+          {{ element.group_identificacion_de_iniciati[1] }}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-1">
+        {{ element.group_identificacion_de_iniciati[3] }}
+        </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+      {{ element.group_initiative_catalog[0] }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_initiative_license }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+      {{ element.group_initiative_catalog[2] }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+      {{ element.group_acinitiative_promotion[0] }}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-1">
+      {{ element.group_acinitiative_promotion[1] }}
+      </div>
+    </div>
+        
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_initiative_collaborate }}
+      </div>
+    </div>
+
+    {% set params = {
+      title: element.group_sender_data['#title'],
+      name_and_surname: element.group_sender_data[2],
+      email: element.group_sender_data[1],
+      phone_number: element.group_sender_data[3],
+      consent_2: element.group_sender_data[0],
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-de-contacto.html.twig' with params %}
+
+    {% set params = {
+      actions: element.actions
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-action-buttons.html.twig' with params %}
+
+  </form>
+</div>

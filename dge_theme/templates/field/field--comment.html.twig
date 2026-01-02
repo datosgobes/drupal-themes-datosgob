@@ -1,0 +1,197 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+  /**
+   * @file
+   * Theme override for comment fields.
+   *
+   * Available variables:
+   * - attributes: HTML attributes for the containing element.
+   * - label_hidden: Whether to show the field label or not.
+   * - title_attributes: HTML attributes for the title.
+   * - label: The label for the field.
+   * - title_prefix: Additional output populated by modules, intended to be
+   *   displayed in front of the main title tag that appears in the template.
+   * - title_suffix: Additional title output populated by modules, intended to
+   *   be displayed after the main title tag that appears in the template.
+   * - comments: List of comments rendered through comment.html.twig.
+   * - comment_form: The 'Add new comment' form.
+   * - comment_display_mode: Is the comments are threaded.
+   * - comment_type: The comment type bundle ID for the comment field.
+   * - entity_type: The entity type to which the field belongs.
+   * - field_name: The name of the field.
+   * - field_type: The type of the field.
+   * - label_display: The display settings for the label.
+   *
+   * @see template_preprocess_field()
+   * @see comment_preprocess_field()
+   */
+  #}
+  {%
+    set classes = [
+      'field',
+      'field--name-' ~ field_name|clean_class,
+      'field--type-' ~ field_type|clean_class,
+      'field--label-' ~ label_display,
+      'comment-wrapper',
+    ]
+  %}
+  {%
+    set title_classes = [
+      'title',
+      label_display == 'visually_hidden' ? 'visually-hidden',
+    ]
+  %}
+  
+
+  <div class="container flex-justify-center">
+    {% if comment_form %}
+      <div class="flex-display flex-column pb-4">
+          <div class="node__links">
+            <ul class="links inline">
+              <li>
+                <a id="comment-button" href="#" title="Comparte tus ideas y opiniones." onclick="event.preventDefault(); toggleBloque();"> {{ 'Añadir nuevo comentario'|t }}</a>
+              </li>
+            </ul>
+          </div>
+      </div>
+    {% endif %}
+  
+    <section{{ attributes.addClass(classes) }}>
+      {% if comments and not label_hidden %}
+        {{ title_prefix }}
+        <h3{{ title_attributes.addClass(title_classes) }}>{{ label }}</h3>
+        <div class="decoration-line mb-6"></div>
+        {{ title_suffix }}
+      {% endif %}
+
+    
+ 
+      {% macro render_comments(comments, parent_id, level) %}
+      <div class="comments-list">
+        {% for key, comment_data in comments %}
+          {# Para cada uno de los comentarios de la lista #}
+          {% if key|number_format(0, '.', '') == key %}
+            {% set comment_array = comment_data['#comment'] %}
+
+ 
+            {% if comment_array.get('pid').value['0']['target_id'] ?? 0 == parent_id %}
+              <div class="comment-item level-{{ level }} {% if parent_id == 0 %}parent-comment{% else %}child-comment{% endif %}" id="comment-{{ comment_array.get('cid').value }}">
+                
+
+                {% set has_replies = false %}
+              
+                {% for reply_key, reply_data in comments %}
+                  {% if reply_key|number_format(0, '.', '') == reply_key %}
+                    {% set reply_comment = reply_data['#comment'] %}
+                    
+
+                    {% if reply_comment.get('pid').value['0']['target_id'] ?? null == comment_array.get('cid').value %}
+                      {% set has_replies = true %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+                
+                {% set comment_render_array = {
+                  '#sorted': comments['#sorted'],
+                  '#pre_render': comments['#pre_render'],
+                  'content': comment_data,
+                } %}
+                {{ comment_render_array|render }}
+
+
+                {% if has_replies %}
+                <a href="javascript:void(0)" class="toggle-replies" data-comment-id="{{ comment_array.get('cid').value }}" 
+                  data-show-text="{{ 'Ver respuestas EN'|t|e }}" 
+                  data-hide-text="{{ 'Ocultar respuestas EN'|t|e }}">
+                  {{ 'Ver respuestas EN'|t }}
+                </a>
+                {% endif %}
+
+
+                <div class="replies" id="replies-{{ comment_array.get('cid').value }}" style="display: none;">
+                  {{ _self.render_comments(comments, comment_array.get('cid').value, level + 1) }}
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endmacro %}
+
+      {{ _self.render_comments(comments, 0, 0) }}
+
+      
+      {% if comment_form %}
+        <div id="add_comment" style="display:none">
+          {{ comment_form }}
+        </div>
+      {% endif %}
+    
+
+      {% if comments.pager %}
+        <div class="comment-pager">
+          {{ comments.pager }}
+        </div>
+      {% endif %}
+    
+    </section>
+  </div>
+  
+  
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const toggleLinks = document.querySelectorAll('.toggle-replies');
+  
+      toggleLinks.forEach(link => {
+          link.addEventListener('click', function() {
+              const commentId = this.getAttribute('data-comment-id');
+              const repliesDiv = document.getElementById('replies-' + commentId);
+              const isVisible = repliesDiv.style.display === 'block';
+              const showText = this.getAttribute('data-show-text');
+              const hideText = this.getAttribute('data-hide-text');
+  
+              if (isVisible) {
+                  repliesDiv.style.display = 'none';
+                  this.textContent = showText;
+                  this.classList.remove('active');
+              } else {
+                  repliesDiv.style.display = 'block';
+                  this.textContent = hideText;
+                  this.classList.add('active');
+              }
+          });
+      });
+
+      document.getElementById('comment-button').addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.getElementById('add_comment');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+  });
+  function toggleBloque() { var bloque = document.getElementById("add_comment"); bloque.style.display = (bloque.style.display === "none" || bloque.style.display === "") ? "block" : "none"; } 
+  </script>
+  

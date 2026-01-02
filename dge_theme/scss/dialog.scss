@@ -1,0 +1,164 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* Custom dialog component styles */
+.dialog-opacity {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+
+    &.active {
+        display: block;
+    }
+}
+.dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 1.25rem;
+    z-index: 9999;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 1.25rem;
+    max-width: 35.5rem;
+    width: 100%;
+    &.active {
+        display: block;
+    }
+    &-close {
+        display: flex;
+        justify-content: right;
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            height: 1.875rem;
+            width: 1.875rem;
+            padding: 0.313rem;
+            display: flex;
+            align-items: center;
+
+            &:hover,
+            &:focus {
+                background: $background-gray;
+            }
+
+            span {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+
+                img {
+                height: 0.875rem;
+                width: 0.875rem;
+                }
+            }
+        }
+    }
+    &-content__rrss {
+        gap: 1rem;
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        &__item {
+            background: transparent;
+            height: 3.125rem;
+            outline: none;
+            color: $primary-700;
+            border-radius: 0.625rem;
+            border: 1px solid $background-dark-gray;
+            align-content: center;
+
+            &:hover,
+            button:focus {
+                background: $background-gray;
+            }
+
+            a {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                text-decoration: none !important;
+                color: $primary-700;
+                img {
+                max-width: 2.188rem;
+                max-height: 2.188rem;
+                }
+            }
+        }
+    }
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.copy-notification {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: $primary-700;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    animation: fadeInOut 4s;
+    @keyframes fadeInOut {
+        0%, 100% { opacity: 0; }
+        10%, 90% { opacity: 1; }
+    }
+    img {
+        height: 1.25rem;
+        width:  1.25rem;
+    }
+    span{
+        height: 100%;
+        display: flex;
+        font-size: 0.875rem;
+
+    }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 48rem) {
+    .dialog {
+        max-width: calc(100% - 2.5rem);
+    }
+}
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+    .dialog {
+        &-content__rrss {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+  }

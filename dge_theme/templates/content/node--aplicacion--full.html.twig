@@ -1,0 +1,244 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('dge_theme/node') }}
+<article{{ attributes.addClass(classes) }}>
+
+  {{ title_prefix }}
+  {% if label and not page %}
+    <h2{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  <div{{ content_attributes.addClass('node__content') }}>
+
+    <div class="container flex-flow-column flex-justify-between">
+      <div class="flex-display flex-gap-1-2 flex-justify-between mb-4 responsive-lg-flex-column">
+        <div class="flex-display flex-center align-self-center responsive-lg-w-100">
+          {{ content.field_imagen }}
+          <div class="flex-display ml-auto hide responsive-lg-show">
+            {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', label : 'Social
+            Sharing block',label_display : 0,provider : 'social_media' }) }}
+          </div>
+        </div>
+        
+        <div class="flex-display flex-column mr-auto flex-gap-1 mt-5 mb-2">
+
+          <div class="flex-display flex-flow flex-gap-1-2 flex-center">
+            {% set params = {
+              categorias: content.field_categoria
+              } 
+            %}
+            
+            {% include directory ~ '/templates/content/dge_custom_field_categoria.html.twig' with params %}
+          </div>
+
+          {% set has_autor_desarrollador = content.field_autor_desarrollador.0  is not empty %}
+          {% set has_empresa_organismo = content.group_datos_de_contacto.field_empresa_organismo.0  is not empty %}
+          {% if has_autor_desarrollador or has_empresa_organismo %}
+            <div class="flex-display flex-column flex-gap-1">
+              {% if has_autor_desarrollador %}
+              <div class="flex-display flex-center flex-row">
+                <div class="flex-display">
+                  <span class="label bold mb-0 primary-color-dark">{{ content.field_autor_desarrollador['#title'] }}:</span>
+                  <span class="text--italic">&nbsp;{{ content.field_autor_desarrollador[0]['#context'].value }}</span>
+                </div>
+              </div>
+              {% endif %}
+              {% if has_empresa_organismo %}
+              <div class="flex-display flex-center flex-row">
+                <div class="flex-display">
+                  <span class="label bold mb-0 primary-color-dark"> {{ content.group_datos_de_contacto.field_empresa_organismo['#title'] }}:</span>
+                  <span class="text--italic">&nbsp;{{ content.group_datos_de_contacto.field_empresa_organismo[0]['#context'].value }}</span>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+
+          {% set field_licencia = content.field_licencia|render %}
+          {% if node.changed.value is not empty or content.field_fecha_publicacion_contenid is not empty or field_licencia is not empty %}
+          <div class="container flex-gap-1-4">
+            {% set params = {
+              fecha_publicacion: content.field_fecha_de_publicacion,
+              fecha_actualizacion: node.changed.value
+              } 
+            %}
+              
+            {% include directory ~ '/templates/content/dge_custom_field_fecha.html.twig' with params %}
+
+            {% if field_licencia is not empty %}
+            <div class="flex-display flex-center flex-row mb-4">
+                <span class="pl-5 b-l mb-0"></span>
+                <div class="flex-display flex-column">
+                    <span class="label bold primary-color-dark mb-2">{{ content.field_licencia['#title'] }}</span>
+                    <span class="label primary-color-semi-dark mb-0">{{ field_licencia }}</span>
+                </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="flex-display flex-column flex-gap-1 flex-wrap mb-4 container-style responsive-lg-flex-row">
+          {% for item in content.field_url_aplicacion %}
+            {% if item['#type'] == 'link' %}
+              {% set urls = item['#url'].uri|split(',') %}
+              {% for url in urls %}
+                {% if 'play.google' in url %}
+                  <div class="field__item">
+                    <a href="{{ url }}" class="text--no-decoration flex-display flex-gap-05 flex-center">
+                      <span class="flex-display icon--sm"><img src="/themes/custom/dge_theme/images/icons/google-play.svg" alt="google play icon"></span>{{ 'See in Google Play' | t }}
+                    </a>
+                  </div>
+                {% elseif 'apps.apple' in url or 'itunes.apple' in url %}
+                  <div class="field__item">
+                    <a href="{{ url }}" class="text--no-decoration flex-display flex-gap-05 flex-center">
+                      <span class="flex-display icon--sm"><img src="/themes/custom/dge_theme/images/icons/apple-store.svg" alt="apple store icon"></span>{{ 'See in Apple Store' | t }}
+                    </a>
+                  </div>
+                {% elseif 'appgallery.huawei' in url %}
+                  <div class="field__item">
+                    <a href="{{ url }}" class="text--no-decoration flex-display flex-gap-05 flex-center">
+                      <span class="flex-display icon--sm"><img src="/themes/custom/dge_theme/images/icons/huawei.svg" alt="huawei store icon"></span>{{ 'See in Huawei Store' | t }}
+                    </a>
+                  </div>
+                {% else %}
+                  <div class="field__item">
+                    <a href="{{ url }}" class="text--no-decoration flex-display flex-gap-05 flex-center">
+                        <span class="flex-display icon--sm"><img src="/themes/custom/dge_theme/images/icons/site-web.svg" alt="website icon"></span>{{ 'Go to website' | t }}
+                    </a>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+          {% if content.field_plataforma.0 %}
+            <div class="flex-display flex-center w--100 mt-2 flex-row">
+              <div class="flex-display flex-gap-05 flex-column">
+                {% for item in content.field_plataforma|filter(item => item['#type'] == 'link') %}
+                  <span>{{ item }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+          </div>
+
+        <div class="flex-display responsive-lg-hide">
+            {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', label : 'Social Sharing
+            block',label_display : 0,provider : 'social_media' }) }}
+        </div>
+      </div>
+
+    </div>
+
+    {% set field_capturas_de_pantalla = content.field_capturas_de_pantalla|render %}
+    {% if field_capturas_de_pantalla is not empty %}
+      <h3>
+        <span class="field field--name-title">{{ 'Images' | t }}</span>
+      </h3>
+      <div class="decoration-line mb-6"></div>
+      <div class="container flex-flow-column flex-justify-between">
+        <div class="flex-display w--100 flex-justify-between responsive-md-flex-column flex-gap-1">
+        
+            <div class="swiper-app__justify-center inline-grid container-style w--100 h--100 responsive-md-w-auto responsive-md-h-auto flex-center mb-6">
+              {{ field_capturas_de_pantalla }}
+            </div>
+          
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="container mt-10">
+      <div class="flex-display flex-column">
+        <h3>
+          <span class="field field--name-title">{{ 'Information' | t }}</span>
+        </h3>
+        <div class="decoration-line mb-2"></div>
+        <div class="flex-display flex-column">
+          {{ content.field_descripcion }}
+        </div>
+      </div>
+    </div>
+
+    {% set field_etiquetas = content.field_etiquetas|render %}
+    {% if field_etiquetas is not empty %}
+      <div class="container mt-6">
+        <div class="flex-display tags--indexed">
+          {{ content.field_etiquetas }}
+        </div>
+      </div>
+    {% endif %}
+
+
+    {% set field_url_catalogo = content.field_url_catalogo|render %}
+    {% if field_url_catalogo is not empty %}
+      <div class="container mt-10">
+        <div class="flex-display flex-column">
+          <h4>
+            <span class="field field--name-title">{{ content.field_url_catalogo['#title'] }}</span>
+          </h4>
+        </div>
+      </div>
+      <div class="container link--external">
+        <div class="flex-display field__items mb-4">
+          {% for item in content.field_url_catalogo %}
+            {% if item['#type'] == 'link' %}
+              {% set urls = item['#url'].uri|split(',') %}
+              {% for url in urls %}
+                  {% set cleanUrl = url|replace({'https://': '', 'http://': '', 'https://www.': '', 'www.': ''})|trim %}
+                  {% set iconName = 'external-link.svg' %}
+                  <div class="field__item">
+                      <a href="{{ url }}">
+                          <span><img src="/themes/custom/dge_theme/images/icons/{{ iconName }}" alt="{{ iconName }} icon"></span>
+                          <span class="url-link-text">{{ cleanUrl }}</span>
+                      </a>
+                  </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.field_contenido_relacionado is not empty %}
+    <div>
+      {{ content.field_contenido_relacionado }}
+    </div>
+    {% endif %}
+  </div>
+
+
+</article>

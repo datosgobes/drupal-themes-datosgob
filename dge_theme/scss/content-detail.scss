@@ -1,0 +1,667 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// CONTENT DETAIL PAGES STYLES
+
+.share-option{
+  justify-content: end;
+  position: absolute;
+  right: 0;
+  top: -5rem;
+}
+/* Content detail page - Aplication */ 
+.node--type-aplicacion{
+  .field--name-field-imagen{
+    .field__label{
+      display: none;
+    }
+    .field__item{
+      display: flex;
+      width: 13rem !important;
+      height: 8rem !important;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: $box-shadow;
+      border-radius: 1.875rem;
+      background-color: #fff;
+      img{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        object-fit: cover;
+        background-color: white;
+      }
+    }
+  }
+  .views-field-field-categoria{
+    font-size: 1rem;
+    font-family: 'montserrat-medium';
+    color: $primary-700;
+  }
+  .field--name-field-autor-desarrollador, .field--name-field-empresa_organismo{
+    font-size: 1rem;
+    color: $primary-700;
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-autor-desarrollador{
+    font-family: 'montserrat-italic';
+  }
+  .field--name-field-empresa_organismo{
+    font-family: 'montserrat-medium';
+  }
+  .field--name-field-fecha-de-actualizacion{
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-fecha-de-publicacion{
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-licencia{
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-capturas-de-pantalla{
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-descripcion{
+    .field__label{
+      display: none;
+    }
+  }
+}
+
+/* Content detail page - Noticia */ 
+.node--type-empresa-reutilizadora{
+  .field--name-field-imagen{
+    .field__label{
+      display: none;
+    }
+    .field__item{
+      display: flex;
+      width: 13rem !important;
+      height: 8rem !important;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: $box-shadow;
+      border-radius: 1.875rem;
+      background-color: #fff;
+      img{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        object-fit: cover;
+        background-color: white;
+      }
+    }
+  }
+  .field--name-field-year-create-reuse-co{
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-pagina-web-de-la-empresa{
+    .field__label{
+      display: none;
+    }
+  }
+  .field--name-field-descripcion,
+  .field--name-field-principales-productos-y-se,
+  .field--name-field-clave-del-exito,
+  .field--name-field-planes-de-futuro,
+  .field--name-field-crecimiento,
+  .field--name-field-datos-abiertos-utilizados,
+  .field--name-field-clientes,
+  .field--name-field-modelo-de-comercializacion,
+  .field--name-field-mas-informacion {
+    .field__label{
+      display: none;
+    }
+    .field__item{
+      font-size: 1rem;
+      color: $primary-700;
+      word-break: break-word;
+      p{
+        font-size: 1rem;
+        color: $primary-700;
+      }
+    }
+  }
+  .field--name-field-sede-central,
+  .field--name-field-oficinas-en,
+  .field--name-field-grado-de-internacionalizac,
+  .field--name-field-tamano-de-la-empresa{
+    .field__label{
+      display: none;
+    }
+    .field__item, span{
+      color: $primary-700;
+    }
+  }
+}
+
+/* Related content styles */
+.field--name-field-contenido-relacionado { 
+  .field__items {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    .field__item {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      position: relative;
+      outline: none;
+      color: inherit;
+      text-decoration: none;
+      overflow: hidden;
+      a{
+        display: flex;
+        position: relative;
+        border-radius: 0.625rem;
+        text-decoration: none !important;
+        cursor: pointer;
+        &:hover{
+          background-color: $background-light-gray;
+          transition: 0.3s;
+        }
+        &:focus{
+          background-color: $light-gray;
+          transition: 0.3s;
+        }
+        .content-related-app{
+          margin: 1rem;
+          column-gap: 1rem;
+          grid-template-columns: max-content auto;
+          display: table-row;
+          margin-left: auto;
+          margin-right: auto;
+          span.image-related-app{
+            display: flex;
+            width: 13rem;
+            height: 7rem;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: $box-shadow;
+            border-radius: 1.875rem;
+            margin-left: auto;
+            margin-right: auto;
+            img{
+              width: 100%;
+              height: 100%;
+              display: flex;
+              object-fit: cover;
+              background-color: white;
+            }
+          }
+          .content-related-app__info{
+            display: grid;
+            grid-template-rows: max-content;
+            height: fit-content;
+            row-gap: 2px;
+            margin: 0 1rem;
+            text-align: center;
+          }
+        }
+        .content-related-company{
+          margin: 1rem;
+          column-gap: 1rem;
+          grid-template-columns: max-content auto;
+          display: table-row;
+          margin-left: auto;
+          margin-right: auto;
+          span.image-related-company{
+            display: flex;
+            width: 13rem;
+            height: 7rem;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: $box-shadow;
+            border-radius: 0.625rem;
+            margin-left: auto;
+            margin-right: auto;
+            img{
+              width: 100%;
+              height: 100%;
+              display: flex;
+              object-fit: cover;
+              background-color: white;
+            }
+          }
+          .content-related-company__info{
+            display: grid;
+            grid-template-rows: max-content;
+            height: fit-content;
+            row-gap: 2px;
+            margin: 0 1rem;
+            text-align: center;
+          }
+        }
+        .default-related-content{
+          margin: 1rem;
+          column-gap: 1rem;
+          grid-template-columns: max-content auto;
+          display: table-row;
+          flex: auto;
+          span.image-related-content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 17.625rem;
+            height: calc(17.625rem / 1.89);
+            overflow: hidden;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 1rem;
+            img{
+              width: 100%;
+              max-width: 100%;
+              height: 100%;
+              display: flex;
+              object-fit: cover;
+              background-color: white;
+            }
+          }
+          .default-related-content__info{
+            display: grid;
+            grid-template-rows: max-content;
+            height: fit-content;
+            row-gap: 2px;
+            margin: 0 1rem;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.node--type-noticia,
+.node--type-blog, 
+.node--type-entrevista,
+.node--type-documentacion,
+.node--type-evento {
+  .container-descripcion{
+    text-align: left;
+
+    &__event{
+      &.event-date{
+        float: left;
+        margin-right: 1.5rem;
+        border: 1px solid $primary-700;
+        width: fit-content;
+        margin-bottom: 0.75rem;
+        position: relative;
+        right: 0rem;
+        top: 0.275rem;
+        left: 0rem;
+        min-width: 9rem;
+        .event-date--month{
+          font-size: 1.5rem;
+        }
+        .event-date--day_number {
+          font-size: 2.875rem;
+        }
+        .event-date--day_week {
+          font-size: 1.5rem;
+        }
+        .event-date--year {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+  .container-image{
+    width: 30rem;
+    height: auto;
+    float: right;
+    margin: 0rem 0rem 1rem 1rem;
+    .field--name-field-image{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  .field--name-field-fecha-de-la-noticia,
+  .field--name-field-descripcion,
+  .field--name-field-contenido-relacionado,
+  .field--name-field-ficheros-adjuntos {
+    .field__label{
+      display: none;
+    }
+    .field__item{
+      font-size: 1rem;
+      color: $primary-700;
+      p{
+        font-size: 1rem;
+        color: $primary-700;
+      }
+    }
+  }
+}
+
+.field--name-field-url-video-youtube{
+  .field__label{
+    display: none;
+  }
+  .field__item{
+    min-height: 3.375rem !important;
+    background-position: left center !important;
+    align-content: center !important;
+    background-color: $primary-300 !important;
+    border: 1px solid $primary-700 !important;
+    background-size: 2.2rem !important;
+    background-position-x: 0.625rem !important;
+    background-repeat: no-repeat !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 1.25rem;
+    background-image: url("/themes/custom/dge_theme/images/icons/youtube-file.svg") !important;
+    &:hover, &:focus{
+        background-color: $primary-400 !important;
+    }
+    a{
+      display: flex;
+      padding: 0rem 1.25rem 0 2.5rem!important;
+      text-decoration: none !important;
+      font-family: 'montserrat-medium';
+    }
+  }
+}
+/* Share element */
+.container-share{
+  position: absolute;
+  right: 1rem;
+  z-index: 1;
+  top: 1rem;
+  &__request-dataset{
+    top: -3rem;
+    right: 0rem;
+  }
+}
+.share-icon{
+  width: 1.5rem;
+  height: 1.5rem;
+  box-shadow: $box-shadow;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 0.5rem;
+  margin-left: auto;
+  display: flex;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    background-color: $primary-400;
+    transition: 0.3s;
+    cursor: pointer;
+    box-shadow: none;
+  }
+}
+
+/* Sitemap styles */
+.sitemap {
+  &-item {
+    .main-menu {
+      display: flex;
+      flex-direction: column;
+      &--item {
+        padding: 3rem 0rem;
+        border-top: 1px solid $border;
+
+        .menu-icon{
+          align-items: start;
+        }
+        .title-img{
+          span{
+            display: inline-block;
+            color: $primary-700;
+            margin-bottom: 0;
+            margin-top: 0;
+            position: relative;
+            padding-left: 7rem;
+            @include H4();
+            font-family: 'montserrat-semiBold';
+
+            &::before {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              display: inline-block;
+              width: 4.625rem;
+              height: 4.625rem;
+              background-image: url('/themes/custom/dge_theme/images/icons/datos-menu.svg'); /* Ruta de la imagen by default */
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center;
+            }
+            &.datos-icono::before{
+              background-image: url('/themes/custom/dge_theme/images/icons/datos-menu.svg');
+            }
+            &.conocimiento-icono::before{
+              background-image: url('/themes/custom/dge_theme/images/icons/technology-menu.svg');
+            }
+            &.comunidad-icono::before{
+              background-image: url('/themes/custom/dge_theme/images/icons/comunity-menu.svg');
+            }
+            &.actualidad-icono::before{
+              background-image: url('/themes/custom/dge_theme/images/icons/news-menu.svg');
+            }
+            &.sobre-nosotros-icono::before{
+              background-image: url('/themes/custom/dge_theme/images/icons/about-menu.svg');
+            }
+          }
+        }
+        ul.submenu {
+          display: flex;
+          gap: 1rem 3rem;
+          flex-wrap: wrap;
+          padding: 0;
+          list-style-type: none;
+          padding-left: 7rem;
+          li {
+            a {
+              color: $primary-500;
+              text-decoration: none;
+              &:hover, &:focus {
+                color: $primary-700;
+                transition: 0.3s;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/*--------------------------------*/
+/* INICIATIVAS */
+/*--------------------------------*/
+#iniciativas-desc-bot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+#iniciativas-desc-bot .layout__region--first {
+  flex: calc(100% - 12.5rem);
+}
+#iniciativas-desc-bot .layout__region--second {
+  flex: 6.5rem;
+  justify-items: flex-end;
+  align-content: center;
+}
+#iniciativas-desc-bot::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media (max-width: 768px) {
+  #iniciativas-desc-bot {
+    flex-direction: column;
+  }
+  #iniciativas-desc-bot .layout__region--first,
+  #iniciativas-desc-bot .layout__region--second {
+    flex: 1;
+  }
+}
+
+/* Pie de pagina - endnote */
+.endnote {
+  font-family: 'montserrat-italic';
+  font-size: 14px !important;
+  margin-top: 2rem;
+  border-top: 1px solid $border;
+  color: $dark-gray;
+  padding-top: 1rem;
+  p{
+    font-family: 'montserrat-italic';
+    font-size: 14px !important;
+    color: $dark-gray;
+    margin: 0.5rem 0;
+    &:first-of-type {
+      margin-top: 0px;
+    }
+  }
+}
+
+/* Pie de tabla/figura - endnote */
+.endnoteTableFigure {
+  font-family: 'montserrat-italic';
+  font-size: 14px !important;
+  margin-top: 2rem;
+  color: $dark-gray;
+  padding-top: 1rem;
+  text-align: center; /* Centra el texto */
+  caption-side: bottom; /* Lo coloca debajo de la tabla */
+  display: block;
+  width: 100%;
+  p{
+    font-family: 'montserrat-italic';
+    font-size: 14px !important;
+    color: $dark-gray;
+    margin: 0.5rem 0;
+    &:first-of-type {
+      margin-top: 0px;
+    }
+  }
+}
+
+
+/*----------------------------------------*/
+/* START - MEDIA QUERIES */
+/*----------------------------------------*/
+// Desktop - SM
+@media (max-width: 64rem) {
+  .field--name-field-contenido-relacionado { 
+    .field__items {
+      grid-gap: 2rem 1rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .node--type-noticia,
+  .node--type-blog,
+  .node--type-documentacion,
+  .node--type-entrevista,
+  .node--type-evento {
+    .container-image{
+      width: 25rem;
+    }
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 48rem) {
+  .node--type-aplicacion{
+    .field--name-field-imagen{
+      .field__item{
+        width: 4.688rem;
+        height: 4.688rem;
+        border-radius: 0.938rem;
+      } 
+    }
+  }
+  .node--type-empresa-reutilizadora{
+    .field--name-field-imagen{
+      margin-left: auto;
+    }
+  }
+  .node--type-noticia,
+  .node--type-blog,
+  .node--type-documentacion,
+  .node--type-entrevista,
+  .node--type-evento {
+    .container-image{
+      width: 100%;
+    }
+  }
+}
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+  .field--name-field-contenido-relacionado { 
+    .field__items {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  .node--type-evento {
+    .container-descripcion{
+      &__event{
+        &.event-date{
+          .event-date--month{
+            font-size: 0.875rem;
+          }
+          .event-date--day_number {
+            font-size: 1.875rem;
+          }
+          .event-date--day_week {
+            font-size: 0.875rem;
+          }
+          .event-date--year {
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}
+/*----------------------------------------*/
+/* END - MEDIA QUERIES */
+/*----------------------------------------*/

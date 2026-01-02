@@ -1,0 +1,183 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* File export styles */
+.views-data-export-feed {
+  display: inline;
+}
+.views-data-export-feed .feed-icon {
+  background: no-repeat;
+  overflow: hidden;
+  text-indent: -9999px;
+  display: block;
+  width: 36px;
+}
+
+.feed-icons{
+  margin-bottom: 1rem;
+  .feed-button{
+    display: block;
+    margin-left: auto;
+    text-decoration: none !important;
+    width: fit-content;
+    span{
+        text-decoration: none !important;
+        display: flex;
+        gap: 0.5rem;
+    }
+  }
+  .views-data-export-feed{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    .export-link{
+      width: auto;
+      outline: none;
+      cursor: pointer;
+      border-radius: 0.375rem;
+      padding: 0.625rem .938rem;
+      transition: 0.3s;
+      border: 1px solid $primary-500;
+      background-color: $white;
+      min-width: 12.5rem;
+      justify-content: center;
+      color: $primary-500;
+      margin: 0;
+      min-height: fit-content !important;
+      text-decoration: none;
+      display: flex;
+      max-width: 40rem;
+      align-self: center;
+      flex-flow: row;
+      gap: 1rem;
+      img{
+        width: 1.125rem;
+        height: 1.125rem;
+      }
+      &:hover,
+      &:after,
+      &:active,
+      &:focus  {
+          background-color: $primary-500;
+          transition: 0.3s;
+          color: $white;
+          .operation-item img{
+                filter: $filter-transform-to-white;
+          }
+      }
+      &:hover img{
+        filter: $filter-transform-to-white;
+      }
+      &:after img{
+        filter: $filter-transform-to-white;
+      }
+      &:active img{
+        filter: $filter-transform-to-white;
+      }
+      &:focus img{
+        filter: $filter-transform-to-white;
+      }
+
+      .operation-item{
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+  #dge-custom-csv .feed-icon{
+    width: auto;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    padding: 0.625rem .938rem;
+    transition: 0.3s;
+    border: 1px solid $primary-500;
+    background-color: $white;
+    min-width: 12.5rem;
+    justify-content: center;
+    margin: 0;
+    min-height: fit-content !important;
+    text-decoration: none;
+    display: flex;
+    max-width: 40rem;
+    align-self: center;
+    flex-flow: row;
+    gap: 1rem;
+    height: auto;
+    span {
+      color: $primary-500;
+      text-indent: initial;
+      display: flex;
+      &::before{
+        content: '';
+        display: inline-block;
+        width: 1.125rem;
+        height: 1.125rem;
+        background-image: url("/themes/custom/dge_theme/images/icons/export-icon.svg") !important;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+    }
+    &:hover{
+      background-color: $primary-500;
+      transition: 0.3s;
+      span{
+        color: $white;
+        &::before{
+          filter: $filter-transform-to-white;
+        }
+      }
+    }
+    &:after{
+      background-color: $primary-500;
+      transition: 0.3s;
+      span{
+        color: $white;
+        &::before{
+          filter: $filter-transform-to-white;
+        }
+      }
+    }
+    &:active{
+      background-color: $primary-500;
+      transition: 0.3s;
+      span{
+        color: $white;
+        &::before{
+          filter: $filter-transform-to-white;
+        }
+      }
+    }
+    &:focus {
+      background-color: $primary-500;
+      transition: 0.3s;
+      span{
+        color: $white;
+        &::before{
+          filter: $filter-transform-to-white;
+        }
+      }
+    }
+  }
+}
+

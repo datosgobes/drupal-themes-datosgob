@@ -1,0 +1,38 @@
+name: 'DGE Custom Theme'
+type: theme
+'base theme': stable9
+starterkit: false
+version: VERSION
+libraries:
+  - dge_theme/base
+  - dge_theme/messages
+  - core/normalize
+  - dge_theme/jquery-base
+libraries-extend:
+  user/drupal.user:
+    - dge_theme/user
+  core/drupal.dropbutton:
+    - dge_theme/dropbutton
+  core/drupal.dialog:
+    - dge_theme/dialog
+  file/drupal.file:
+    - dge_theme/file
+  core/drupal.progress:
+    - dge_theme/progress
+core_version_requirement: ^10
+regions:
+  header_right: Header right
+  header_left: Header left
+  primary_menu: Primary menu
+  secondary_menu: Secondary menu
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  content: Content
+  content_list_filters: Content list filters
+  content_list_filters_top: Content list filters top
+  footer_top: Footer top
+  footer_left: Footer left
+  footer_right: Footer right
+  footer: Footer
+ckeditor5-stylesheets:
+  - css/ckeditor-custom.css

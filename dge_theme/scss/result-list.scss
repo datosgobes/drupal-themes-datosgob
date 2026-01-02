@@ -1,0 +1,582 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// List of results styles
+/* Standard filter block of results */
+.filter-container{
+  width: 17.188rem;
+  background-color: $background-light-gray;
+  box-shadow: $box-shadow-centered;
+  padding: 1.5rem 1rem;
+  &__button{
+    display: none;
+  }
+  &__close{
+    display: none;
+  }
+  .region-content-list-filters{
+    .form-type-textfield {
+      margin-bottom: 0px !important;
+      margin-top: 1.5rem !important;
+      margin-right: 0rem !important;
+      width: 100%;
+      label{
+        font-size: .875rem;
+        line-height: normal;
+        color: $primary-600;
+        font-family: 'montserrat-medium';
+      }
+    }
+  }
+  & + .layout-content{
+    width: calc(100% - 21.188rem);
+    .view{
+      position: relative;
+      top: -2.7rem;
+      margin-bottom: -2.7rem;
+      z-index: 1;
+    }
+  }
+}
+
+/* Top filter block of results */
+.container-list-filters-top{
+  background-color: $background-light-gray;
+  box-shadow: $box-shadow-centered;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  .region-content-list-filters-top{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 0rem 2rem;
+    #block-dge-theme-formulario-expuesto-iniciativas-buscador{
+      .form-item-search-api-fulltext{
+        label{
+          font-size: .875rem;
+          line-height: normal;
+          margin-bottom: 3px !important;
+          color: $primary-700 !important;
+          font-family: 'montserrat' !important;
+        }
+      }
+      input[type=text]{
+        min-height: 2.375rem !important;
+        margin-top: .5rem;
+      }
+    }
+    #block-dge-theme-niveladministracioniniciativa{
+      .facets-widget-dropdown{
+        .dropdown{
+          button{
+            max-width: none !important;
+          }
+        }
+      }
+    }
+    #block-dge-theme-tematicasdelosdatosiniciativa{
+      .facets-widget-dropdown{
+        .dropdown{
+          button{
+            max-width: none !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+#block-dge-theme-formulario-expuesto-aplicaciones-publicador-filtros,
+#block-dge-theme-formulario-expuesto-empresas-publicador-filtros,
+#block-dge-theme-formulario-expuesto-iniciativas-publicador-filtros,
+#block-dge-theme-form-expuesto-disp-de-datos-publicadores-filtros,
+#block-dge-theme-formularioexpuestocomentarios-publicadorpage-published,
+#block-dge-theme-form-expuestocomentarios-publicadorpage-unapproved,
+#block-dge-theme-comentarios-catalogo-ckan,
+.view-filters .views-exposed-form{
+  background-color: $background-light-gray;
+  box-shadow: $box-shadow-centered;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  .form--inline{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 0rem 2rem;
+    &>.form-item{
+      margin-bottom: 0.5rem !important;
+      margin-right: 0rem !important;
+      width: 100% !important;
+      margin-top: 1rem !important;
+      label{
+        font-size: .875rem;
+        line-height: normal;
+        color: $primary-600;
+        font-family: 'montserrat-medium';
+        margin-top: 0.83em;
+      }
+    }
+  }
+}
+
+/* Ajustando el filtro de ordenar por de los buscadores */
+#block-dge-theme-formulario-expuesto-blog-ordenar-por,
+#block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord,
+#block-dge-theme-formulario-expuesto-conocimiento-ordenar-por,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-ordenar-po,
+#block-dge-theme-formulario-expuesto-entrevistas-ordenar-por,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-ordenar-po,
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por,
+#block-dge-theme-formulario-expuesto-noticias-ordenar-por,
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-ordenar,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-ordenar,
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador-or,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-ordenar,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-po,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-por,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-ordenar,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar,
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador-ordenar
+{
+  position: relative;
+  margin-bottom: 0.3rem;
+  z-index: 2;
+  width: fit-content;
+  margin-left: auto;
+}
+
+/* Ocultar componentes repetidos de los facets */
+/* Buscador general */
+#block-dge-theme-formulario-expuesto-buscador-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-buscador-items-por-pagina .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-buscador-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-buscador-items-por-pagina .form-item-text,
+/*Buscador view (buscador) de aplicaciones*/
+#block-dge-theme-formulario-expuesto-applications-buscador-items-per-pg .form-item-field-fecha-de-publicacion,
+#block-dge-theme-formulario-expuesto-applications-buscador-items-per-pg .form-item-field-fecha-de-publicacion-1,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar .form-item-field-fecha-de-publicacion,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar .form-item-field-fecha-de-publicacion-1,
+#block-dge-theme-formulario-expuesto-applications-buscador-items-per-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-applications-buscador-items-per-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-applications-buscador-items-per-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-applications-buscador-items-per-pg .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar .form-item-text,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-applications-buscador-ordernar .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formularioexpuestoapplicationsbuscador .form-item-items-per-page,
+#block-dge-theme-formularioexpuestoapplicationsbuscador .form-item-sort-by,
+/* Buscador aplicaciones */
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-field-fecha-de-publicacion,
+#block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-field-fecha-de-publicacion-1,
+#block-dge-theme-formulario-expuesto-aplicacion-items-por-pagina .form-item-text,
+#block-dge-theme-formulario-expuesto-aplicacion-items-por-pagina .form-item-sort-by,
+
+#block-dge-theme-formulario-expuesto-aplicacion-items-por-pagina .form-item-field-fecha-de-publicacion,
+#block-dge-theme-formulario-expuesto-aplicacion-items-por-pagina .form-item-field-fecha-de-publicacion-1,
+#block-dge-theme-formulario-expuesto-aplicacion-items-por-pagina .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-aplicacion-items-por-pagina .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-aplicacion-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-aplicacion-buscador .form-item-items-per-page,
+/*Buscador view (buscador) de Empresas*/
+#block-dge-theme-formulario-expuesto-view-empresas-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-empresas-buscador-items-por-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-empresas-buscador-items-por-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-empresas-buscador-items-por-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-empresas-buscador-items-por-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Buscador empresas */
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-ordenar-po .form-item-text,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-ordenar-po .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-ordenar-po .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-ordenar-po .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-items-por .form-item-text,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-items-por .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-items-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-empresas-reutilizadoras-items-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formularioexpuestoempresas-reutilizadoras-buscador .form-item-sort-by,
+#block-dge-theme-formularioexpuestoempresas-reutilizadoras-buscador .form-item-items-per-page,
+/*Buscador view (buscador) de Noticias*/
+#block-dge-theme-formulario-expuesto-view-noticias-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-ordenar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-ordenar .form-item-text,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-ordenar .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-ordenar .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-items-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-items-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-items-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-noticias-buscador-items-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Buscador noticias */
+#block-dge-theme-formulario-expuesto-noticias-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-noticias-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-noticias-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-noticias-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-noticias-items-por-pagina .form-item-text,
+#block-dge-theme-formulario-expuesto-noticias-items-por-pagina .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-noticias-items-por-pagina .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-noticias-items-por-pagina .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-noticias-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-noticias-buscador .form-item-items-per-page,
+/*Buscador view (buscador) de Blog*/
+#block-dge-theme-formulario-expuesto-view-blog-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-blog-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-ordenar .form-item-text,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-ordenar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-ordenar .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-ordenar .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-items-por-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-items-por-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-items-por-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-blog-buscador-items-por-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Blog */
+#block-dge-theme-formulario-expuesto-blog-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-blog-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-blog-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-blog-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-blog-items-por-pagina .form-item-text,
+#block-dge-theme-formulario-expuesto-blog-items-por-pagina .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-blog-items-por-pagina .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-blog-items-por-pagina .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-blog-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-blog-buscador .form-item-items-per-page,
+/*Buscador view (buscador) de Entrevistas*/
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-ordenar .form-item-text,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-ordenar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-ordenar .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-ordenar .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-items-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-items-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-items-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-entrevistas-buscador-items-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Buscador Entrevistas */
+#block-dge-theme-formulario-expuesto-entrevistas-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-entrevistas-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-entrevistas-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-entrevistas-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-entrevistas-items-por-pagina .form-item-text,
+#block-dge-theme-formulario-expuesto-entrevistas-items-por-pagina .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-entrevistas-items-por-pagina .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-entrevistas-items-por-pagina .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-entrevistas-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-entrevistas-buscador .form-item-items-per-page,
+/* Buscador view (buscador) de Informes y guias*/
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord .form-item-text,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-por-pg .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-por-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-por-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-por-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-informes-y-guias-buscador-por-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Buscador view (buscador) de Infografías*/
+#block-dge-theme-formulario-expuesto-infografias-buscador .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-infografias-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-infografias-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion .form-item-text,
+#block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-infografias-buscador-por-pg .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-infografias-buscador-por-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-infografias-buscador-por-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-infografias-buscador-por-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-infografias-buscador-por-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Buscador view (buscador) de Ejercicio de datos*/
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord .form-item-text,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-ejericio-de-datos-buscador .form-item-field-tipo,
+#block-dge-theme-formulario-expuesto-ejericio-de-datos-buscador .form-item-text,
+#block-dge-theme-formulario-expuesto-ejericio-de-datos-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-ejericio-de-datos-buscador .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-ejericio-de-datos-buscador .form-item-field-fecha-publicacion-contenid-1,
+/*Buscador view (buscador) de Conocimiento*/
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-ordenar .form-item-text,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-ordenar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-ordenar .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-ordenar .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-por-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-por-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-por-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-conocimiento-view-buscador-por-pg .form-item-field-fecha-publicacion-contenid-1,
+/* Buscador Conocimiento */ 
+#block-dge-theme-formulario-expuesto-conocimiento-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-conocimiento-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-conocimiento-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-conocimiento-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-conocimiento-items-por-pagina .form-item-text,
+#block-dge-theme-formulario-expuesto-conocimiento-items-por-pagina .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-conocimiento-items-por-pagina .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-conocimiento-items-por-pagina .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-conocimiento-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-conocimiento-buscador .form-item-items-per-page,
+/*Buscador view (buscador) de Evento*/
+#block-dge-theme-formulario-expuesto-view-eventos-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-text,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-field-fecha-evento,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-field-fecha-evento-1,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-items-por-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-items-por-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-items-por-pg .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-items-por-pg .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-items-por-pg .form-item-field-fecha-evento,
+#block-dge-theme-formulario-expuesto-view-eventos-buscador-items-por-pg .form-item-field-fecha-evento-1,
+/* Buscador Evento */ 
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-text,
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-field-fecha-evento,
+#block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-field-fecha-evento-1,
+#block-dge-theme-formulario-expuesto-eventos-items-por-pagina .form-item-text,
+#block-dge-theme-formulario-expuesto-eventos-items-por-pagina .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-eventos-items-por-pagina .form-item-field-fecha-publicacion-contenid,
+#block-dge-theme-formulario-expuesto-eventos-items-por-pagina .form-item-field-fecha-publicacion-contenid-1,
+#block-dge-theme-formulario-expuesto-eventos-items-por-pagina .form-item-field-fecha-evento,
+#block-dge-theme-formulario-expuesto-eventos-items-por-pagina .form-item-field-fecha-evento-1,
+#block-dge-theme-formulario-expuesto-eventos-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-eventos-buscador .form-item-items-per-page,
+/* Buscador view (buscador) Disponibilidad de Datos */ 
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador-or .form-item-text,
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador-or .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador-or .form-item-created,
+#block-dge-theme-formulario-expuesto-view-disponib-de-datos-buscador-or .form-item-created-1,
+#block-dge-theme-formulario-expuesto-buscador-disponib-de-datos-item-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-buscador-disponib-de-datos-item-pg .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-buscador-disponib-de-datos-item-pg .form-item-created,
+#block-dge-theme-formulario-expuesto-buscador-disponib-de-datos-item-pg .form-item-created-1,
+/* Buscador Disponibilidad de Datos */ 
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-items-por .form-item-text,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-items-por .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-items-por .form-item-created,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-items-por .form-item-created-1,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-ordenar-po .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-ordenar-po .form-item-text,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-ordenar-po .form-item-created,
+#block-dge-theme-formulario-expuesto-disponibilidad-de-datos-ordenar-po .form-item-created-1,
+/* Buscador view (buscador) de Iniciativas*/
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador-ordenar .form-item-text,
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador-ordenar .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador-items-pg .form-item-text,
+#block-dge-theme-formulario-expuesto-view-iniciativas-buscador-items-pg .form-item-sort-by,
+/* Buscador Iniciativas */
+#block-dge-theme-formulario-expuesto-iniciativas-buscador .form-item-items-per-page,
+#block-dge-theme-formulario-expuesto-iniciativas-items-por .form-item-text,
+#block-dge-theme-formulario-expuesto-iniciativas-buscador .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-iniciativas-items-por .form-item-sort-by,
+#block-dge-theme-formulario-expuesto-iniciativas-buscador .form-item-items-per-page {
+  display: none;
+}
+
+/* Titulos cabecera*/
+.region.region-highlighted {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  div[data-drupal-messages] {
+    grid-column: 1 / -1;
+  }
+  div#block-dge-theme-page-title {
+    grid-column: 1;
+  }
+  div#block-dge-theme-primary-local-tasks {
+    grid-column: 1 / -1;
+    .tabs.primary{
+      margin-top: 0.5rem;
+    }
+  }
+  #block-dge-theme-aplicacionescabeceraenlaceprimario,
+  #block-dge-theme-disponibilidaddedatoscabeceraenlaceprimario,
+  #block-dge-theme-empresasreutilizadorascabeceraenlaceprimario,
+  #block-dge-theme-iniciativacabeceraenlaceprimario {
+    align-items: center;
+    grid-column: 2;
+    grid-row: auto;
+    display: flex;
+    .field--type-link{
+      display: flex;
+      gap: 0.5rem;
+      flex-flow: wrap;
+    }
+  }
+  #block-dge-theme-aplicacionescabeceratexto,
+  #block-dge-theme-conocimientocabeceratexto,
+  #block-dge-theme-faqcabecera,
+  #block-dge-theme-disponibilidaddedatoscabeceratexto,
+  #block-dge-theme-empresasreutilizadorascabeceratexto,
+  #block-dge-theme-noticiascabeceratexto,
+  #block-dge-theme-eventoscabeceratexto,
+  #block-dge-theme-blogscabeceratexto,
+  #block-dge-theme-entrevistascabeceratexto,
+  #block-dge-theme-mapadelsitiocabecera,
+  #block-dge-theme-estadodemoderaciondisponibilidaddedatos,
+  #block-dge-theme-iniciativaformulariocabecera,
+  #block-dge-theme-aplicacionformulariocabecera,
+  #block-dge-theme-empresaformulariocabecera,
+  #block-dge-theme-searchtabsblock,
+  #block-dge-theme-cabecerainiciativasaccesible {
+    grid-column: 1 / -1;
+  }
+}
+
+.form-item-sort-by{
+  label{
+    display: none !important;
+  }
+}
+div.form-select.dropdown[name="sort_by"]{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 3;
+  margin-bottom: 0.4rem;
+  &::before {
+    content: "";
+    background-image: url("/themes/custom/dge_theme/images/icons/sort.svg") !important;
+    background-size: 1rem !important;
+    background-repeat: no-repeat !important;
+    background-position-y: center;
+    position: relative !important;
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  button{
+    box-shadow: none !important;
+    padding: 0rem !important;
+    min-width: 10rem;
+    gap: 1rem;
+    min-height: auto;
+    border: none !important;
+    color: $primary-600 !important;
+    &:hover{
+      color: $primary-500 !important;
+    }
+    &:focus{
+      color: $primary-500 !important;
+    }
+
+  }
+  ul.dropdown-menu{
+    width: auto;
+  }
+}
+
+/*----------------------------------------*/
+/* START - MEDIA QUERIES */
+/*----------------------------------------*/
+// Custom mediaquery
+@media (max-width: 40rem) and (min-width: 20rem) { /* 640px to 320px */
+  
+  #block-dge-theme-formulario-expuesto-buscador-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-aplicacion-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-empresas-reutilizadoras-ordenar-po .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-view-empresas-buscador-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-noticias-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-view-noticias-buscador-ordenar .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-blog-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-view-blog-buscador-ordenar .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-entrevistas-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-view-entrevistas-buscador-ordenar .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-informes-y-guias-buscador-ord .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-ejercicio-de-datos-buscador-ord .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-infografias-buscador-ordenacion  .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-conocimiento-ordenar-por .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-conocimiento-view-buscador-ordenar .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-view-eventos-buscador-ordenar .form-item-sort-by,
+  #block-dge-theme-formulario-expuesto-eventos-ordenar-por .form-item-sort-by {
+    float: inline-start;
+  }
+}
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 48rem) {
+  .region.region-highlighted {
+    display: flex;
+    flex-direction: column;
+    #block-dge-theme-aplicacionescabeceraenlaceprimario,
+    #block-dge-theme-disponibilidaddedatoscabeceraenlaceprimario,
+    #block-dge-theme-empresasreutilizadorascabeceraenlaceprimario,
+    #block-dge-theme-iniciativacabeceraenlaceprimario {
+      align-self: end;
+      margin-bottom: 1rem;
+    }
+  }
+  .view-iniciativas .view-content {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+  }
+}
+
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+  .container-list-filters-top{
+    .region-content-list-filters-top {
+      display: block;
+    }
+  }
+  #block-dge-theme-formulario-expuesto-aplicaciones-publicador-filtros,
+  #block-dge-theme-formulario-expuesto-empresas-publicador-filtros,
+  #block-dge-theme-formulario-expuesto-iniciativas-publicador-filtros,
+  #block-dge-theme-form-expuesto-disp-de-datos-publicadores-filtros,
+  #block-dge-theme-formularioexpuestocomentarios-publicadorpage-published,
+  #block-dge-theme-form-expuestocomentarios-publicadorpage-unapproved,
+  #block-dge-theme-comentarios-catalogo-ckan,
+  .view-filters .views-exposed-form{
+    .form--inline{
+      display: block;
+      .form-actions{
+        padding-top: 2.5rem !important;
+      }
+    }
+  }
+}

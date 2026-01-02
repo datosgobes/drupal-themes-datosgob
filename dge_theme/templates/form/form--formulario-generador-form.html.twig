@@ -1,0 +1,70 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+
+<div class="mt-8">
+
+  <span class="flex-display mb-4">{{ element.description }}</span>
+
+  <form{{ attributes }}>
+    <!-- Widget - Datos obligatorios de formulario, mensajes de error, seguridad -->
+    {% set params = {
+      element: element
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-obligatorios.html.twig' with params %}
+
+    <!-- Widget - campos formulario -->
+    <div class="container mb-5">
+      <div class="col-3 align-self-end">
+        {{ element.organismo }}
+      </div>
+      <div class="col-3 align-self-end">
+      {{ element.ancho }}
+      </div>
+      <div class="col-3 align-self-end">
+        {{ element.alto }}
+      </div>
+      <div class="col-3 align-self-end">
+        {{ element.ordenacion }}
+      </div>
+      <div class="col-3 align-self-end">
+        {{ element.sede }}
+      </div>
+    </div>
+
+    <div class="container flex-justify-center mb-4">
+      <div class="col-3 mt-3 mb-3">
+        {{ element.boton }}
+      </div>
+    </div>
+
+    <div class="separator separator--gray mt-3 mb-3"></div>
+
+    <div class="container">
+      <div class="col-1">
+          {{ element.codigo }}
+      </div>
+    </div>
+
+  </form>
+</div>

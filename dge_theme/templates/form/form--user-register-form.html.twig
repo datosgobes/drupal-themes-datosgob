@@ -1,0 +1,106 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override for a 'form' element.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ */
+#}
+
+<div class="login-form login-form__wrapper mt-8">
+    <form{{ attributes }}>
+
+      <div id="error_messages"></div>
+
+      <div class="container">
+        {{ element.messages }}
+      </div>
+      <div class="container">
+        <div class="col-3">
+         {{ element.account.mail }} {# mail element #}
+        </div>
+        <div class="col-3">
+          {{ element.account.name }} {# mail element #}
+        </div>
+      </div>
+
+      <div>
+        {{ element.form_build_id }}
+        {{ element.honeypot_time }}
+        {{ element.form_id }}
+      </div>
+
+      <div class="container">
+        <div class="col-3">
+        {{ element.field_nombre }} {# nombre element #}
+        </div>
+        <div class="col-3">
+        {{ element.field_apellidos }} {# apellidos element #}
+        </div>
+        <div class="col-3">
+          {{ element.field_telefono }} {# telefono element #}
+        </div>
+        <div class="col-3">
+          {{ element.field_posicion }} {# posicion element #}
+        </div>
+        <div class="col-3">
+          {{ element.field_organizacion }} {# organizacion element #}
+        </div>
+        <div class="col-3">
+          {{ element.field_dir3 }} {# dir3 element #}
+        </div>
+      </div>
+      <div class="container">
+        <div class="col-1">
+        {{ element.field_comentarios_adicionales }} {# comentarios_adicionales element #} </div>
+        <div class="col-1">
+        {{ element.field_terminos_de_servicio }} {# terminos_de_servicio element #} 
+        </div>
+      </div>
+
+      <div class="container mt-5 mb-5">
+        <div class="col-3 align-center">
+          <div class="login-form__submit">
+            {{ element.actions.submit }}
+          </div>
+        </div>
+      </div>
+
+    </form>
+</div>
+
+
+<style>
+.region-footer-top, .footer-colaborators, nav.tabs {
+  display: none !important;
+}
+.footer-info {
+  top: 0rem !important;
+}
+</style>

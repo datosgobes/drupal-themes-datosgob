@@ -1,0 +1,254 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Default theme implementation for a facets item list.
+ *
+ * Available variables:
+ * - items: A list of items. Each item contains:
+ *   - attributes: HTML attributes to be applied to each list item.
+ *   - value: The content of the list element.
+ * - title: The title of the list.
+ * - list_type: The tag for list element ("ul" or "ol").
+ * - wrapper_attributes: HTML attributes to be applied to the list wrapper.
+ * - attributes: HTML attributes to be applied to the list.
+ * - empty: A message to display when there are no items. Allowed value is a
+ *   string or render array.
+ * - context: A list of contextual data associated with the list. May contain:
+ *   - list_style: The ID of the widget plugin this facet uses.
+ * - facet: The facet for this result item.
+ *   - id: the machine name for the facet.
+ *   - label: The facet label.
+ *
+ * @see facets_preprocess_facets_item_list()
+ *
+ * @ingroup themeable
+ */
+#}
+
+<div class="mb-5 mt-2 facets-widget- {{- facet.widget.type -}} ">
+  {% if facet.widget.type %}
+    {%- set attributes = attributes.addClass('item-list__' ~ facet.widget.type) %}
+  {% endif %}
+  {% if items or empty %}
+    {%- if title is not empty -%}
+      <h3>{{ title }}</h3>
+    {%- endif -%}
+
+    {%- if items -%}
+      <div class="items-filter">
+        {# To set a custom order of the filters #}
+        {%- set states = [
+          { 'name': 'Recibido', 'id_state': '499' },
+          { 'name': 'Asignado', 'id_state': '502' },
+          { 'name': 'No viable', 'id_state': '500' },
+          { 'name': 'En estudio', 'id_state': '504' },
+          { 'name': 'Validado', 'id_state': '503' },
+          { 'name': 'Resuelto', 'id_state': '497' }
+        ] -%}
+        {%- set name_noviable = 'No viable' -%}
+        {%- set id_noviable = '500' -%}
+        {%- set name_resuelto = 'Resuelto' -%}
+        {%- set name_enestudio = 'En estudio' -%}
+        {%- set facet_url = 'estado_de_moderacion_disponibilidad_de_datos_filtr/' -%}
+
+        {# Retrieve the literal (depending on the language) and the counter #}
+        {%- set translations_states = {} -%}
+        {%- set counts_states = {} -%}
+        {%- for item in items -%}
+          {%- set raw_value_states = item.value['#title']['#raw_value']|json_encode -%}
+          {%- set title_states = item.value['#title']['#value'] -%}
+          {%- set count_states = item.value['#title']['#count'] -%}
+
+          {%- set translations_states = translations_states|merge({ (raw_value_states): title_states }) -%}
+          {%- set counts_states = counts_states|merge({ (raw_value_states): count_states }) -%}
+        {%- endfor -%}
+        
+        {# The flow of states is created with the specific order #}
+        {%- for state in states -%}
+          {%- if state.name == name_noviable -%}
+            {%- set translated_state = translations_states[id_noviable|json_encode]|default(state.name|trans) -%}
+            {%- set formatted_name_noviable = translated_state|lower|replace({'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
+            {%- set formatted_name_noviable_es = state.name|lower|replace({'á':'a','à':'a','é':'e','è':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
+
+            {% set noviable_filter = facet_url ~ formatted_name_noviable ~ '-' ~ state.id_state %}
+            {%- set url_aux_noviable = '?' in complete_url
+              ? complete_url|split('?')[0]
+              : complete_url
+            -%}
+
+            {% if state.id_state not in url_aux_noviable %}
+              {% set url_aux_noviable = url_aux_noviable ~ '/' ~ noviable_filter %}
+            {%- endif -%}
+
+          {%- else -%}
+            {%- set translated_state = translations_states[state.id_state|json_encode]|default(state.name|trans) -%}
+            {%- set formatted_name = translated_state|lower|replace({'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
+            {%- set formatted_name_es = state.name|lower|replace({'á':'a','à':'a','é':'e','è':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
+
+            {%- set count = counts_states[state.id_state|json_encode]|default(0) -%}
+
+            {% set state_filter = facet_url ~ formatted_name ~ '-' ~ state.id_state %}
+            {%- set url_aux = '?' in complete_url
+              ? complete_url|split('?')[0]
+              : complete_url
+            -%}
+
+            {% if state.id_state not in url_aux %}
+              {% set url_aux = url_aux ~ '/' ~ state_filter %}
+            {%- endif -%}
+            <div class="item-filter disable filter-{{ formatted_name }}-{{ state.id_state }} {% if formatted_name != formatted_name_es  %}filter-{{ formatted_name_es }}-{{ state.id_state }}{% endif %} {% if count == 0 %}inactive{% endif %}">
+              {# First level #}
+              {%- set color = term_state_data[state.name].color ? term_state_data[state.name].color : null -%}
+              {%- set icono = term_state_data[state.name].icono ? term_state_data[state.name].icono : null -%}
+              <div class="card-status filter" style="background-color:{{ color }}">
+                <span class="card-status__icon">
+                  <img src="{{ icono }}" alt="" width="" height="">
+                  </img>
+                </span>
+                <div class="card-status__name">
+                  {%- if count != 0 -%}
+                    {% set base_url_aux = '?' in complete_url
+                      ? url_aux ~ '?' ~ complete_url|split('?')[1]
+                      : url_aux
+                    %}
+                    {% set parts = base_url_aux|split('/') %}
+                    {% set updated_parts = parts[:4] | merge(['solicitud-de-datos']) | merge(parts[5:]) %} 
+                    {% set base_url = updated_parts|join('/') %}
+
+                    <a href="{{ base_url }}" 
+                      rel="nofollow" data-drupal-facet-item-id="estado-de-moderacion-disponibilidad-de-datos-filtr-{{ translated_state }}" 
+                      data-drupal-facet-item-value="{{ translated_state }}" 
+                      data-drupal-facet-item-count="{{ count }}">
+                      <span class="facet-item__value">{{ translated_state }}</span>
+                      <span class="facet-item__count">({{ count }})</span>
+                    </a>
+                  {%- else -%}
+                    <span rel="nofollow" data-drupal-facet-item-id="estado-de-moderacion-disponibilidad-de-datos-filtr-{{ translated_state }}" 
+                      data-drupal-facet-item-value="{{ translated_state }}" 
+                      data-drupal-facet-item-count="{{ count }}">
+                      <span class="facet-item__value">{{ translated_state }}</span>
+                      <span class="facet-item__count">({{ count }})</span>
+                    </span>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {# Second level #}
+              {%- if state.name == name_enestudio -%}
+                {%- set color_noviable = term_state_data[name_noviable].color ? term_state_data[name_noviable].color : null -%}
+                {%- set icono_noviable = term_state_data[name_noviable].icono ? term_state_data[name_noviable].icono : null -%}
+                {%- set translated_state_noviable = translations_states[id_noviable|json_encode]|default(name_noviable|trans) -%}
+                {%- set count_noviable = counts_states[id_noviable|json_encode]|default(0) -%}
+                <div class="item-filter disable alternative filter-{{ formatted_name_noviable }}-{{ id_noviable }} {% if formatted_name_noviable != formatted_name_noviable_es  %}filter-{{ formatted_name_noviable_es }}-{{ id_noviable }}{% endif %} {% if count_noviable == 0 %}inactive{% endif %}">
+                  <div class="item-arrow__child">
+                    <div class="item-arrow__child__pre"></div>
+                    <div class="item-arrow__child__body"></div>
+                    <div class="item-arrow__child__head"></div>
+                  </div>
+                  <div class="card-status filter" style="background-color:{{ color_noviable }}">
+                    <span class="card-status__icon">
+                      <img src="{{ icono_noviable }}" alt="" width="" height="">
+                      </img>
+                    </span> 
+                    <div class="card-status__name">
+                      {%- if count_noviable != 0 -%}
+                        {% set base_url_noviable_aux = '?' in complete_url
+                          ? url_aux_noviable ~ '?' ~ complete_url|split('?')[1]
+                          : url_aux_noviable
+                        %}
+                        {% set parts = base_url_noviable_aux|split('/') %}
+                        {% set updated_parts = parts[:4] | merge(['solicitud-de-datos']) | merge(parts[5:]) %} 
+                        {% set base_url_noviable = updated_parts|join('/') %}
+                   
+                        <a href="{{ base_url_noviable }}"
+                          rel="nofollow" data-drupal-facet-item-id="estado-de-moderacion-disponibilidad-de-datos-filtr-{{ translated_state_noviable }}" 
+                          data-drupal-facet-item-value="{{ translated_state_noviable }}" 
+                          data-drupal-facet-item-count="{{ count_noviable }}">
+                          <span class="facet-item__value">{{ translated_state_noviable }}</span>
+                          <span class="facet-item__count">({{ count_noviable }})</span>
+                        </a>
+                      {%- else -%}
+                        <span rel="nofollow" data-drupal-facet-item-id="estado-de-moderacion-disponibilidad-de-datos-filtr-{{ translated_state_noviable }}" 
+                          data-drupal-facet-item-value="{{ translated_state_noviable }}" 
+                          data-drupal-facet-item-count="{{ count_noviable }}">
+                          <span class="facet-item__value">{{ translated_state_noviable }}</span>
+                          <span class="facet-item__count">({{ count_noviable }})</span>
+                        </span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if state.name != name_resuelto -%}
+              <div class="item-arrow">
+                <div class="arrow-body"></div>
+                <div class="arrow-head"></div>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      {{- empty -}}
+    {%- endif -%}
+  {%- endif %}
+
+  {% if facet.widget.type == "dropdown" %}
+    <label id="facet_{{ facet.id }}_label">{{ 'Facet'|t }} {{ facet.label }}</label>
+  {%- endif %}
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const path = window.location.pathname; 
+    const segments = path.split('/').filter(Boolean);
+    const values = [];
+    segments.forEach((segment, index) => {
+      if (segment === "estado_de_moderacion_disponibilidad_de_datos_filtr" && segments[index + 1]) {
+        values.push(segments[index + 1]); 
+      }
+    });
+  
+    values.forEach(state => {
+      let id = state.split('-').pop();
+      let filterElement = Array.from(document.querySelectorAll("[class]")).find(el =>
+        [...el.classList].some(cls => cls.startsWith("filter-") && cls.endsWith(`-${id}`))
+      );
+      
+      if (state.includes("500")) {
+        filterElement = document.querySelector(".filter-en-estudio-504 .filter-no-viable-500");
+      }
+  
+      if (filterElement) {
+        filterElement.classList.remove("disable");
+      }
+    });
+
+  });
+</script>

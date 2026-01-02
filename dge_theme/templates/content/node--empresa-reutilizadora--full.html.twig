@@ -1,0 +1,438 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+set classes = [
+'node',
+'node--type-' ~ node.bundle|clean_class,
+node.isPromoted() ? 'node--promoted',
+node.isSticky() ? 'node--sticky',
+not node.isPublished() ? 'node--unpublished',
+view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+]
+%}
+{{ attach_library('dge_theme/node') }}
+
+<article{{ attributes.addClass(classes) }}>
+
+    {{ title_prefix }}
+    {% if label and not page %}
+    <h2{{ title_attributes }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+    {% endif %}
+    {{ title_suffix }}
+
+        <div{{ content_attributes.addClass('node__content') }}>
+
+            <div class="container flex-flow-column flex-justify-between">
+                <div class="flex-display flex-gap-1-2 flex-justify-between mb-4 responsive-md-flex-column">
+                    <div class="flex-display flex-center align-self-center responsive-md-w-100">
+                        {{ content.field_imagen }}
+                        <div class="flex-display ml-auto responsive-md-hide">
+                            {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', label : 'Social
+                            Sharing block',label_display : 0,provider : 'social_media' }) }}
+                        </div>
+                    </div>
+
+                    <div class="flex-display flex-column mr-auto mt-5 mb-2">
+
+                        <div class="flex-display flex-flow flex-gap-1-2 flex-center">
+                            {% set params = {
+                                categorias: content.field_categoria
+                                } 
+                            %}
+                              
+                            {% include directory ~ '/templates/content/dge_custom_field_categoria.html.twig' with params %}
+                        </div>
+
+                        {% set field_pagina_web_de_la_empresa = content.field_pagina_web_de_la_empresa %}
+                        {% if field_pagina_web_de_la_empresa is not empty %}
+                        <div class="container flex-gap-1-4 mt-4 mb-4">
+                            {% for item in field_pagina_web_de_la_empresa %}
+                            {% if item['#type'] == 'link' %}
+                            {% set urls = item['#url'].uri|split(',') %}
+                            {% for url in urls %}
+                            {% set cleanUrl = url|replace({'https://': '', 'http://': '', 'https://www.': '', 'www.':
+                            ''})|trim
+                            %}
+                            <div class="field__item">
+                                <a href="{{ url }}" class="text--no-decoration">
+                                    <span class="flex-display flex-gap-05">
+                                        <img src="/themes/custom/dge_theme/images/icons/site-web.svg"
+                                            alt="{{ iconName }} icon">
+                                        {{ 'Ir al sitio web' | t }}
+                                    </span>
+                                </a>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        
+                        <div class="container mt-auto flex-gap-1-4 mt-4">
+                            {% if node.changed.value is not empty or content.field_fecha_publicacion_contenid is not empty %}
+                                {% set params = {
+                                    fecha_publicacion_contenido: content.field_fecha_publicacion_contenid,
+                                    fecha_actualizacion: node.changed.value
+                                    } 
+                                %}
+                                {% include directory ~ '/templates/content/dge_custom_field_fecha.html.twig' with params %}
+                            {% endif %}    
+
+                            {% set field_mas_informacion = content.field_mas_informacion|render %}
+                            {% if field_mas_informacion is not empty %}    
+                                {% set email = content.field_mas_informacion[0]['#text'] %}
+                                <div class="flex-display flex-center flex-row mb-4">
+                                    <span class="pl-5 b-l mb-0"></span>
+                                    <div class="flex-display flex-column">
+                                        <span class="label bold primary-color-dark mb-2">{{ 'Contact'|t }}</span>
+                                        <span class="label primary-color-semi-dark mb-0"><a href="mailto:{{ email }}">{{ email }}</a></span>
+                                    </div>
+                                </div>
+                            {% endif %}    
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex-display responsive-md-hide">
+                        {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', label : 'Social Sharing
+                        block',label_display : 0,provider : 'social_media' }) }}
+                    </div>
+                </div>
+            </div>
+
+            {% set field_descripcion = content.field_descripcion|render %}
+            {% if field_descripcion is not empty %}
+            <div class="container flex-nowrap mt-10">
+                <div class="container-style responsive-md-flex-column flex-gap-1 w--100 flex-display">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/general-information.svg"
+                                alt="General information icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'General information' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_descripcion }}
+                        </div>
+
+                        {% set field_year_create_reuse_co = content. field_year_create_reuse_co|render %}
+                        {% set field_sede_central = content.field_sede_central|render %}
+                        {% set field_oficinas_en = content.field_oficinas_en|render %}
+                        {% set field_tamano_de_la_empresa = content.field_tamano_de_la_empresa|render %}
+                        {% set field_grado_de_internacionalizac = content.field_grado_de_internacionalizac|render %}
+
+                        {% if field_year_create_reuse_co is not empty or field_sede_central is not empty or
+                        field_oficinas_en is not empty or field_tamano_de_la_empresa is not empty or
+                        field_grado_de_internacionalizac is not empty %}
+
+                        <div class="flex-display flex-row flex-end flex-wrap mt-5 flex-gap-3">
+
+
+                            {% if field_year_create_reuse_co is not empty %}
+
+                            <div class="flex-display flex-column">
+                                <span class="decoration-img-sm">
+                                    <img src="/themes/custom/dge_theme/images/icons/icon-established.svg"
+                                        alt="foundation icon">
+                                </span>
+                                <span class="primary-color-dark mt-2 mb-3 bold">{{ 'Foundation year' | t }}</span>
+                                {{ field_year_create_reuse_co}}
+                            </div>
+
+                            {% endif %}
+                            {% if field_sede_central is not empty %}
+                            <div class="flex-display flex-column">
+                                <span class="decoration-img-sm">
+                                    <img src="/themes/custom/dge_theme/images/icons/headquarter.svg"
+                                        alt="headquarter icon">
+                                </span>
+                                <span class="primary-color-dark mt-2 mb-3 bold">{{ 'Headquarters' | t }}</span>
+                                {{ content.field_sede_central }}
+                            </div>
+                            {% endif %}
+                            {% if field_oficinas_en is not empty %}
+                            <div class="flex-display flex-column">
+                                <span class="decoration-img-sm">
+                                    <img src="/themes/custom/dge_theme/images/icons/office.svg" alt="Offices icon">
+                                </span>
+                                <span class="primary-color-dark mt-2 mb-3 bold">{{ 'Offices' | t }}</span>
+                                {{ content.field_oficinas_en }}
+                            </div>
+                            {% endif %}
+                            {% if field_tamano_de_la_empresa is not empty %}
+                            <div class="flex-display flex-column field--name-field-tamano-de-la-empresa">
+                                <span class="decoration-img-sm">
+                                    <img src="/themes/custom/dge_theme/images/icons/employees.svg" alt="Employee icon">
+                                </span>
+                                <span class="primary-color-dark mt-2 mb-3 bold">{{ 'Employees' | t }}</span>
+                                {% for item in content.field_tamano_de_la_empresa %}
+                                {% if item['#title'] is defined %}
+                                <span class="field__item">{{ item['#title'] }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% if field_grado_de_internacionalizac is not empty %}
+                            <div class="flex-display flex-column">
+                                <span class="decoration-img-sm">
+                                    <img src="/themes/custom/dge_theme/images/icons/internationalization.svg"
+                                        alt="Internationalization icon">
+                                </span>
+                                <span class="primary-color-dark mt-2 mb-3 bold">{{ 'Level of internalization' | t
+                                    }}</span>
+                                {{ content.field_grado_de_internacionalizac }}
+                            </div>
+                            {% endif %}
+
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% set field_principales_productos_y_se = content.field_principales_productos_y_se|render %}
+            {% if field_principales_productos_y_se is not empty %}
+            <div class="container flex-nowrap mt-10">
+                <div class="container-style w--100 responsive-md-flex-column flex-gap-1 flex-display">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/products-services.svg"
+                                alt="product and service icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Main products and services' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_principales_productos_y_se }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% set field_clave_del_exito = content.field_clave_del_exito|render %}
+            {% if field_clave_del_exito is not empty %}
+            <div class="container flex-nowrap mt-10">
+                <div class="container-style w--100 responsive-md-flex-column flex-gap-1 flex-display">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/key-to-success.svg"
+                                alt="key to success icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Key to success' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_clave_del_exito }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% set field_crecimiento = content.field_crecimiento|render %}
+            {% if field_crecimiento is not empty %}
+            <div class="container flex-nowrap mt-10">
+                <div class="container-style w--100 responsive-md-flex-column flex-gap-1 flex-display">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/business-growth.svg"
+                                alt="Business growth icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Growth' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_crecimiento }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% set field_planes_de_futuro = content.field_planes_de_futuro|render %}
+            {% if field_planes_de_futuro is not empty %}
+            <div class="container flex-nowrap mt-10">
+                <div class="container-style w--100 responsive-md-flex-column flex-gap-1 flex-display">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/future-plans.svg" alt="Future plans icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Future plans' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_planes_de_futuro }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% set field_datos_abiertos_utilizados = content.field_datos_abiertos_utilizados|render %}
+            {% set field_url_catalogo = content.field_url_catalogo|render %}
+            {% if field_datos_abiertos_utilizados is not empty or field_url_catalogo is not empty%}
+            <div class="container flex-nowrap mt-10">
+                <div class="container-style w--100 responsive-md-flex-column flex-gap-1 flex-display">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/data-used.svg" alt="Data used icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Data used' | t }}</h4>
+                        </div>
+                        {% if field_datos_abiertos_utilizados is not empty %}
+                        <div class="flex-display flex-column">
+                            <div class="flex-display">
+                                {{ content.field_datos_abiertos_utilizados }}
+                            </div>
+                        </div>
+                        <div class="separator"></div>
+                        {% endif %}
+
+                        {% if field_url_catalogo is not empty %}
+                        <div class="flex-display">
+                            <div class="container">
+                                <div class="flex-display flex-column">
+                                    <span class="large primary-color-dark bold mt-0 mb-5">
+                                        {{ 'Links to data sources' | t }}
+                                    </span>
+                                </div>
+                                <div class="container link--external">
+                                    <div class="flex-display field__items mb-4">
+                                        {% for item in content.field_url_catalogo %}
+                                        {% if item['#type'] == 'link' %}
+                                        {% set urls = item['#url'].uri|split(',') %}
+                                        {% for url in urls %}
+                                        {% set cleanUrl = url|replace({'https://': '', 'http://': '', 'https://www.':
+                                        '', 'www.': ''})|trim
+                                        %}
+                                        {% set iconName = 'external-link.svg' %}
+                                        <div class="field__item">
+                                            <a href="{{ url }}">
+                                                <span><img src="/themes/custom/dge_theme/images/icons/{{ iconName }}"
+                                                        alt="{{ iconName }} icon"></span>
+                                                <span class="url-link-text">{{ cleanUrl }}</span>
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% set field_clientes = content.field_clientes|render %}
+            {% set field_modelo_de_comercializacion = content.field_modelo_de_comercializacion|render %}
+            {% if field_clientes is not empty or field_modelo_de_comercializacion is not empty%}
+            <div class="container flex-nowrap mt-10 responsive-md-wrap responsive-md-flex-column flex-gap-1i">
+                {% if field_clientes is not empty%}
+                <div
+                    class="container-style w--100-2 responsive-md-flex-column flex-gap-1 flex-display flex-grow-1 flex-basis-0">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/clients.svg" alt="Clients icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Clients' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_clientes }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if field_modelo_de_comercializacion is not empty%}
+                <div
+                    class="container-style w--100-2 responsive-md-flex-column flex-gap-1 flex-display flex-grow-1 flex-basis-0">
+                    <div class="flex-display">
+                        <span class="decoration-img-lg">
+                            <img src="/themes/custom/dge_theme/images/icons/marketing-model.svg"
+                                alt="Marketing model icon">
+                        </span>
+                    </div>
+                    <div class="flex-display flex-column">
+
+                        <div class="flex-display flex-column">
+                            <h4 class="primary-color-dark mt-0 mb-2">{{ 'Marketing model' | t }}</h4>
+                        </div>
+                        <div class="flex-display flex-column">
+                            {{ content.field_modelo_de_comercializacion }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            
+
+            {% set field_etiquetas = content.field_etiquetas|render %}
+            {% if field_etiquetas is not empty %}
+            <div class="container mt-6">
+                <div class="flex-display tags--indexed">
+                    {{ content.field_etiquetas }}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if content.field_contenido_relacionado is not empty %}
+            <div>
+                {{ content.field_contenido_relacionado }}
+            </div>
+            {% endif %}
+            </div>
+
+            <div class="endnote">
+               <p> {{ 'Contenido facilitado por la empresa reutilizadora.' | t }} </p>
+               <p> {{ 'Los contenidos y los puntos de vista reflejados en esta publicación son responsabilidad exclusiva de su autor.' | t }} </p>
+            </div>
+            
+</article>

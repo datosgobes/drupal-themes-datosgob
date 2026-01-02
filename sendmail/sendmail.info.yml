@@ -1,0 +1,6 @@
+name: Sendmail
+type: theme
+base theme: false
+description: theme for send custom email.
+version: VERSION
+core_version_requirement: ^10

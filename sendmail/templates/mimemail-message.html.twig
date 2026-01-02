@@ -1,0 +1,111 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "sendmail (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Default template to format a HTML email using the Mime Mail module.
+ *
+ * Copy this file in your default theme folder to create a custom themed email.
+ * If you modify this template you MUST be sure to keep the html, body, and
+ * header tags. This template should produce a fully-formed HTML document.
+ * Failure to include these will result in a malformed email and possibly
+ * errors shown to the user when sending email.
+ *
+ * To override this template for all emails sent by a given module,
+ * rename this template to mimemail-messages--[module].html.twig.
+ *
+ * To override this template for a specific email sent by a given module,
+ * rename this template to mimemail-messages--[module]--[key].html.twig.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the body element of the message.
+ * - key: The message identifier.
+ * - module: The machine name of the sending module.
+ * - css: Internal style sheets.
+ * - recipient: The recipient of the message.
+ * - subject: The message subject.
+ * - body: The message body.
+ *
+ * @see template_preprocess_mimemail_message()
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% set classes = module ? (key ? module ~ '-' ~ key) %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>DatosGob</title>
+   <style>
+
+    footer div p {
+        font-family: 'Calibri';
+        font-size: 11px;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;   
+    }
+
+    .table-footer {
+      border: none !important;
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+    }
+
+    td.table-footer,th.table-footer  {
+      border: none !important;
+    }
+    td.table-footer div img{
+      height: auto;
+    }
+
+
+  </style>
+
+  </head>
+  <body id="mimemail-body"{{ attributes.addClass(classes) }}>
+    <header>
+      {{header|raw}}
+    </header>
+    
+    <div id="center">
+      <div id="main" class="template-dge">
+        {{ body|raw }}
+      </div>
+    </div>
+
+    <footer>
+       {{footer|raw}}
+    </footer>
+  </body>
+</html>

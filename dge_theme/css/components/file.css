@@ -1,0 +1,81 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @file
+ * Default style for file module.
+ */
+
+/* File icons. */
+
+.file {
+  display: inline-block;
+  min-height: 16px;
+  padding-left: 20px; /* LTR */
+  background-repeat: no-repeat;
+  background-position: left center; /* LTR */
+}
+[dir="rtl"] .file {
+  padding-right: 20px;
+  padding-left: inherit;
+  background-position: right center;
+}
+.file--general,
+.file--application-octet-stream {
+  background-image: url(../../images/icons/application-octet-stream.png);
+}
+.file--package-x-generic {
+  background-image: url(../../images/icons/package-x-generic.png);
+}
+.file--x-office-spreadsheet {
+  background-image: url(../../images/icons/x-office-spreadsheet.png);
+}
+.file--x-office-document {
+  background-image: url(../../images/icons/x-office-document.png);
+}
+.file--x-office-presentation {
+  background-image: url(../../images/icons/x-office-presentation.png);
+}
+.file--text-x-script {
+  background-image: url(../../images/icons/text-x-script.png);
+}
+.file--text-html {
+  background-image: url(../../images/icons/text-html.png);
+}
+.file--text-plain {
+  background-image: url(../../images/icons/text-plain.png);
+}
+.file--application-pdf {
+  background-image: url(../../images/icons/application-pdf.png);
+}
+.file--application-x-executable {
+  background-image: url(../../images/icons/application-x-executable.png);
+}
+.file--audio {
+  background-image: url(../../images/icons/audio-x-generic.png);
+}
+.file--video {
+  background-image: url(../../images/icons/video-x-generic.png);
+}
+.file--text {
+  background-image: url(../../images/icons/text-x-generic.png);
+}
+.file--image {
+  background-image: url(../../images/icons/image-x-generic.png);
+}

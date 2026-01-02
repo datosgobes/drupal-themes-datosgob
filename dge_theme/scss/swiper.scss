@@ -1,0 +1,280 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// SWIPER SLIDERS STYLES
+.paragraph--type--banner{
+  height: 37.5rem;
+  .swiper-container{
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 10px);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0rem;
+
+    background: $primary-500;
+    background: $gradient-primary500-to-700;
+    .swiper-wrapper{
+      height: 31.25rem !important;
+      .swiper-slide{
+        .paragraph--type--banner-content{
+          height: 100%;
+          width: 100%;
+          .layout{
+            height: 100%;
+            .layout__region{
+              &--first{
+                height: 100%;
+                .block-field-blockparagraphbanner-contentfield-image{
+                  height: 100%;
+                  position: relative;
+                  .field--name-field-image{
+                    height: 100%;
+                    max-height: 32rem !important;
+                    .field__label{
+                      display: none;
+                    }
+                    .field__item{
+                      height: 100%;
+                      img{
+                        max-height: none;
+                        min-height: initial;
+                        object-position: right;
+                        border-radius: 0rem;
+                        height: revert-layer;
+                      }
+                    }
+                  }
+                  .decorative-arrow{
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    z-index: 2;
+                    span{
+                      img{
+                        max-height: none;
+                        min-height: initial;
+                        border-radius: 0rem;
+                      }
+                    }
+                  }
+                  .mask{
+                    position: absolute;
+                    bottom: 0.5rem;
+                    right: -2px;
+                    z-index: 1;
+                    span{
+                      img{
+                        max-height: none;
+                        min-height: initial;
+                        border-radius: 0rem;
+                      }
+                    }
+                  }
+                }
+              }
+              &--second{
+                display: flex;
+                flex-flow: column;
+                height: calc(100% - 50px);
+                max-width: calc($max-width-screen/2);
+                .block-field-blockparagraphbanner-contentfield-title{
+                  display: flex;
+                  padding: 4rem 2rem 0 2rem;
+                  text-align: start;
+                  .field--name-field-title{
+                    .field__label{
+                      display: none;
+                    }
+                    .field__item{
+                      font-size: 1.625rem !important;
+                      color: $third-500;
+                      font-family: 'montserrat-medium';
+                      margin-bottom: 0.5rem;
+                    }
+                    .decoration-banner-line{
+                      height: .25rem;
+                      width: 3rem;
+                      border: $border-radius;
+                      background-color: $third-500;
+                    }
+                  }
+                }
+                .block-field-blockparagraphbanner-contentfield-body{
+                  display: flex;
+                  padding: 2rem;
+                  text-align: start;
+                  .field--name-field-body{
+                    height: 100%;
+                    .field__label{
+                      display: none;
+                    }
+                    .field__item{
+                      font-size: 1rem !important;
+                      color: $white;
+                      font-family: 'montserrat';
+                      margin-bottom: 0.5rem;
+                    }
+                  }
+                }
+                .block-field-blockparagraphbanner-contentfield-links{
+                  margin-top: 3rem;
+                  .field--name-field-links{
+                    .field__label{
+                      display: none;
+                    }
+                    .field__items{
+                      display: flex;
+                      gap: 1rem;
+                      padding: 1rem 2rem;
+                      justify-content: end;
+                      flex-wrap: wrap;
+                      .btn-link--secondary{
+                        .field__item{
+                          a{
+                            span{
+                              align-self: center;
+                              img{
+                                height: 1.125rem;
+                                width: 2.625rem;
+                                max-height: initial;
+                                min-height: auto;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .swiper-pagination{
+      bottom: 0.875rem !important;
+      &-bullet{
+        background: $white !important;
+        border: 1px solid $primary-600 !important;
+        width: 0.75rem;
+        height: 0.75rem;
+        opacity: 0.8;
+        transition: 0.3s;
+        &:hover, &:focus{
+          background: $primary-400 !important;
+          opacity: 1;
+        }
+        &-active{
+          background: $white !important;
+          border: 1px solid $primary-700 !important;
+          opacity: 1;
+          transition: 0.3s;
+          &:hover, &:focus{
+            background: $primary-600 !important;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+    .swiper-button-next, .swiper-button-prev{
+      background-color: rgb(255 255 255 / 20%) !important;
+      :after {
+        color: white !important;
+      }
+      &:hover, &:focus{
+        background-color: rgb(255 255 255 / 50%) !important;
+      }
+    }
+  }
+}
+
+.swiper-app{
+  &__justify-center {
+    .swiper-wrapper{
+      justify-content: center;
+    }
+  }
+}
+
+/* Small devices (laptops/desktops, 992px and lower) */
+@media only screen and (max-width: 62rem) {
+  .paragraph--type--banner{
+    height: initial !important;
+    .swiper-container{
+      position: relative;
+      .swiper-wrapper{
+        height: initial !important;
+        margin-bottom: 4rem;
+        .swiper-slide{
+          .paragraph--type--banner-content{
+            .layout{
+              .layout__region{
+                &--first{
+                  flex: auto;
+                  max-width: 100%;
+                  .block-field-blockparagraphbanner-contentfield-image{
+                    .field--name-field-image{
+                      .field__item{
+                        img{
+                          object-position: top;
+                          border-radius: 0 0 70px 0 !important;
+                          height: 21rem !important;
+                          object-fit: none;
+                        }
+                      }
+                    }
+                    .decorative-arrow{
+                      top: auto;
+                      bottom: -3rem;
+                      span{
+                        img{
+                          width: 8.125rem;
+                        }
+                      }
+                    }
+                    .mask{
+                      display: none;
+                    }
+                  }
+                }
+                &--second{
+                  flex: auto;
+                  max-width: 100%;
+                  .block-field-blockparagraphbanner-contentfield-title{
+                    padding: 4rem 1rem 0 1rem;
+                  }
+                  .block-field-blockparagraphbanner-contentfield-body{
+                    padding: 2rem 1rem;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .swiper-pagination{
+        bottom: -2.125rem !important
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+<!-- Fechas de actualización ficheros -->
+{% set fechas_excluidas = ['10/09/2025', '11/09/2025','15/09/2025', '16/09/2025'] %}
+<!-- Fechas de actualización rango migración -->
+{% set fecha_inicio_exclusion = '2025-08-28' %}
+{% set fecha_fin_exclusion = '2025-09-01' %}
+<!-- Fecha de publicación -->
+{% set field_fecha_public = fecha_publicacion[0]['#markup'] %}
+{% set fecha_public_comparar = field_fecha_public|date("Y-m-d") %}
+
+<!-- Fecha publicación -->
+{% set field_fecha_publicacion_contenid = fecha_publicacion_contenido[0]['#attributes']['datetime'] %}
+{% set fecha_publicacion_comparar = fecha_publicacion_contenido[0]['#attributes']['datetime']|date("Y-m-d") %}
+
+<!-- Fecha de actualización -->
+{% set changed = fecha_actualizacion|date("d/m/Y") %}
+{% set changed_comparar = fecha_actualizacion|date("Y-m-d") %}
+
+{% set dentro_rango_exclusion = changed_comparar >= fecha_inicio_exclusion and changed_comparar <= fecha_fin_exclusion %}
+
+{% set show_fecha_actualizacion_aplicacion = changed is not empty 
+and fecha_publicacion is not empty 
+and changed_comparar != fecha_public_comparar 
+and changed not in fechas_excluidas
+and not dentro_rango_exclusion
+%}
+
+{% set show_fecha_actualizacion_empresa = changed is not empty
+and fecha_publicacion_contenido is not empty
+and changed_comparar != fecha_publicacion_comparar 
+and changed not in fechas_excluidas
+and not dentro_rango_exclusion
+%}
+
+
+
+{% if field_fecha_public is not empty %}
+<!-- Fecha publicación -->
+<div class="flex-display flex-center flex-row mb-4">
+  <span class="pl-5 b-l mb-0"></span>
+  <div class="flex-display flex-column">
+    <span class="label bold primary-color-dark mb-2">{{ fecha_publicacion['#title'] }}</span>
+    <span class="label primary-color-semi-dark mb-0">{{ field_fecha_public|date("d/m/Y") }}</span>
+  </div>
+</div>
+{% endif %}
+
+{% if field_fecha_publicacion_contenid is not empty %}
+<!-- Fecha publicación contenido-->
+<div class="flex-display flex-center flex-row mb-4">
+  <span class="pl-5 b-l mb-0"></span>
+  <div class="flex-display flex-column">
+    <span class="label bold primary-color-dark mb-2">{{ fecha_publicacion_contenido['#title'] }}</span>
+    <span class="label primary-color-semi-dark mb-0">{{ field_fecha_publicacion_contenid|date("d/m/Y") }}</span>
+  </div>
+</div>
+{% endif %}
+
+{% if show_fecha_actualizacion_aplicacion or show_fecha_actualizacion_empresa  %}
+<!-- Fecha actualizacion -->
+<div class="flex-display flex-center flex-row mb-4">
+    <span class="pl-5 b-l mb-0"></span>
+    <div class="flex-display flex-column">
+        <span class="label bold primary-color-dark mb-2">{{ 'Fecha actualización'|t }}</span>
+        <span class="label primary-color-semi-dark mb-0">{{ changed }}</span>
+    </div>
+</div>
+{% endif %}

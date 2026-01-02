@@ -1,0 +1,76 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{% if links %}
+  {%- if heading -%}
+    {%- if heading.level -%}
+      <{{ heading.level }}{{ heading.attributes }}>{{ heading.text }}</{{ heading.level }}>
+    {%- else -%}
+      <h2{{ heading.attributes }}>{{ heading.text }}</h2>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div{{ attributes }} class="action-icons">
+    <!-- [ES, EN, CA, GL, EU] -->
+    {% set action_icons = {
+      'edit': ['editar', 'edit', 'edita', 'editar', 'editatu'],
+      'export': ['exportar', 'export', 'exportar', 'exportar', 'esportatu'],
+      'translate': ['traducir', 'translate', 'tradueix', 'traducir', 'itzuli'],
+      'delete': ['eliminar', 'delete', 'suprimeix', 'borrar', 'ezabatu']
+    } %}
+
+    {%- for item in links -%}
+      {%- if item.link -%}
+        {% set action_text = item.link['#title']|lower %}
+        <a href="{{ item.link['#url'] }}" title="{{ item.link['#title'] }}" class="icon-link">
+          {% if action_text in action_icons['edit'] %}
+            <span class="operation-item">
+              <img src="/themes/custom/dge_theme/images/icons/operation-list_edit.svg" alt="acción de editar">
+            </span>
+          {% elseif action_text in action_icons['export'] %}
+            <span class="operation-item">
+              <img src="/themes/custom/dge_theme/images/icons/operation-list_export.svg" alt="acción de exportar">
+            </span>
+          {% elseif action_text in action_icons['translate'] %}
+            <span class="operation-item">
+              <img src="/themes/custom/dge_theme/images/icons/operation-list_translate.svg" alt="acción de traducir">
+            </span>
+          {% elseif action_text in action_icons['delete'] %}
+            <span class="operation-item">
+              <img src="/themes/custom/dge_theme/images/icons/operation-list_delete.svg" alt="acción de eliminar">
+            </span>
+          {% elseif action_text == 'devel' %}
+            <span class="operation-item">
+              <img src="/themes/custom/dge_theme/images/icons/operation-list_devel.svg" alt="acción de devel">
+            </span>
+          {% else %}
+            {{ item.link['#title'] }} 
+          {% endif %}
+        </a>
+      {%- elseif item.text_attributes -%}
+        <span{{ item.text_attributes }}>{{ item.text }}</span>
+      {%- else -%}
+        {{ item.text }}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{% endif %}

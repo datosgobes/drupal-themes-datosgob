@@ -1,0 +1,710 @@
+<?php
+
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+/**
+ * @file
+ * 
+ */
+
+use Drupal\Core\Render\Markup;
+use Drupal\Core\Template\Attribute; 
+use Drupal\Core\Menu\MenuLinkInterface;
+use Drupal\Core\Menu\MenuLinkManagerInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Url;
+use Drupal\Core\Render\RendererInterface;
+
+/**
+ * Implements hook_preprocess_image_widget().
+ */
+function dge_theme_preprocess_image_widget(array &$variables) {
+  $data = &$variables['data'];
+
+  if (isset($data['preview']['#access']) && $data['preview']['#access'] === FALSE) {
+    unset($data['preview']);
+  }
+}
+
+
+function dge_theme_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+
+  if ($hook == 'form' & !empty($variables['element']['#id'])) {
+    $suggestions[] = 'form__' . str_replace('-', '_', $variables['element']['#id']);
+  }
+
+  if ($hook == 'social_media_links' & !empty($variables['theme_hook_original']) ) {
+    $suggestions[] = 'social_media_links__' . str_replace('-', '_', $variables['theme_hook_original']);
+  }
+
+ if ($variables['theme_hook_original'] == 'form_element_label')
+  {
+    $id_item = str_replace('-', '_', $variables['element']['#id']);
+    $suggestions[] = 'form_element_label__'.$id_item;
+  }
+
+  if ($variables['theme_hook_original'] == 'form_element')
+  {
+    if(isset($variables['element']['#id'])){
+      $id_item = str_replace('-', '_', $variables['element']['#id']);
+      $suggestions[] = 'form_element__'.$id_item;
+    }
+
+  }
+
+
+
+}
+
+use Drupal\block\BlockRepositoryInterface;
+
+/**
+ * Implements hook_preprocess_HOOK() for menu templates.
+ */
+function dge_theme_preprocess_menu__main(&$variables) {
+  $variables['#cache']['max-age'] = 0;
+  $language_block = \Drupal::service('plugin.manager.block')
+    ->createInstance('language_block:language_interface');
+  $language_build = $language_block->build();
+
+  $language_build['#cache']['max-age'] = 0; 
+  $variables['language_switcher'] = \Drupal::service('renderer')->renderRoot($language_build);
+
+  $user_block = \Drupal::service('plugin.manager.block')
+    ->createInstance('system_menu_block:account');
+  $user_build = $user_block->build();
+  $variables['user_profile'] = \Drupal::service('renderer')->renderRoot($user_build);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraphs.
+ */
+function dge_theme_preprocess_paragraph(&$variables) {
+  if ($variables['paragraph']->getType() === 'formulario_peticion_de_datos') {
+    $node = \Drupal\node\Entity\Node::create([
+      'type' => 'peticion_de_datos',
+    ]);
+    $variables['form'] = \Drupal::service('entity.form_builder')->getForm($node, 'default');
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for views.
+ *
+ */
+function dge_theme_theme_suggestions_views_view_alter(array &$suggestions, array $variables) {
+  if (isset($variables['view']->element['#type'])) {
+    $pieces = [
+      $variables['view']->element['#type'],
+    ];
+    $suggestions[] = 'views_' . implode('__', $pieces);
+    $pieces = [
+      $variables['view']->element['#type'],
+      $variables['view']->element['#name'],
+    ];
+    $suggestions[] = 'views_' . implode('__', $pieces);
+    $pieces = [
+      $variables['view']->element['#type'],
+      $variables['view']->element['#name'],
+      $variables['view']->element['#display_id'],
+    ];
+    $suggestions[] = 'views_' . implode('__', $pieces);
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for views unformatted rows.
+ *
+ */
+function dge_theme_theme_suggestions_views_view_unformatted_alter(array &$suggestions, array $variables) {
+  $view = $variables['view'];
+  $suggestions[] = 'views_view_unformatted__' . $view->id();
+  $suggestions[] = 'views_view_unformatted__' . $view->id() . '__' . $view->current_display;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() 
+ *
+ */
+function dge_theme_theme_suggestions_views_view_fields_alter(array &$suggestions, array $variables) {
+  $view = $variables['view'];
+  $suggestions[] = 'views_view_fields__' . $view->id();
+  $suggestions[] = 'views_view_fields__' . $view->id() . '__' . $view->current_display;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter()
+ *
+ */
+function dge_theme_theme_suggestions_sitemap_menu_alter(array &$suggestions, array $variables) {
+  if (!empty($variables['menu_name'])) {
+    $suggestions[] = 'sitemap_menu__' . str_replace('-', '_', $variables['menu_name']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for links.
+ *
+ */
+function dge_theme_preprocess_links(&$variables) {
+  $variables['current_language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
+}
+
+/**
+ * Implements hook_preprocess_user().
+ *
+ */
+function dge_theme_preprocess_user(array &$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $user = \Drupal::routeMatch()->getParameter('user');
+  if ($user && is_object($user)) {
+    $current_user_id = $user->id();
+    $variables['is_user_profile'] = ($route_name == 'entity.user.canonical' && $current_user_id == $variables['user']->id());
+  }
+  else {
+    $variables['is_user_profile'] = FALSE;
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_HOOK()
+ *
+ *
+*/
+function dge_theme_preprocess_facets_item_list__links(array &$variables) {
+  $term_state_data = [];
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('estados_disponibilidad_de_datos');
+
+  foreach ($terms as $term_info) {
+    $term = \Drupal\taxonomy\Entity\Term::load($term_info->tid);
+    $color_value = $term->get('field_color')->getValue();
+    $color = !empty($color_value[0]['color']) ? $color_value[0]['color'] : NULL;
+    $icono_value = $term->get('field_icono')->getValue();
+    $icono_url = NULL;
+    if (!empty($icono_value[0]['target_id'])) {
+      $file = \Drupal\file\Entity\File::load($icono_value[0]['target_id']);
+      $icono_url = $file ? $file->createFileUrl() : NULL;
+    }
+
+    $term_state_data[$term->label()] = [
+      'color' => $color,
+      'icono' => $icono_url,
+    ];
+  }
+
+  $variables['term_state_data'] = $term_state_data;
+  $current_request = \Drupal::request();
+  $variables['complete_url'] = $current_request->getUri();
+}
+
+function dge_theme_preprocess_taxonomy_term__estados_disponibilidad_de_datos(array &$variables) {
+  $term = $variables['term'];
+  if ($term->hasTranslation(\Drupal::languageManager()->getCurrentLanguage()->getId())){
+    $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $term = $term->getTranslation($current_language);
+    $variables['name'] = $term->getName();
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function dge_theme_preprocess_node__desafio_aporta(&$variables) {
+  $terms_data = [];
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('situaciones_aporta');
+  foreach ($terms as $term_info) {
+    $term = \Drupal\taxonomy\Entity\Term::load($term_info->tid);
+    if ($term->hasTranslation(\Drupal::languageManager()->getCurrentLanguage()->getId())){
+      $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      $term = $term->getTranslation($current_language);
+    }
+
+    $terms_data[] = [
+      'tid' => $term->id(),
+      'name' => $term->get('name')->value,
+      'field_color' => $term->get('field_color')->value,
+      'field_icono' => $term->get('field_icono')->entity,
+    ];
+  }
+  $variables['terms_data'] = $terms_data;
+}
+
+/**
+ * Implements hook_preprocess_views_exposed_form().
+ */
+function dge_theme_preprocess_views_exposed_form(&$variables) {
+  $form_id = $variables['form']['#id'];
+  if ($form_id === 'views-exposed-form') {
+    $variables['#attached']['library'][] = 'dge_theme/date-input-filter_js';
+  }
+}
+
+/**
+ * Implementación de hook_form_alter().
+ */
+function dge_theme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) : void {
+
+  $form_ids = [
+    'node_aplicacion_form',
+    'node_peticion_de_datos_form',
+    'node_iniciativa_form',
+    'node_empresa_reutilizadora_form',
+    'user_register_form'
+  ];
+
+  if (in_array($form_id, $form_ids, true)) {
+    $form['actions']['submit']['#submit'][] = 'dge_theme_redirect_submit';
+  }
+
+  if ($form_id==='user_register_form' && isset($form['field_organizacion'])) {
+    $options = $form['field_organizacion']['widget']['#options'];
+    $placeholder = $options['_none'];
+    unset($options['_none']);
+    $options = ['' => $placeholder] + $options;
+    $form['field_organizacion']['widget']['#options'] = $options;
+    $form['field_organizacion']['widget']['#empty_value'] = '';
+  }
+
+  if ($form_id==='node_iniciativa_form') {
+    if(isset($form['field_initiative_admin_level'])){
+      $options = $form['field_initiative_admin_level']['widget']['#options'];
+      $placeholder = $options['_none'];
+      unset($options['_none']);
+      $options = ['' => $placeholder] + $options;
+      $form['field_initiative_admin_level']['widget']['#options'] = $options;
+      $form['field_initiative_admin_level']['widget']['#empty_value'] = '';
+    }
+    if(isset($form['field_initiative_category'])){
+      $options = $form['field_initiative_category']['widget']['#options'];
+      $placeholder = $options['_none'];
+      unset($options['_none']);
+      $options = ['' => $placeholder] + $options;
+      $form['field_initiative_category']['widget']['#options'] = $options;
+      $form['field_initiative_category']['widget']['#empty_value'] = '';
+    }
+  }
+
+  if ($form_id === 'node_empresa_reutilizadora_form') {
+    if (isset($form['field_tamano_de_la_empresa'])) {
+      $options = $form['field_tamano_de_la_empresa']['widget']['#options'];
+      $placeholder = $options['_none'];
+      unset($options['_none']);
+      $options = ['' => $placeholder] + $options;
+      $form['field_tamano_de_la_empresa']['widget']['#options'] = $options;
+      $form['field_tamano_de_la_empresa']['widget']['#empty_value'] = '';
+    }
+  }
+
+  if ($form_id === 'node_peticion_de_datos_edit_form') {
+    $form['title']['widget']['#disabled'] = TRUE;
+    $form['field_categoria']['widget']['#disabled'] = TRUE;
+    unset($form['field_categoria']['widget']['#description']);
+    $form['field_descripcion']['widget']['#disabled'] = TRUE;
+    $form['field_motivo_de_la_peticion']['widget']['#disabled'] = TRUE;
+    $form['field_nombre_y_apellidos']['widget']['#disabled'] = TRUE;
+    $form['field_correo_electronico']['widget']['#disabled'] = TRUE;
+    $form['field_organizacion']['widget']['#disabled'] = TRUE;
+    $form['field_acepto_las_condiciones_del']['widget']['#disabled'] = TRUE;
+    unset($form['field_deseo_que_mi_nombre_y_orga']['widget']);
+  }
+
+  if ($form_id === 'tfa_entry_form') {
+    $config_tfa = \Drupal::config('tfa.settings');
+    $default_validation_plugin = $config_tfa->get('default_validation_plugin');
+    $plugin = \Drupal::request()->query->get('plugin');
+    $is_email_otp = true;
+    if ($plugin === 'tfa_totp' || $default_validation_plugin === 'tfa_totp') {
+      $is_email_otp = false;
+    }
+    $config = \Drupal::config('dge_tfa.settings');
+    $form['actions']['send']['#prefix'] = '<div class="tfa-button">';
+    $form['actions']['send']['#suffix'] = '</div>';
+    $form['actions']['login']['#prefix'] = '<div class="tfa-button">';
+    $form['actions']['login']['#suffix'] = '</div>';
+    $form['code']['#weight'] = 0;
+    $form['code']['#prefix'] = '<div class="tfa-text">';
+    $form['code']['#suffix'] = '</div>';
+    $form['actions']['login']['#weight'] = 10;
+    $form['#attributes']['class'][] = 'tfa-entry-form';
+    if ($is_email_otp) {
+      $description1 = $config->get('dge-tfa-step1');
+      if (!empty($description1['value']) && !empty($description1['format'])) {
+        $elements = [
+          '#type' => 'processed_text',
+          '#text' => t($description1['value']),
+          '#format' => $description1['format'],
+        ];
+        $rendered_description = \Drupal::service('renderer')->renderPlain($elements);
+        $description1 = Markup::create($rendered_description);
+      } else {
+        $description1 = t('<p><b>PASO 1:</b> Por favor pulsa el botón <b>Enviar</b> para recibir un <i><b>código de identificación</b></i> en tu cuenta de correo electrónico.</p>');
+      }
+      $form['tfa_description_paso1'] = [
+        '#type' => 'markup',
+        '#markup' => $description1,
+        '#weight' => -15,
+        '#prefix' => '<div class="dge-tfa-description dge-tfa-step-1">',
+        '#suffix' => '</div>',
+      ];
+
+      $form['validation_send'] = $form['actions']['send'];
+      $form['validation_send']['#weight'] = -10;
+
+      unset($form['actions']['send']);
+      $description2 = $config->get('dge-tfa-step2');
+      if (!empty($description2['value']) && !empty($description2['format'])) {
+        $elements = [
+          '#type' => 'processed_text',
+          '#text' => t($description2['value']),
+          '#format' => $description2['format'],
+        ];
+        $rendered_description = \Drupal::service('renderer')->renderPlain($elements);
+        $description2 = Markup::create($rendered_description);
+      } else {
+        $description2 = t('<p><b>Step 1:</b> Una vez recibido, introduce el <i><b>código de identificación</b></i> y pulsa el botón <b>Verificar</b>.</p>');
+      }
+      $form['tfa_description_paso2'] = [
+        '#type' => 'markup',
+        '#markup' => $description2,
+        '#weight' => -5,
+        '#prefix' => '<div class="dge-tfa-description dge-tfa-step-2">',
+        '#suffix' => '</div>',
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK()
+ */
+function dge_theme_preprocess_form(&$variables) {
+  if ($variables['element']['#form_id'] === 'tfa_entry_form') {
+    $config = \Drupal::config('dge_tfa.settings');
+    $description = ($config->get('dge-tfa-description')!=null)?$config->get('dge-tfa-description'):null;
+    if (!empty($description['value']) && !empty($description['format'])) {
+      $elements = [
+        '#type' => 'processed_text',
+        '#text' => t($description['value']),
+        '#format' => $description['format'],
+      ];
+      $rendered_description = \Drupal::service('renderer')->renderPlain($elements);
+      $variables['main_description'] = Markup::create($rendered_description);
+    } else {
+      $variables['main_description'] = NULL;
+    }
+  }
+}
+
+function dge_theme_redirect_submit(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $current_url = \Drupal::request()->getRequestUri();
+
+  if (isset($form['#form_id'])) {
+    $form_id = $form['#form_id'];
+    if ($form_id == 'user_pass') {
+      $form_state->setRedirectUrl(Url::fromUserInput($current_url));
+      $username = $form_state->getValue('name');
+      \Drupal::messenger()->addStatus(t('Si @username es una cuenta válida, se le enviará un correo electrónico con instrucciones para restablecer su contraseña.'));
+    } else {
+      $form_state->setRedirectUrl(Url::fromUserInput($current_url));
+    }
+  }
+}
+
+/**
+ * Implements hook_proprocess_breadcrumb().
+ */
+function dge_theme_preprocess_breadcrumb(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $node_type = \Drupal::routeMatch()->getParameter('node_type');
+  if ($route_name === 'node.add' && $node_type && ($node_type->id() === 'aplicacion' || $node_type->id() === 'empresa_reutilizadora'
+  || $node_type->id() === 'iniciativa')) {
+    if ($node_type->id() === 'aplicacion') {
+      $custom_title = t('Share your application');
+    }
+    if ($node_type->id() === 'empresa_reutilizadora') {
+      $custom_title = t('Share your company');
+    }
+    if ($node_type->id() === 'iniciativa') {
+      $custom_title = t('Share your initiative');
+    }
+    if (!empty($variables['breadcrumb'])) {
+      $last_breadcrumb = array_pop($variables['breadcrumb']);
+      if (isset($last_breadcrumb['text'])) {
+        $last_breadcrumb['text'] = $custom_title;
+      }
+      $variables['breadcrumb'][] = $last_breadcrumb;
+    } else {
+      $variables['breadcrumb'][] = [
+        'text' => $custom_title,
+        'attributes' => new Attribute(['class' => ['active']]),
+      ];
+    }
+
+    $filtered_breadcrumb[] = [
+      'text' => $custom_title,
+      'attributes' => new Attribute(['class' => ['active']]),
+    ];
+
+    $variables['breadcrumb'] = $filtered_breadcrumb;
+    $variables['#cache']['contexts'][] = 'url';
+
+  } elseif(strpos($route_name, 'view') !== FALSE && strpos($route_name, 'buscador') !== FALSE) {
+    $custom_title = t('Search');
+    $filtered_breadcrumb[] = [
+      'text' => $custom_title,
+      'attributes' => new Attribute(['class' => ['active']]),
+    ];
+
+    $variables['breadcrumb'] = $filtered_breadcrumb;
+
+  } elseif ($route_name === 'tfa.entry') {
+    $config = \Drupal::config('dge_tfa.settings');
+    $custom_title  = ($config->get('dge-tfa-title')!=null)?$config->get('dge-tfa-title'):'Account verification';
+
+    $variables['breadcrumb'][] = [
+      'text' => t($custom_title),
+      'attributes' => new Attribute(['class' => ['active']]),
+    ];
+  } else {
+    if ($variables['breadcrumb']) {
+      $request = \Drupal::request();
+      $route_match = \Drupal::routeMatch();
+      $page_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
+
+      $normalized_page_title = is_string($page_title) ? strtolower($page_title) : '';
+      $filtered_breadcrumb = [];
+      $title_added = false;
+
+      foreach ($variables['breadcrumb'] as $item) {
+        $normalized_item_text = isset($item['text']) && is_string($item['text']) ? strtolower($item['text'] ?? '') : '';
+        if (isset($item['url']) && $normalized_item_text === $normalized_page_title && !$title_added) {
+          continue;
+        }
+        $filtered_breadcrumb[] = $item;
+      }
+
+      if (!empty($page_title) && !$title_added) {
+        $filtered_breadcrumb[] = [
+          'text' => $page_title,
+          'attributes' => new Attribute(['class' => ['active']]),
+        ];
+        $title_added = true; 
+      }
+
+      $variables['breadcrumb'] = $filtered_breadcrumb;
+      $variables['#cache']['contexts'][] = 'url';
+    }
+  }
+
+  $menu_name = 'main';
+
+  $menu_tree = \Drupal::menuTree();
+  $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
+  $path_current = \Drupal::service('path.current')->getPath();
+  $current_url = Url::fromUserInput($path_current)->toString();
+
+  $tree = $menu_tree->load($menu_name, new MenuTreeParameters());
+  $flat_links = [];
+
+  function flatten_menu_tree(array $items, &$flat_links) {
+    foreach ($items as $item) {
+      $flat_links[$item->link->getPluginId()] = $item->link;
+      if ($item->subtree) {
+        flatten_menu_tree($item->subtree, $flat_links);
+      }
+    }
+  }
+  flatten_menu_tree($tree, $flat_links);
+
+  $matched_link = null;
+  $best_match_length = 0;
+
+
+  $breadcrumb_conocimiento = [];
+
+  foreach ($flat_links as $plugin_id => $link) {
+    $url_object = $link->getUrlObject();
+    if (!$url_object->isRouted()) {
+      continue;
+    }
+
+    $menu_path = $url_object->toString();
+
+    $languages = ['es', 'ca', 'gl', 'eu', 'en'];
+
+    $menu_path_length = strlen($menu_path);
+
+    if (str_starts_with($current_url, $menu_path) && $menu_path_length > $best_match_length) {
+      $matched_link = $link;
+      $best_match_length = $menu_path_length;
+    } else {
+      foreach ($languages as $langcode) {
+        $lang_conocimiento_path = '/' . $langcode . '/conocimiento/';
+        $lang_path_length = strlen($lang_conocimiento_path);
+
+        if (str_starts_with($current_url, $lang_conocimiento_path) && $lang_path_length > $best_match_length) {
+
+          $breadcrumb_conocimiento[] = "conocimiento";
+
+          break; 
+        }
+      }
+    }
+
+
+  }
+
+  $breadcrumb_labels = [];
+
+  if ($matched_link instanceof MenuLinkInterface) {
+    $current = $matched_link;
+    while ($current instanceof MenuLinkInterface) {
+      array_unshift($breadcrumb_labels, $current->getTitle());
+
+      $parent_id = $current->getParent();
+      if (empty($parent_id)) {
+        break;
+      }
+
+      try {
+        $current = $menu_link_manager->createInstance($parent_id);
+      } catch (\Exception $e) {
+        break;
+      }
+    }
+  }
+
+  
+
+  $current_title = \Drupal::service('title_resolver')->getTitle(\Drupal::request(), \Drupal::routeMatch()->getRouteObject());
+  if (!empty($current_title) &&  !is_array($current_title) && !in_array($current_title, $breadcrumb_labels)) {
+    if(empty($breadcrumb_labels) && !empty($breadcrumb_conocimiento)){
+       $breadcrumb_labels[] = t('Conocimiento');
+    }
+    $breadcrumb_labels[] = strip_tags($current_title);
+    
+  }
+
+  if (empty($breadcrumb_labels) || strtolower($breadcrumb_labels[0]) !== 'inicio') {
+    array_unshift($breadcrumb_labels, t('Inicio'));
+  }
+
+  $variables['attributes']['data-breadcrumb'] = implode('|', $breadcrumb_labels);
+
+  
+  $variables['#cache']['contexts'][] = 'url';
+}
+
+function dge_theme_preprocess_page_title(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($route_name === 'node.add') {
+    $node_type = \Drupal::routeMatch()->getParameter('node_type');
+    if ($node_type) {
+
+      if($node_type->id() === 'aplicacion'){
+        $custom_title = t('Share your application');
+      }elseif($node_type->id() === 'empresa_reutilizadora'){
+        $custom_title = t('Share your company');
+      }elseif($node_type->id() === 'iniciativa'){
+        $custom_title = t('Share your initiative');
+      }
+
+      $variables['title'] = $custom_title;
+
+      if (isset($variables['page']['#title'])) {
+        $variables['page']['#title'] = $custom_title;
+      }
+    }
+  } elseif (strpos($route_name, 'view') !== FALSE && strpos($route_name, 'buscador') !== FALSE) {
+   _change_title($variables, 'Search');
+  } elseif ($route_name === 'tfa.entry') {
+    $config = \Drupal::config('dge_tfa.settings');
+    $custom_title  = ($config->get('dge-tfa-title')!=null)?$config->get('dge-tfa-title'):'Account verification';
+
+    _change_title($variables, $custom_title);
+  }
+}
+
+function _change_title(&$variables, $title) {
+  $custom_title = t($title);
+  $variables['title'] = $custom_title;
+
+  if (isset($variables['page']['#title'])) {
+    $variables['page']['#title'] = $custom_title;
+  }
+}
+
+/**
+ *  Implements hook_theme_preprocess_HOOK() for views 
+ */
+function dge_theme_preprocess_views_view(array &$variables){
+  if (isset($variables['view']) && isset($variables['view']->element['#type'])) {
+    $view = $variables['view'];
+    $request = \Drupal::request();
+
+    $current_display = $view->current_display;
+    $search_text = $request->query->get('text');
+
+    if ($current_display === 'buscador' || ($current_display === 'page_1' && !empty($search_text))) {
+      $variables['text_search'] = $search_text;
+
+      $machine_name = $view->id();
+      $config = \Drupal::config('views.view.' . $machine_name);
+      if ($config) {
+        $label = $config->get('label');
+        if($machine_name == 'conocimiento' )
+        {
+          $label = (string)t('documentos');
+          $translated_text = t('encontrados para "@texto"', ['@texto' => $variables['text_search']]);
+        }
+        if($machine_name == 'disponibilidad_de_datos'){
+          $label = (string)t('solicitudes de datos');
+          $translated_text = t('encontradas para "@texto"', ['@texto' => $variables['text_search']]);
+        }if ($machine_name == "blog" || $machine_name == "eventos"){
+          $translated_text = t('encontrados para "@texto"', ['@texto' => $variables['text_search']]);
+        }else{
+          $translated_text = t('encontradas para "@texto"', ['@texto' => $variables['text_search']]);
+        }
+       
+        $total_results = $view->pager ? $view->pager->total_items : 0;
+        $variables['total_result_search'] = $total_results;
+        $variables['custom_header_searh_result'] = sprintf(
+          '%d %s %s',
+          $total_results,
+          mb_strtolower(t($label)),
+          $translated_text
+        );
+        if (isset( $variables['header']['result'])) {
+           $variables['header']['result'] = [
+            '#markup' => $custom_header,
+          ];
+        }
+        else {
+          $variables['header']['result'] = [
+            '#markup' => $custom_header,
+          ];
+        }
+      }
+    }
+  }
+}

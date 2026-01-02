@@ -1,0 +1,229 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// COMMENTS STYLES
+.field--name-comment{
+    width: 100%;
+}
+.indented{
+    padding-left: 2.188rem;
+    display: flex;
+    flex-flow: column;
+    // Para cada nivel de anidación
+    & > .indented {
+        padding-left: 2.5rem;
+        
+        & > .indented {
+            padding-left: 3.5rem;
+
+            & > .indented {
+                padding-left: 4.5rem;
+                // Y así sucesivamente si necesitas más niveles
+            }
+        }
+    }
+    
+    .comment {
+        background-color: $primary-100;
+        box-shadow: none;
+        border: 1px solid $border !important;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            left: -3.125rem;
+            top: -2.063rem;
+            display: block;
+            width: 3.125rem;
+            height: 5rem;
+            background-image: url('/themes/custom/dge_theme/images/icons/comment-line-3.svg');
+            background-repeat: no-repeat;
+        }
+    }
+}
+.comment {
+    box-shadow: $box-shadow-centered;
+    width: calc(100% - 4rem);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+    &__author {
+        font-size: 1rem;
+        color: $primary-700;
+        font-family: 'montserrat-semiBold';
+        margin-bottom: 0rem;
+    }
+    &__date{
+        font-size: 1rem;
+        color: #444444;
+    }
+    &__summary{
+        border-bottom: 1px solid $border;
+        display: flex;
+        justify-content: space-between;
+        .subject{
+            font-size: 1.25rem;
+            color: $primary-700;
+            font-family: 'montserrat-semiBold';
+        }
+        .toggle-replies{
+            text-decoration: none;
+            .expand-arrow img {
+                transition: transform 0.3s ease;
+            }
+            
+            .expand-arrow.rotated img {
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .parent {
+        font-family: 'montserrat-italic';
+        color: $dark-gray;
+        a{
+            span{
+                font-family: 'montserrat-semiBold';
+            }
+        }
+    }
+    mark {
+        display: flex;
+        width: fit-content;
+        padding: 0.275rem 0.5rem;
+        border-radius: 1.25rem;
+        background-color: $third-300;
+        color: $primary-700;
+        border: 1px solid $primary-700;
+        margin-bottom: 1rem;
+        &.hidden {
+            display: none;
+        }
+    }
+    .content{
+        .comment-actions{
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 0px;
+            flex-wrap: wrap;
+            li{
+                padding: 0px;
+                a.comment-actions__item{
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    text-decoration: none;
+                    &:hover, &:focus{
+                        span.operation-text{
+                            color: $primary-500;
+                        }
+                        span.operation-item{
+                            img{
+                                filter: $filter-primary-white-to-500;
+                            }
+                        }
+                    }
+                    span.operation-item{
+                        width: 1.25rem;
+                        height: 1.25rem;
+                        display: flex;
+                        img{
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+                    span.operation-text{
+                        color: $dark-gray;
+                    }
+                }
+            }
+        }
+    }
+}
+.toggle-replies{
+    position: relative;
+    width: 15.625rem;
+    bottom: 1rem;
+    background-color: $background-light-gray;
+    text-decoration: none !important;
+    padding: 0.375rem 1rem .375rem 1rem;
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    margin-left: auto;
+    justify-content: center;
+    margin-right: auto;
+    &:hover, &:focus, &:active {
+        background-color: $primary-300;
+    }
+    &.active{
+        background-color: $primary-400;
+        &:hover, &:focus, &:active {
+            background-color: $primary-300;
+        }
+    }
+}
+
+.comments-list {
+    .comment-item {
+        &.level-1 .indented {
+        margin-left: 1rem;
+        }
+
+        &.level-2 .indented {
+        margin-left: 4rem;
+        }
+
+        &.level-3 .indented {
+        margin-left: 7rem;
+        }
+
+        &.level-4 .indented {
+        margin-left: 10rem;
+        }
+    }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 48rem) {
+    .indented {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        .comment::before {
+            left: 0.625rem;
+            top: 1.25rem;
+            width: 1.125rem;
+            height: 2.125rem;
+            background-size: contain;
+        }
+    }
+}
+
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+    .comment__summary{
+        flex-flow: column;
+        gap: 1rem;
+    }
+}

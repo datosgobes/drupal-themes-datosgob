@@ -1,0 +1,188 @@
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// CONTENT STYLES - CMS edit
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: inherit;
+  white-space: normal !important;
+  tbody {
+    width: 100%;
+    display: block;
+  }
+  td,
+  th {
+    vertical-align: top;
+    padding: 0;
+    border: none;
+    width: 100%;
+  }
+
+  tr {
+    display: flex;
+    width: calc(100% - 2px);
+    padding: 0;
+    background-color: transparent !important;
+    gap: 2rem;
+  }
+
+  td{
+    &.right-image{
+      max-width: fit-content;
+      width: 30rem;
+      height: auto;
+      order: 1;
+    }
+  }
+
+  ul{
+    list-style: disc;
+    padding-left: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2.2rem);
+    li{
+      color: $primary-700;
+      line-height: 1.5rem;
+      margin-bottom: 0.625rem;
+    }
+  }
+  @media (max-width: 64rem) {
+    &,
+    tbody,
+    tr {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      margin-bottom: 1rem;
+    }
+
+    td {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      &.right-image{
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+  &__4-cols{
+    width: 100%;
+    border-collapse: collapse;
+    overflow: inherit;
+    justify-items: center;
+    tbody{
+      width: 100%;
+      display: block;
+      td,
+      th {
+        vertical-align: top;
+        padding: 0;
+        border: none;
+        width: 100%;
+      }
+      tr{
+        background-color: transparent !important;
+        gap: 1.5rem 0.5rem;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: baseline;
+        flex-wrap: wrap;
+
+        td{
+          width: 21rem;
+          justify-items: center;
+          height: 100%;
+
+          img{
+            width: auto;
+            height: 11.8rem !important;
+          }
+          iframe{
+            height: 11.8rem !important;
+            width: 340px !important;
+          }
+          ul{
+            list-style: disc;
+            padding-left: 2.5rem;
+            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 1.2rem);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Small devices (phones, less than 568px)
+@media (max-width: 36rem) {
+  .responsive-table {
+    &__4-cols{
+      tbody{
+        tr{
+          td{
+            img{
+              width: auto !important;
+              height: auto !important;
+            }
+            iframe{
+              height: 10rem !important;
+              width: 300px !important;
+            }
+          }
+        }
+      }
+    }
+    tbody{
+      tr{
+        td{
+          &.right-image{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Small devices (phones, less than 410px)
+@media (max-width: 25.625rem) {
+  .responsive-table {
+    &__4-cols{
+      tbody{
+        tr{
+          td{
+            iframe{
+              height: 9rem !important;
+              width: 255px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

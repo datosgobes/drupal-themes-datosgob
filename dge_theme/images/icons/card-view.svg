@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.946" height="18.294" viewBox="0 0 24.946 18.294">
+  <g id="credit-card" transform="translate(-2 -10)">
+    <path id="Trazado_3750" data-name="Trazado 3750" d="M43.989,42.663H39.832a.832.832,0,1,1,0-1.663h4.158a.832.832,0,1,1,0,1.663Z" transform="translate(-21.617 -18.111)" fill="#fff"/>
+    <path id="Trazado_3751" data-name="Trazado 3751" d="M26.114,23.663H2.832a.832.832,0,1,1,0-1.663H26.114a.832.832,0,0,1,0,1.663Z" transform="translate(0 -7.011)" fill="#fff"/>
+    <path id="Trazado_3752" data-name="Trazado 3752" d="M22.788,28.294H6.158A4.164,4.164,0,0,1,2,24.136V14.158A4.164,4.164,0,0,1,6.158,10H22.788a4.164,4.164,0,0,1,4.158,4.158v9.978A4.164,4.164,0,0,1,22.788,28.294ZM6.158,11.663a2.5,2.5,0,0,0-2.495,2.495v9.978a2.5,2.5,0,0,0,2.495,2.495H22.788a2.5,2.5,0,0,0,2.495-2.495V14.158a2.5,2.5,0,0,0-2.495-2.495Z" transform="translate(0 0)" fill="#fff"/>
+  </g>
+</svg>

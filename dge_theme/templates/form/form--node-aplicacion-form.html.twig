@@ -1,0 +1,96 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+
+<div class="mt-8">
+  <form{{ attributes }}>
+    {% set params = {
+      element: element
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-obligatorios.html.twig' with params %}
+
+    {% set params = {
+      element: element,
+      autor_desarrollador: element.field_autor_desarrollador
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-informacion-general.html.twig' with params %}
+
+    <div class="container">
+      <div class="col-3">
+        {{ element.field_plataforma }}
+      </div>
+      <div class="col-3">
+        {{ element.field_fecha_de_publicacion }}
+      </div>
+      <div class="col-3">
+        {{ element.field_licencia }}
+      </div>
+    </div>
+
+    {% set params = {
+      image: element.field_imagen
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-recursos-y-multimedia.html.twig' with params %}
+
+    <div class="container">
+      <div class="col-1 {{ not is_admin ? 'frontend-field-url-catalogo' }}">
+        {{ element.field_url_aplicacion }}
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="col-1">
+        {{ element.field_capturas_de_pantalla }}
+      </div>
+    </div>
+
+    {% set params = {
+      element: element
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-fuente.html.twig' with params %}
+    
+ 
+    {% set params = {
+      title: 'Applicant details' | t,
+      name_and_surname: element.group_datos_de_contacto[4],
+      email: element.group_datos_de_contacto[1],
+      phone_number: element.group_datos_de_contacto[5],
+      company: element.group_datos_de_contacto[3],
+      consent_1: element.group_datos_de_contacto[2],
+      consent_2: element.group_datos_de_contacto[0],
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-datos-de-contacto.html.twig' with params %}
+    
+    {% set params = {
+      actions: element.actions
+      }
+    %}
+    {% include directory ~ '/templates/form/dge-custom-form-action-buttons.html.twig' with params %}
+
+  </form>
+</div>

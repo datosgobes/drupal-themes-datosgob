@@ -1,0 +1,289 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('dge_theme/node') }}
+<article{{ attributes.addClass(classes) }}>
+
+  {{ title_prefix }}
+  {% if label and not page %}
+    <h2{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  <div{{ content_attributes.addClass('node__content') }}>
+    {% set base_url = render_var(url('<front>'))  %} 
+    {% set url_assing = base_url ~ "/request/assign/" ~ node.id%}
+    {% set url_unsubscription = base_url ~ "/request/unsubscription/" ~ node.id%}
+
+    <div class="container flex-display flex-center w-100 mb-4 container-share container-share__request-dataset">
+      <div class="flex-display ml-auto">
+        {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', label : 'Social
+        Sharing block',label_display : 0,provider : 'social_media' }) }}
+      </div>
+    </div>
+
+
+
+    <div class="container flex-display flex-gap-05 flex-justify-between mb-4">
+      
+      <div class="flex-display flex-gap-1 flex-justify-left">
+        <div class="flex-display flex-gap-05 flex-center text--bold w-100">
+          <div class="flex-display">
+            <span class="icon--md">
+              <img src="/themes/custom/dge_theme/images/icons/follower.svg" alt="seguidores de la petición"></img>
+            </span>
+          </div>
+          <div class="flex-display primary-color">
+          {{ content.field_number_subscriptors[0] }}
+          </div>
+          <div class="flex-display primary-color">
+          <span>{{ 'requesters' | t }}</span>
+          </div>
+        </div>
+        <div class="flex-display flex-justify-right">
+          <div class="flex-display flex-flow flex-center">
+            {%- for item in content.field_estado -%}
+              {%- if item['#type'] == 'link' -%}
+                {%- set term = item['#entity'] %}
+                {%- set color = term.field_color.entity.field_color.color %}
+                {%- set icono = file_url(term.field_icono.entity.uri.value) %}
+                <div class="card-status" style="background-color:{{ color }}">
+                  <span class="card-status__icon">
+                      <img src="{{ icono }}" alt="" width="" height="">
+                      </img>
+                  </span>
+                  <span class="card-status__name">{{ item['#title']|trans }}</span>
+                </div>
+              {%- endif %}
+            {%- endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-display flex-justify-right">
+        <div class="flex-display flex-gap-1 flex-justify-between responsive-md-flex-column">
+          <div class="btn btn--primary">
+            <a href="{{url_assing}}">
+              <span class="icon--h-sm"><img src="/themes/custom/dge_theme/images/icons/join.svg" alt="Join request icon"></span>
+              {{'Join the request'|t}}
+            </a>
+          </div>
+          <div class="btn btn--secondary">
+            <a href= "{{url_unsubscription}}">
+              <span class="icon--h-sm"><img src="/themes/custom/dge_theme/images/icons/leave.svg" alt="Leave icon"></span>
+              {{'Leave the request'|t}}
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container flex-nowrap mt-10">
+      <div class="container-style w--100 responsive-md-flex-column flex-display flex-column">
+        
+        {% set organismo_responsable_render = content.field_organismo_responsable|render %}
+        {% set categoria_render = content.field_categoria|render %}
+        {% if node.changed.value is not empty or 
+          content.field_fecha_publicacion_contenid is not empty or 
+          organismo_responsable_render is not empty or 
+          categoria_render is not empty %}
+        <div class="container flex-start mt-4 mb-6">
+
+          {% if categoria_render is not empty %}
+          <div class="flex-display flex-center flex-row mb-4">
+            <span class="pl-5 b-l mb-0"></span>
+            <div class="flex-display flex-column">
+              <span class="label bold primary-color-dark mb-2">{{ content.field_categoria['#title'] }}</span>
+              <div class="flex-display flex-flow flex-gap-1-2 flex-center mb-2">
+                {% set params = {
+                  categorias: content.field_categoria
+                  } 
+                %}
+                
+                {% include directory ~ '/templates/content/dge_custom_field_categoria.html.twig' with params %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if node.created is not empty %}
+          <div class="flex-display flex-center flex-row mb-4">
+              <span class="pl-5 b-l mb-0"></span>
+              <div class="flex-display flex-column">
+                  <span class="label bold primary-color-dark mb-2">{{ 'Fecha de la petición'|t }}</span>
+                  <span class="label primary-color-semi-dark mb-0">{{ node.created.value|date("d/m/Y") }}</span>
+              </div>
+          </div>
+          {% endif %}
+          
+          {% set params = {
+            fecha_publicacion: content.field_fecha_publicacion_contenid,
+            fecha_actualizacion: node.changed.value
+            } 
+          %}
+            
+          {% include directory ~ '/templates/content/dge_custom_field_fecha.html.twig' with params %}
+
+          {% if organismo_responsable_render is not empty %}
+          <div class="flex-display flex-center flex-row mb-4">
+            <span class="pl-5 b-l mb-0"></span>
+            <div class="flex-display flex-column">
+              <span class="label bold primary-color-dark mb-2">{{ content.field_organismo_responsable['#title'] }}</span>
+              <span class="label primary-color-semi-dark mb-0">{{ content.field_organismo_responsable[0]['#title'] }}</span>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+        {% endif %}
+
+        {% set descripcion_render = content.field_descripcion|render %}
+        {% if descripcion_render is not empty %}
+        <div class="flex-display flex-gap-1 responsive-md-flex-column">
+          <div class="flex-display">
+            <span class="decoration-img-md">
+              <img src="/themes/custom/dge_theme/images/icons/request-data.svg" alt="request dataset icon">
+            </span>
+          </div>
+          <div class="flex-display flex-column">
+            <div class="flex-display flex-column">
+              <h4 class="primary-color-dark mt-0 mb-2">{{ content.field_descripcion['#title'] }}</h4>
+            </div>
+            <div class="flex-display flex-column text--word-break--word">
+              {{ content.field_descripcion[0] }}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% set motivo_de_la_peticion_render = content.field_motivo_de_la_peticion|render %}
+        {% if motivo_de_la_peticion_render is not empty %}
+        <div class="separator separator--gray"></div>
+        <div class="flex-display flex-gap-1 responsive-md-flex-column">
+          <div class="flex-display">
+            <span class="decoration-img-md">
+              <img src="/themes/custom/dge_theme/images/icons/reason.svg" alt="reason icon">
+            </span>
+          </div>
+          <div class="flex-display flex-column">
+            <div class="flex-display flex-column">
+              <h4 class="primary-color-dark mt-0 mb-2">{{ content.field_motivo_de_la_peticion['#title'] }}</h4>
+            </div>
+            <div class="flex-display flex-column text--word-break--word">
+              <p>{{ content.field_motivo_de_la_peticion[0] }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% set beneficios_esperados_render = content.field_beneficios_esperados|render %}
+        {% if beneficios_esperados_render is not empty %}
+        <div class="separator separator--gray"></div>
+        <div class="flex-display flex-gap-1 responsive-md-flex-column">
+          <div class="flex-display">
+            <span class="decoration-img-md">
+              <img src="/themes/custom/dge_theme/images/icons/insurance.svg" alt="benefits icon">
+            </span>
+          </div>
+          <div class="flex-display flex-column">
+            <div class="flex-display flex-column">
+              <h4 class="primary-color-dark mt-0 mb-2">{{ content.field_beneficios_esperados['#title'] }}</h4>
+            </div>
+            <div class="flex-display flex-column text--word-break--word">
+              <p>{{ content.field_beneficios_esperados[0] }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% set respuesta_render = content.field_respuesta|render %}
+    {% if respuesta_render is not empty %}
+    <div class="container flex-nowrap mt-10 mb-10">
+      <div class="container-style container-style--highlight w--100 responsive-md-flex-column flex-gap-1 flex-display">
+        <div class="flex-display">
+          <span class="decoration-img-md">
+            <img src="/themes/custom/dge_theme/images/icons/solution.svg" alt="solution icon">
+          </span>
+        </div>
+        <div class="flex-display flex-column">
+          <div class="flex-display flex-column">
+            <h4 class="primary-color-dark mt-0 mb-2">{{ content.field_respuesta['#title'] }}</h4>
+          </div>
+          <div class="flex-display flex-column text--word-break--word">
+            {{ content.field_respuesta[0] }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% set url_del_conjunto_de_datos_render = content.field_url_del_conjunto_de_datos|render %}
+    {% if url_del_conjunto_de_datos_render is not empty %}
+    <div class="flex-display flex-column">
+      <span class="large primary-color-dark bold mt-0 mb-5">
+        {{ 'Links to data sources' | t }}
+      </span>
+      <div class="container link--external">
+        <div class="flex-display field__items mb-4">
+          {% for item in content.field_url_del_conjunto_de_datos %}
+            {% if item['#type'] == 'link' %}
+              {% set urls = item['#url'].uri|split(',') %}
+              {% for url in urls %}
+                  {% set cleanUrl = url|replace({'https://': '', 'http://': '', 'https://www.': '', 'www.': ''})|trim %}
+                  {% set iconName = 'external-link.svg' %}
+                  <div class="field__item">
+                      <a href="{{ url }}">
+                          <span><img src="/themes/custom/dge_theme/images/icons/{{ iconName }}" alt="{{ iconName }} icon"></span>
+                          <span class="url-link-text">{{ cleanUrl }}</span>
+                      </a>
+                  </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="separator separator--gray"></div>
+
+    <div class="container mt-6">
+    {{ content.comment }}
+    </div>
+
+  </div>
+</article>

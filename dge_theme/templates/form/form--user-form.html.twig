@@ -1,0 +1,114 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+<form{{ attributes }}>
+
+  {% if element %}
+  <div class="profile-wrapper">
+    <div class="profile-menu">
+      <div>
+        <h3>Mi cuenta</h3>
+      </div>
+      <ul>
+        <li><a href="#" class="profile-link active" data-target="#personal-info">{{ 'Personal data'|t }}</a></li>
+        <li><a href="#" class="profile-link" data-target="#password-email-info">{{ 'Email and password'|t }}</a></li>
+        {% if element.field_organizacion['#access'] %}
+          <li><a href="#" class="profile-link" data-target="#organization-info">{{ 'Organization'|t }}</a></li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="profile-content profile-content--edit-mode">
+      {{ element.form_build_id['#markup'] }}
+      {{ element.form_token['#markup'] }}
+      {{ element.form_id['#markup'] }}
+      <div id="personal-info" class="profile-section profile-section--full active">
+        <h4 class="title">{{ 'Personal data'|t }}</h4>
+        <div class="profile-section__fields profile-section__fields--edit">
+
+          <div class="form-item">
+            <label for="edit-field-username" class="">{{ 'User'|t }}</label>
+            <input readonly class="disabled js-text-full text-full form-text" data-drupal-selector="edit-field-username" type="text" id="edit-field-username-value" value="{{ element.account.name['#value'] }}">
+          </div>
+          {{ element.field_nombre['#markup'] }}
+          {{ element.field_apellidos['#markup'] }}
+          {{ element.field_telefono['#markup'] }}
+          {{ element.field_comentarios_adicionales['#markup']}}
+        </div>
+      </div>
+
+      <div id="password-email-info" class="profile-section profile-section--full">
+        <h4 class="title">{{ 'Email and password'|t }}</h4>
+        <div class="profile-section__fields profile-section__fields--edit">
+          {{ element.account['#markup'] }}
+        </div>
+      </div>
+
+      
+      {% if element.field_organizacion['#access'] %}
+      <div id="organization-info" class="profile-section profile-section--full">
+        <h4 class="title">{{ 'Organization'|t }}</h4>
+        <div class="profile-section__fields profile-section__fields--edit">
+          {{ element.field_posicion['#markup'] }}
+          {{ element.field_organizacion['#markup'] }}
+          {{ element.field_ckan_user_id['#markup'] }}
+          {{ element.field_ckan_user_name['#markup'] }}
+        </div>
+      </div>
+      {% endif %}
+    
+    </div>
+
+  </div>
+  {% endif %}
+  <div id="form-info-actions" class="container flex-display flex-justify-right">
+    <div class="col-3">
+        {{ element.actions['#markup'] }}
+    </div>
+  </div>
+</form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const section = localStorage.getItem('profileSection');
+
+    if (section) {
+      document.querySelectorAll('.profile-section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+
+      const targetSection = document.getElementById(section);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+
+      document.querySelectorAll('.profile-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-target') === `#${section}`) {
+          link.classList.add('active');
+        }
+      });
+
+      localStorage.removeItem('profileSection');
+    }
+  });
+</script>

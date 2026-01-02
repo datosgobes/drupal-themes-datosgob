@@ -1,0 +1,134 @@
+{#
+/**
+  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('dge_theme/node') }}
+<article{{ attributes.addClass(classes) }}>
+
+  <div{{ content_attributes.addClass('node__content') }}>
+    {% set category_entity = drupal_entity('taxonomy_term', node.field_categoria.value[0].target_id) %}
+    <div class="detail-sector">
+      <div class="detail-sector__header mb-10 flex-display flex-gap--1">
+        <div class="detail-sector__header__desc flex-display flex-column">
+          <div class="title-sector flex-display flex-column">
+            <div class="decoration-line--full mb-6" style="background-color:{{ category_entity['#taxonomy_term'].field_color.color }}"></div>
+            <h1 class="mt-10 pt-5">
+              {{ label }}
+            </h1>
+            <div class="decoration-line mb-6" style="background-color:{{ category_entity['#taxonomy_term'].field_color.color }}"></div>
+            {% if node.field_share_social_media.value == '1'%}
+            {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', wrapper: false,label : 'Social Sharing block',label_display : 0,provider : 'social_media' }) }}
+            {% endif %}
+          </div>
+          <div class="description-sector flex-display">
+            <span>
+              {{ node.body.value|raw}}
+            </span>
+          </div>
+        </div>
+
+        <div class="detail-sector__header__img flex-display">
+          <span class="flex-display">
+            {% set image = null %}
+            {% set alt_text = "" %}
+            
+            {# Verificamos si sector tiene una entidad de media #}
+            {% set media_entity = node.field_media.0.entity %}
+            {% if media_entity %}
+              {% set image = media_entity.field_media_image.entity %}
+              {% set image_values = media_entity.field_media_image.value %}
+              {% if image_values[0].alt is not empty %}
+                {% set alt_text = image_values[0].alt %}
+              {% endif %}
+            {# Si no, verificamos si la taxonomía de categoría relacionada tiene una imagen #}
+            {% elseif category_entity['#taxonomy_term'] %}
+              {% set category_media_entity = category_entity['#taxonomy_term'].field_category_image.0.entity %}
+              {% if category_media_entity %}
+                {% set image = category_media_entity.field_media_image.entity %}
+                {% set image_values = category_media_entity.field_media_image.value %}
+                {% if image_values[0].alt is not empty %}
+                  {% set alt_text = image_values[0].alt %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            
+            {% if image %}
+              <img src="{{ image.uri.value | file_url }}" alt="{{ alt_text }}">
+            {% endif %}
+          </span>
+          <div class="decorative-arrow"><span><img src="/themes/custom/dge_theme/images/icons/arrow-yellow-sector.svg" alt=""></span></div>
+        </div>
+      </div>
+
+
+      <div class="layout--full layout--full--title layout--gray-color layout layout--onecol pb-0 layout--full--empty--2">
+        <div class="layout__region layout__region--content">
+          &nbsp;
+        </div>
+      </div>
+
+
+      <div class="layout--full layout--full--title layout--gray-color layout layout--onecol pt-5">
+        <div class="layout__region layout__region--content">
+          <div class="block block-layout-builder block-inline-blockbasic">
+            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
+              <h2 class="text--color-primary-dark">{{ 'Discover' | t }} <span class="h2subtitle">{{ 'the most notable datasets' | t }} &nbsp;</span></h2>
+              <div class="decoration-line">&nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layout--full layout--widget-sector layout--gray-color layout layout--onecol">
+        <div class="layout__region">
+          <div class="field field--name-field-contenido-paragrhaphs field--type-entity-reference-revisions field--label-above">
+            <div class="field__items">
+              {% for item in node.field_contenido_paragrhaphs %}
+                {% if item.entity %}
+                <div class="field__item">
+                  {{ item.entity|view }}
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div> 
+        </div>
+      </div> 
+      {{ content }}
+    </div>
+  </div>
+</article>
+
+<style>
+div#block-dge-theme-page-title {
+    display: none;
+}
+</style>
