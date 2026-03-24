@@ -1,0 +1,52 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{{ etiquetas.separator }}
+  {%- if etiquetas.wrapper_element -%}
+  <{{ etiquetas.wrapper_element }}{{ etiquetas.wrapper_attributes }}>
+    {%- endif %}
+    {%- if etiquetas.label -%}
+    {%- if etiquetas.label_element -%}
+    <{{ etiquetas.label_element }}{{ etiquetas.label_attributes }}>{{
+      etiquetas.label }}{{ etiquetas.label_suffix }}</{{
+      etiquetas.label_element }}>
+    {%- else -%}
+    {{ etiquetas.label }}{{ etiquetas.label_suffix }}
+    {%- endif %}
+    {%- endif %}
+
+    {%- if etiquetas.element_type -%}
+    <{{ etiquetas.element_type }}{{ etiquetas.element_attributes }}>
+      {%- set labels = etiquetas.content|split(',') %}
+      {%- for label in labels[:3] %}
+      {{- label|raw -}}
+      {%- endfor %}
+      {%- if labels|length > 3 %}
+      <span class="ml-2">+{{ labels|length - 3 }}</span>
+      {%- endif %}
+    </p{{ etiquetas.element_type }}>
+    {%- else -%}
+    {{ etiquetas.content }}
+    {%- endif %}
+    {%- if etiquetas.wrapper_element -%}
+  </{{ etiquetas.wrapper_element }}>
+  {%- endif %}

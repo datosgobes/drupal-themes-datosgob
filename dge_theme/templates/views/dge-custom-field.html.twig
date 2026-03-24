@@ -1,0 +1,51 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{{ field.separator }}
+{%- if field.wrapper_element -%}
+    <{{ field.wrapper_element }}{{ field.wrapper_attributes }}>
+{%- endif %}
+{%- if field.label -%}
+    {%- if field.label_element -%}
+    <{{ field.label_element }}{{ field.label_attributes }}>{{ field.label }}{{ field.label_suffix }}</{{ field.label_element }}>
+    {%- else -%}
+    {{ field.label }}{{ field.label_suffix }}
+    {%- endif %}
+{%- endif %}
+{%- if field.element_type -%}
+    <{{ field.element_type }}{{ field.element_attributes }}>
+    {%- if strip_tags -%}
+      {{ field.content|striptags|raw }}
+    {%- else -%}
+      {{ field.content }}
+    {%- endif %}
+  </{{ field.element_type }}>
+{%- else -%}
+    {%- if strip_tags -%}
+    {{ field.content|striptags }}
+  {%- else -%}
+    {{ field.content }}
+  {%- endif %}
+{%- endif %}
+{%- if field.wrapper_element -%}
+    </{{ field.wrapper_element }}>
+{%- endif %}

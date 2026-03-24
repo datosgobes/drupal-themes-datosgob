@@ -1,0 +1,42 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override to display a single views grouping.
+ *
+ * Available variables:
+ * - view: The view object.
+ * - grouping: The grouping instruction.
+ * - grouping_level: A number indicating the hierarchical level of the grouping.
+ * - title: The group heading.
+ * - content: The content to be grouped.
+ * - rows: The rows returned from the view.
+ *
+ * @see template_preprocess_views_view_grouping()
+ */
+#}
+<div class="view-grouping">
+  <div class="view-grouping-header">{{ title }}</div>
+  <div class="view-grouping-content">{{ content }}</div>
+</div>

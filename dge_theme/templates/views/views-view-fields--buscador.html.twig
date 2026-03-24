@@ -1,0 +1,47 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{% set node_url = path('entity.node.canonical', {'node': row._entity.id}) %}
+
+{% set descripcion = fields.field_descripcion.content|striptags|trim is not empty ? fields.field_descripcion : (fields.body.content|striptags|trim is not empty ? fields.body : null) %}
+{% set tipo = fields.type.content|striptags|trim is not empty ? fields.type : null %}
+
+{% if tipo.content|render|striptags|trim == 'FAQ' %}
+  {% set language_code = node_url|split('/')[1] %}
+  {% set categoria = fields.field_faq_category.content|striptags|trim|lower|replace({' ': '-', 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ñ': 'n'}) %}
+  {% set nodeId = fields.search_api_id.content|striptags|trim|replace({'entity:node/': '', ':es': ''}) %}
+  {% set taxonomy_id = fields.field_faq_category.content|render|split('href="')[1]|split('"')[0]|split('/')|last %}
+
+  {% set custom_url_faq = '/' ~ language_code ~ '/preguntas-frecuentes/faq_categoria/' ~ categoria ~ '-' ~ taxonomy_id ~ '#faq-' ~ nodeId %}
+ 
+{% endif %}
+
+
+{% set params = {
+  title: fields.title,
+  descripcion: descripcion,
+  tipo: tipo,
+  
+  }
+%}
+{% include directory ~ '/templates/views/dge-custom-views-view-fields.html.twig' with params %}
+

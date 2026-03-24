@@ -1,6 +1,6 @@
 {#
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -85,8 +85,8 @@
 
       let iframe = selectedTab.querySelector("iframe");
       if (iframe) {
-        let currentSrc = iframe.src;
-        iframe.src = "";
+        let currentSrc = iframe.getAttribute("src") || iframe.dataset.src;
+        iframe.removeAttribute("src");
         setTimeout(() => {
           iframe.src = currentSrc;
         }, 100);

@@ -1,0 +1,53 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override to display a list of summary lines.
+ *
+ * Available variables:
+ * - rows: The rows contained in this view.
+ *   Each row contains:
+ *   - url: The summary link URL.
+ *   - link: The summary link text.
+ *   - count: The number of items under this grouping.
+ *   - attributes: HTML attributes to apply to each row.
+ *   - active: A flag indicating whether the row is active.
+ * - options: Flags indicating how the summary should be displayed.
+ *   This contains:
+ *   - count: A flag indicating whether the count should be displayed.
+ *
+ * @see template_preprocess_views_view_summary()
+ */
+#}
+<div class="item-list">
+  <ul class="views-summary">
+  {% for row in rows %}
+    <li><a href="{{ row.url }}"{{ row.attributes.addClass(row.active ? 'is-active')|without('href') }}>{{ row.link }}</a>
+      {% if options.count %}
+        ({{ row.count }})
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</div>

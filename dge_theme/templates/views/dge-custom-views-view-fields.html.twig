@@ -1,0 +1,113 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+<div class="container container--card flex-nowrap flex-column">
+  <div class="view--desc flex-display flex-column p-4">
+    <a href="{{ custom_url_faq is not empty ? custom_url_faq : node_url }}">
+      <div class="flex-display flex-center mb-4">
+        {% set params = {
+          field: title
+          } 
+        %}
+        
+        {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+      </div>
+      
+      <div class="flex-display flex-column">
+        {% set sector_render = sector.content|render %}
+        {% if sector_render %}
+          <div class="flex-display flex-center mb-2">
+            {% set params = {
+            categoria: sector
+            }
+            %}
+
+            {% include directory ~ '/templates/views/dge-custom-field-categoria.html.twig' with params %}
+          </div>
+        {% endif %}
+
+
+      </div>
+    </a>
+ 
+    <a href="{{ custom_url_faq is not empty ? custom_url_faq : node_url }}">
+      <div class="flex-display flex-center mb-2">
+        <div class="views-field-field-descripcion-1">
+          {% set params = {
+            field: descripcion,
+            strip_tags: true
+            } 
+          %}
+          
+          {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+        </div>
+      </div>
+    </a>
+    {% set etiquetas_render = etiquetas.content|render %}
+    {% if etiquetas_render %}
+    <div class="flex-display flex-center mt-auto mb-2">
+      {% set params = {
+        etiquetas: fields.field_etiquetas
+        } 
+      %}
+      
+      {% include directory ~ '/templates/views/dge-custom-field-etiquetas.html.twig' with params %}
+    </div>
+    {% endif %}
+
+    {% set tipo_render = tipo.content|render|striptags|trim %}
+    {% set fecha_render = fecha_publicacion.content %}
+    {% if tipo_render or fecha_render %}
+    <a href="{{ custom_url_faq is not empty ? custom_url_faq : node_url }}">
+      <div class="container mb-2 mt-4 mt-home-0 flex-gap-05 flex-center">
+        {% if fecha_render %}
+        <div class="flex-display flex-center regular datetimeViews">
+          <span class="flex-display icon--md mr-2"><img src="/themes/custom/dge_theme/images/icons/calendario.svg"
+              alt="calendar icon"></img></span>
+              {{ fecha_render }}
+        </div>
+        {% endif %}
+        {% if tipo_render %}
+          <div class="flex-display primary-color-dark mt-0 flex-center regular bold">
+            {% if fecha_render %} - {% endif %}
+            {% if tipo_render == 'FAQ' %}
+              {{ 'Preguntas frecuentes'|t }}
+            {% else %}
+              {{ tipo_render }}
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </a>
+    {% endif %}
+  </div>
+  <div class="flex-display flex-center">
+    <a class="h--100" href="{{ node_url }}">
+      {% set params = {
+          field: image
+          } 
+        %}
+        
+        {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+    </a>
+  </div>
+</div>

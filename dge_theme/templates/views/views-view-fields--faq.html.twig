@@ -1,0 +1,48 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+<div class="views-row__question" tabindex="0" onclick="toggleVisibility(this)" onkeydown="handleKeyPress(event)" 
+id="faq-{% if fields.nid_1 is defined %}{{ fields.nid_1.content|striptags|trim }}{% else %}missing-id{% endif %}">
+
+  {% set params = { field: fields.title } %}
+  {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+  <span class="arrow"><img src="/themes/custom/dge_theme/images/icons/blue-arrow.svg" alt=""></span>
+</div>
+
+
+<div class="views-row__content" style="display: none;" id="faq-content-{{ fields.nid.content }}">
+  {% set detailed_question = fields.field_detailed_question.content|render|striptags|trim %}
+  {% if detailed_question is not empty %}
+  <div class="views-row__content__question-detailed">
+    {% set params = { field: fields.field_detailed_question } %}
+    {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+    <div class="decoration-line"></div>
+  </div>
+  {% endif %}
+  <div class="views-row__content__answer">
+    {% set params = { field: fields.body } %}
+    {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+  </div>
+</div>
+
+
+

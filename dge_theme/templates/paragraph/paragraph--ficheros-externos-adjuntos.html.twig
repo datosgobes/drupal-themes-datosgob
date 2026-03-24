@@ -1,0 +1,146 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Default theme implementation to display a paragraph.
+ *
+ * Available variables:
+ * - paragraph: Full paragraph entity.
+ *   Only method names starting with "get", "has", or "is" and a few common
+ *   methods such as "id", "label", and "bundle" are available. For example:
+ *   - paragraph.getCreatedTime() will return the paragraph creation timestamp.
+ *   - paragraph.id(): The paragraph ID.
+ *   - paragraph.bundle(): The type of the paragraph, for example, "image" or "text".
+ *   - paragraph.getOwnerId(): The user ID of the paragraph author.
+ *   See Drupal\paragraphs\Entity\Paragraph for a full list of public properties
+ *   and methods for the paragraph object.
+ * - content: All paragraph items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - paragraphs: The current template type (also known as a "theming hook").
+ *   - paragraphs--type-[type]: The current paragraphs type. For example, if the paragraph is an
+ *     "Image" it would result in "paragraphs--type--image". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - paragraphs--view-mode--[view_mode]: The View Mode of the paragraph; for example, a
+ *     preview would result in: "paragraphs--view-mode--preview", and
+ *     default: "paragraphs--view-mode--default".
+ * - view_mode: View mode; for example, "preview" or "full".
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+
+{% block paragraph %}
+    {# Inicializar las variables #}
+    {% set titulo = '' %}
+    {% set tipo = '' %}
+    {% set tamano = '' %}
+    {% set url = '' %}
+    <div{{ attributes.addClass(classes) }}>
+        {% block content %}
+        {# Acceder a los valores #}
+        {% if content.field_titulo %}
+            {% for item in content.field_titulo %}
+                {% if item['#context'] is defined and item['#context'].value is defined %}
+                    {% set titulo = item['#context'].value %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+        {% if content.field_tipo %}
+            {% for item in content.field_tipo %}
+                {% if item['#context'] is defined and item['#context'].value is defined %}
+                    {% set tipo = item['#context'].value %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+        {% if content.field_tamano %}
+            {% for item in content.field_tamano %}
+                {% if item['#context'] is defined and item['#context'].value is defined %}
+                    {% set tamano = item['#context'].value %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+        
+
+        {% if content.field_url %}
+            {% for item in content.field_url %}
+                {% if attribute(item, '#url') is defined %}
+                    {% set url = attribute(attribute(item, '#url'), 'uri') %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# Imprimir las variables #}
+        
+        {% if titulo is not empty and tipo is not empty and url is not empty %}
+            <tr>
+                <td class="w--100" style="min-width: 16rem;">{{ titulo }}</td>
+                <td class="white-space-nowrap float-none align-right">{{ tamano }}</td>
+                <td class="float-none align-right">
+                    <span class="badge-files" data-format="{{ tipo|lower }}">{{ tipo }}</span>
+                </td>
+
+                <td>
+                    <a href="{{ url }}" title="Descarga del documento &quot;{{ titulo }}&quot;. Abre una nueva ventana" class="icon-link" tabindex="-1" target="_blank" rel="noopener noreferrer">
+                        <span class="file">
+                            <img src="/themes/custom/dge_theme/images/icons/external-file.svg" alt="Ir a fichero externo">
+                        </span>
+                    </a>
+                </td>
+            </tr>
+    
+        {% endif %}
+
+        {% endblock %}
+    </div>
+{% endblock paragraph %}
+
+
+
+
+
+
+
+

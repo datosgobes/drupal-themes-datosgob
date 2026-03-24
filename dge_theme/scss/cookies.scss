@@ -1,5 +1,5 @@
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -43,6 +43,13 @@
 
 /* Estilo específico para el botón con la clase cookiesjsr-settings */
 .cookiesjsr-btn.cookiesjsr-settings {
+    color: $white;
+    background-color: $primary-500;
+    border: none;
+    text-decoration: underline;
+}
+
+.cookiesjsr-btn.important.denyAll{
     color: $white;
     background-color: $primary-500;
 }

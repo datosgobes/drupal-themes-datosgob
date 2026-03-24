@@ -1,5 +1,5 @@
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -42,27 +42,26 @@ $table-row-alternate-color: $primary-100;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 1rem;
-    color: $primary-700;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: $primary-700;
+  border: none;
+  margin: 0.9em auto;
+  // Estilos de celdas
+  th,
+  td {
+    padding: 0.75rem 0.938rem;
+    text-align: left;
     border: none;
+  }
 
-    // Estilos de celdas
-    th, td {
-        padding: 0.75rem 0.938rem;
-        text-align: left;
-        border: none;
-        vertical-align: top;
-    }
-
-    // Estilos para el encabezado
-    thead {
-        background-color: $primary-300;
-        tr {
-        th {
-            font-family: 'montserrat-semiBold';
-            color: $primary-700;
+  // Estilos para el encabezado
+  thead {
+    background-color: $primary-300;
+    tr {
+      th {
+        font-family: "montserrat-semiBold";
+        color: $primary-700;
 
             &.is-active {
             background-color: $primary-500;
@@ -92,9 +91,17 @@ table {
             background-color: $primary-200;
             }
 
-            a {
-            font-family: 'montserrat-semiBold';
-            }
+        a {
+          font-family: "montserrat-semiBold";
+        }
+
+        ol {
+          margin: 0;
+        }
+        ul {
+          margin: 0;
+          min-width: 200px;
+        }
 
             .dropbutton-wrapper {
             .dropbutton-widget {
@@ -143,99 +150,14 @@ table {
         }
     }
 
-    // Aplica solo en pantallas pequeñas
-    @media (max-width: 1200px) {
-        display: block;
-        overflow-x: auto;
-        white-space: normal !important;
-        max-width: 100%;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    &.table-post{
-        border-collapse: collapse;
-        thead{
-        background-color: $primary-650;
-        tr{
-            th{
-            font-family: $font-secondary;
-            color: $white;
-            font-weight: 700;
-            }
-        }
-        }
-        tbody{
-            tr{
-                &:nth-of-type(odd){
-                    background-color: $white !important;
-                }
-                th {
-                    background: $third-300;
-                    font-family: $font-secondary;
-                    color: $primary-black;
-                    font-weight: 600;
-                    strong{
-                        font-family: $font-secondary;
-                        font-weight: 600;
-                    }
-                    img{
-                        width: 30px !important;
-                        height: 30px !important;
-                        float: left;
-                        top: -3px;
-                        position: relative;
-                        margin-right: 5px;
-                    }
-                    p{
-                        margin: 0;
-                        min-height: 30px;
-                        align-content: center;
-                        color: $primary-black !important;
-                    }
-                }
-                td{
-                    color: $primary-black;
-                    p{
-                      color: $primary-black !important;
-                  }
-                }
-            }
-        }
-        td, th{
-            padding: .938rem 1.375rem;
-            border: 1px solid $primary-550;
-            font-family: $font-secondary;
-        }
-        &.column-highlighted{
-            &.column-primary{
-                tbody{
-                    tr{
-                        th {
-                            background: $primary-300;
-                        }
-                    }
-                }
-            }
-            &.column-gray{
-                tbody{
-                    tr{
-                        th {
-                            background: $xlight-gray;
-                        }
-                    }
-                }
-            }
-            &.column-yellow{
-                tbody{
-                    tr{
-                        th {
-                            background: $third-300;
-                        }
-                    }
-                }
-            }
-        }
-    }
+  // Aplica solo en pantallas pequeñas
+  @media (max-width: 1200px) {
+    display: block;
+    overflow-x: auto;
+    white-space: normal !important;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* DataTable Table styles - Rewrite css by default styles */
@@ -247,17 +169,19 @@ table.dataTable {
   white-space: normal;
   thead {
     tr {
-      th, td {
+      th,
+      td {
         border-bottom: none !important;
-        padding: .75rem .938rem !important;
+        padding: 0.75rem 0.938rem !important;
         cursor: pointer;
         color: $primary-500 !important;
         text-decoration: underline !important;
         min-width: 12rem;
-        &[aria-sort="ascending"], &[aria-sort="descending"]{
+        &[aria-sort="ascending"],
+        &[aria-sort="descending"] {
           background-color: $primary-500;
-          opacity: .8;
-          span{
+          opacity: 0.8;
+          span {
             color: #fff;
             text-decoration: underline !important;
           }

@@ -1,0 +1,72 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+* @file
+* Default theme implementation to display a sitemap menu.
+*
+* Available variables:
+* - menu_name: The machine name of the menu.
+* - items: A nested list of menu items. Each menu item contains:
+* - attributes: HTML attributes for the menu item.
+* - below: The menu item child items.
+* - title: The menu link title.
+* - url: The menu link url, instance of \Drupal\Core\Url
+* - localized_options: Menu link localized options.
+* - is_expanded: TRUE if the link has visible children within the current
+* menu tree.
+* - is_collapsed: TRUE if the link has children within the current menu tree
+* that are not currently visible.
+* - in_active_trail: TRUE if the link is in the active trail.
+*
+* @ingroup themeable
+*/
+#}
+
+{% if items %}
+  <ul class="main-menu">
+    {% for item in items %}
+      <li class="main-menu--item">
+
+          <div class="flex-display flex-flow-column">
+            <div class="flex-display flex-start flex-flow-column flex-gap-1 title-img">
+              {{ link(item.title, item.url) }}
+            <div>
+
+            {# Si hay submenús (nivel 2) #}
+            {% if item.below %}
+              <ul class="submenu flex-row responsive-md-flex-column">
+                {% for subitem in item.below %}
+                  <li{{ subitem.attributes }}>
+                    {{ link(subitem.title, subitem.url) }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            </div>
+          </div>
+
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

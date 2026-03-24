@@ -1,0 +1,116 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{% if is_user_profile %}
+<article{{ attributes.addClass('profile') }}>
+  {% if content %}
+  <div class="profile-wrapper">
+    <div class="profile-menu">
+      <div>
+        <h3>{{ 'My account'|t }}</h3>
+      </div>
+      <ul>
+        <li><a href="#" class="profile-link active" data-target="#personal-info" onclick="localStorage.setItem('profileSection', 'personal-info');">{{ 'Personal data'|t }}</a></li>
+        <li><a href="{{ url('entity.user.edit_form', {'user': user.id}, {'absolute': true}) }}" class="profile-link redirect-link" onclick="localStorage.setItem('profileSection', 'password-email-info');">{{ 'Change password'|t }}</a></li>
+        <li><a href="#" class="profile-link" data-target="#email-info" onclick="localStorage.setItem('profileSection', 'password-email-info');">{{ 'Email'|t }}</a></li>
+        {% if content.field_organizacion['#items']|length > 0 or content.field_posicion['#items']|length > 0 %}
+          <li><a href="#" class="profile-link" data-target="#organization-info" onclick="localStorage.setItem('profileSection', 'organization-info');">{{ 'Organization'|t }}</a></li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="profile-content">
+      <div id="personal-info" class="profile-section active">
+        <h4 class="title">{{ 'Personal data'|t }}</h4>
+        <div class="profile-section__fields">
+          {{ content.field_nombre }}
+          {{ content.field_apellidos }}
+          {{ content.field_telefono }}
+          {{ content.member_for }}
+          
+          {% if content.field_comentarios_adicionales is defined %}
+            <div class="field field--name-field-comentarios-adicionales field--type-text-long field--label-above">
+               {% if content.field_comentarios_adicionales['#title'] is not defined %}
+                <div class="field__label">{{'Comentarios adicionales'|t }}</div>
+              {% endif %}
+              <div class="field__item">
+                {{ content.field_comentarios_adicionales }}
+              </div>
+            </div>
+          {% endif %}
+         
+          {{user['#values'].name}}
+        </div>
+      </div>
+      
+      <div id="email-info" class="profile-section">
+        <h4 class="title">{{ 'Email'|t }}</h4>
+        <div class="profile-section__fields">
+          {{ user.mail.value }}
+        </div>
+      </div>
+      
+      {% if content.field_organizacion['#items']|length > 0 or content.field_posicion['#items']|length > 0 %}
+      <div id="organization-info" class="profile-section">
+        <h4 class="title">{{ 'Organization'|t }}</h4>
+        <div class="profile-section__fields">
+          {{ content.field_posicion }}
+          <div class="field field--name-field-organizacion field--type-entity-reference field--label-above">
+            <div class="field__label">{{ content.field_organizacion['#title'] }}</div>
+            <div class="field__item">{{ content.field_organizacion.0['#title'] }}</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+  
+      <div id="edit-option">
+        <a href="{{ url('entity.user.edit_form', {'user': user.id}, {'absolute': true}) }}" class="icon-link">
+          <span class="operation-item">
+            <img src="/themes/custom/dge_theme/images/icons/operation-list_edit.svg" alt="Editar campos">
+          </span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+  {% endif %}
+</article>
+{% endif %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    localStorage.removeItem('profileSection');
+    document.querySelectorAll('.profile-link').forEach(link => {
+    link.addEventListener('click', function() {
+      const targetData = this.getAttribute('data-target');
+
+      if (targetData === '#organization-info') {
+        document.getElementById('edit-option').style.display = 'none';
+      } else {
+        document.getElementById('edit-option').style.display = 'block';
+      }
+
+    });
+  });
+  });
+</script>

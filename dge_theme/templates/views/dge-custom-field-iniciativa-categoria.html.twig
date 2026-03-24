@@ -1,0 +1,61 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{{ tematica.separator }}
+{%- if tematica.wrapper_element -%}
+<{{ tematica.wrapper_element }}{{ tematica.wrapper_attributes }}>
+{%- endif %}
+{%- if tematica.label -%}
+{%- if tematica.label_element -%}
+<{{ tematica.label_element }}{{ tematica.label_attributes }}>
+    {{ tematica.label }}{{ tematica.label_suffix }}
+</{{ tematica.label_element }}>
+{%- else -%}
+{{ tematica.label }}{{ tematica.label_suffix }}
+{%- endif %}
+{%- endif %}
+
+{%- if tematica.element_type -%}
+<{{ tematica.element_type }}{{ tematica.element_attributes }}>
+    {%- set tematicas = tematica.content|striptags|trim|split(',') %}
+    {%- if tematicas is not empty and tematicas[0]|trim is not empty %}
+    {%- for tematica_categoria in tematicas[:3] %}
+        {%- set tematica_entity = drupal_entity('taxonomy_term', tematica_categoria|trim) %}
+        <div class="flex-display flex-center">
+            <div class="flex-display decoration-dot"
+                style="background-color:{{ tematica_entity['#taxonomy_term'].field_color.color }}"></div>
+            <div class="flex-display">
+                {{ tematica_entity['#taxonomy_term'].name.value }}
+            </div>
+        </div>
+    {%- endfor %}
+    {%- endif %}
+    {%- if tematicas|length > 3 %}
+    <span class="ml-2">+{{ tematicas|length - 3 }}</span>
+    {%- endif %}
+</{{ tematica.element_type }}>
+{%- else -%}
+{{ tematica.content }}
+{%- endif %}
+{%- if tematica.wrapper_element -%}
+</{{ tematica.wrapper_element }}>
+{%- endif %}

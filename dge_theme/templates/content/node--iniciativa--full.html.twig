@@ -1,0 +1,192 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+{{ attach_library('dge_theme/node') }}
+<article{{ attributes.addClass(classes) }}>
+
+  <div{{ content_attributes.addClass(['node__content','node__content_iniciativas']) }}>
+  
+    <!-- Descripción -->
+    {% set body_content = content.body|render %}
+    {% if body_content is not empty %}
+    <div class="flex-display flex-column mb-10">
+      {{ content.body }}
+    </div>
+    {% endif %}
+    <!-- Iniciativa - Información -->
+    <div class="container">
+      <div class="iniciativa-section">
+        <h3>
+          <span class="field field--name-title">{{ 'Information' | t }}</span>
+        </h3>
+        <div class="decoration-line mb-4"></div>
+        <div class="iniciativa-full-width">
+        {% set has_categories = false %}
+        {% for item in content.field_initiative_category %}
+          {% if item['#type'] == 'link' %}
+            {% set has_categories = true %}
+          {% endif %}
+        {% endfor %}
+
+        {% if has_categories %}
+          <div class="flex-display flex-column">
+            <span class="label bold mb-0 primary-color-dark">{{ content.field_initiative_category['#title'] }}:</span>
+            <div class="flex-display flex-flow flex-gap-1-2 flex-center mb-2 mt-2">
+              {% set params = {
+                categorias: content.field_initiative_category
+                } 
+              %}
+              
+              {% include directory ~ '/templates/content/dge_custom_field_categoria.html.twig' with params %}
+            </div>
+          </div>
+        {% endif %}
+        </div>
+        <div class="iniciativa-grid">
+          {% if content.field_initiative_organization %}
+          <div class="iniciativa-grid-row">
+            <span class="label bold primary-color-dark">{{ content.field_initiative_organization['#title'] }}:</span>
+            <span class="text--italic">
+              {{ content.field_initiative_organization[0] }}
+            </span>
+          </div>
+          {% endif %}
+          
+          {% if content.field_initiative_admin_level %}
+          <div class="iniciativa-grid-row">
+            <span class="label bold primary-color-dark">{{ content.field_initiative_admin_level['#title'] }}:</span>
+            <span class="text--italic">
+              {{ node.field_initiative_admin_level.entity.label }}
+            </span>
+          </div>
+          {% endif %}
+          
+          {% if content.field_initiative_collaborate %}
+          <div class="iniciativa-grid-row">
+            <span class="label bold primary-color-dark">{{ content.field_initiative_collaborate['#title'] }}:</span>
+            <span class="text--italic">
+              {{ content.field_initiative_collaborate[0]['#markup'] }}
+            </span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Iniciativa - Enlaces -->
+    {% set field_link = content.field_initiative_link|render %}
+    {% set field_catalog = content.field_initiative_catalog|render %}
+    {% set field_enlace_catalogo = content.field_enlace_al_cat_logo_de_dato|render %}
+    {% set field_strategy = content.field_initiative_strategy|render %}
+    {% set field_resources = content.field_initiative_resources|render %}
+    {% set field_channel = content.field_initiative_channel|render %}
+    {% set field_license = content.field_initiative_license|render %}
+    
+    {% if field_link is not empty or field_catalog is not empty or field_enlace_catalogo is not empty or field_strategy is not empty or field_resources is not empty or field_channel is not empty or field_license is not empty %}
+    <div class="container mt-10">
+      <div class="iniciativa-section">
+        <h3>
+          <span class="field field--name-title">{{ 'Links' | t }}</span>
+        </h3>
+        <div class="decoration-line mb-4"></div>
+        <div class="iniciativa-grid">
+          {% if field_link is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_initiative_link['#title'] }}:</span>
+              <a href="{{ node.field_initiative_link.uri }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ node.field_initiative_link.uri }}</a>
+            </div>
+          {% endif %}
+
+          {% if field_strategy is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_initiative_strategy['#title'] }}:</span>
+              <a href="{{ node.field_initiative_strategy.uri }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ node.field_initiative_strategy.uri }}</a>
+            </div>
+          {% endif %}
+
+          {% if field_enlace_catalogo is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_enlace_al_cat_logo_de_dato['#title'] }}:</span>
+              <a href="{{ node.field_enlace_al_cat_logo_de_dato.uri }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ node.field_enlace_al_cat_logo_de_dato.uri }}</a>
+            </div>
+          {% endif %}
+
+          {% if field_license is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_initiative_license['#title'] }}:</span>
+              <a href="{{ content.field_initiative_license[0]['#title'] }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ content.field_initiative_license[0]['#title'] }}</a>
+            </div>
+          {% endif %}
+
+          {% if field_channel is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_initiative_channel['#title'] }}:</span>
+              <a href="{{ node.field_initiative_channel.uri }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ node.field_initiative_channel.uri }}</a>
+            </div>
+          {% endif %}
+
+          {% if field_catalog is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_initiative_catalog['#title'] }}:</span>
+              <a href="{{ node.field_initiative_catalog.uri }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ node.field_initiative_catalog.uri }}</a>
+            </div>
+          {% endif %}
+
+          {% if field_resources is not empty %}
+            <div class="iniciativa-grid-row">
+              <span class="label bold primary-color-dark">{{ content.field_initiative_resources['#title'] }}:</span>
+              <a href="{{ node.field_initiative_resources.uri }}" target="_blank" rel="noopener noreferrer" class="text--italic">{{ node.field_initiative_resources.uri }}</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Iniciativa - Contenido relacionado -->
+    {% set contenido_relacionado = content.field_contenido_relacionado|render %}
+    {% if contenido_relacionado is not empty %}
+    <div class="container mt-10">
+      <div class="flex-display flex-column">
+        <h3>
+          <span class="field field--name-title">{{ 'Related Content' | t }}</span>
+        </h3>
+        <div class="decoration-line mb-4"></div>
+        <div>
+          {{ content.field_contenido_relacionado }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+
+</article>

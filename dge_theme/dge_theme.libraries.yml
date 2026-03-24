@@ -36,6 +36,8 @@ base:
     js/truncate-paragraphs.js: {}
     js/validate-date-filters.js: {}
     js/profile-form.js: {}
+    js/remove-autolinks.js: {}
+    js/tfa-action.js: {}
     
   css:
     component:

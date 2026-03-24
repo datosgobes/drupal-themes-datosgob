@@ -1,5 +1,5 @@
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -59,6 +59,7 @@ header {
                             height: 3.125rem;
                             width: auto;
                             background-color: white;
+                            max-height: 3.125rem;
                         }
                     }
 
@@ -487,6 +488,8 @@ header {
                         img {
                             width: 100% !important;
                             height: auto !important;
+                            min-height: 2.5rem;
+                            max-height: 2.5rem !important;
                         }
                     }
                 }

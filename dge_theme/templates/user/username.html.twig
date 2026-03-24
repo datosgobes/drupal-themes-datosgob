@@ -1,0 +1,51 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override for displaying a username.
+ *
+ * Available variables:
+ * - account: The full account information for the user.
+ * - uid: The user ID, or zero if not a user. As used in anonymous comments.
+ * - name: The user's name, sanitized, and optionally truncated.
+ * - name_raw: The user's name, un-truncated.
+ * - truncated: Whether the user's name was truncated.
+ * - extra: Additional text to append to the user's name, sanitized.
+ * - profile_access: Whether the current user has permission to access this
+     users profile page.
+ * - link_path: The path or URL of the user's profile page, home page,
+ *   or other desired page to link to for more information about the user.
+ * - homepage: (optional) The home page of the account, only set for non users.
+ * - link_options: Options to set on the \Drupal\Core\Url object if linking the
+ *   user's name to the user's page.
+ * - attributes: HTML attributes for the containing element.
+ *
+ * @see template_preprocess_username()
+ */
+#}
+{% if link_path -%}
+  <a{{ attributes.addClass('username') }}>{{ name }}{{ extra }}</a>
+{%- else -%}
+  <span{{ attributes }}>{{ name }}{{ extra }}</span>
+{%- endif -%}
