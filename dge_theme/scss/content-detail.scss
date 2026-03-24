@@ -1,5 +1,5 @@
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -544,6 +544,144 @@
   }
 }
 
+/* Iniciativa - Grid Layout Section */
+.iniciativa-section {
+  h3 {
+    margin-bottom: 0;
+    grid-column: 1 / -1;
+  }
+  
+  .decoration-line {
+    grid-column: 1 / -1;
+  }
+}
+
+.iniciativa-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem 2rem;
+  align-items: start;
+  width: 100%;
+}
+
+.iniciativa-grid-row {
+  display: contents;
+  
+  > span:first-child,
+  > a:first-of-type {
+    grid-column: 1;
+  }
+  
+  > span:last-child,
+  > a:last-of-type,
+  > div {
+    grid-column: 2;
+    overflow: hidden;
+    min-width: 0;
+  }
+  
+  > a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+}
+
+/* Wrapper for all iniciativa sections to align columns across sections */
+.node__content_iniciativas {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem 2rem;
+  
+  > .container:has(.iniciativa-section) {
+    display: contents;
+  }
+  
+  .iniciativa-section {
+    display: contents;
+  }
+  
+  .iniciativa-grid {
+    display: contents;
+  }
+  
+  .iniciativa-grid-row {
+    > span:first-child,
+    > a:first-of-type {
+      grid-column: 1;
+    }
+    
+    > span:last-child,
+    > a:last-of-type,
+    > div {
+      grid-column: 2;
+    }
+  }
+  
+  h3, .decoration-line, .iniciativa-full-width {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mobile view - stack vertically */
+@media (max-width: 768px) {
+  .node__content_iniciativas {
+    display: block;
+  }
+  
+  .iniciativa-section {
+    h3 {
+      margin-bottom: 0;
+    }
+    
+    .decoration-line {
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+    }
+  }
+  
+  .iniciativa-grid-row {
+    display: block;
+    margin-bottom: 1rem;
+    
+    > span:first-child,
+    > a:first-of-type {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    > span:last-child,
+    > a:last-of-type,
+    > div {
+      display: block;
+    }
+  }
+  
+  .iniciativa-full-width {
+    display: block;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Iniciativa - Link field wrapper (legacy - kept for backward compatibility) */
+.iniciativa-link-wrapper {
+  min-width: 0;
+}
+
+.iniciativa-link-container {
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+
+.iniciativa-link {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
 /* Pie de pagina - endnote */
 .endnote {
   font-family: 'montserrat-italic';
@@ -567,9 +705,7 @@
 .endnoteTableFigure {
   font-family: 'montserrat-italic';
   font-size: 14px !important;
-  margin-top: 2rem;
   color: $dark-gray;
-  padding-top: 1rem;
   text-align: center; /* Centra el texto */
   caption-side: bottom; /* Lo coloca debajo de la tabla */
   display: block;

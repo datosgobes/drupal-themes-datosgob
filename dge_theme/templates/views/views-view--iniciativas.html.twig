@@ -1,0 +1,140 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+
+{%
+  set classes = [
+    'view',
+    'view-' ~ id|clean_class,
+    'view-id-' ~ id,
+    'view-display-id-' ~ display_id,
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  
+  {{ title_prefix }}
+  {% if title %}
+    {{ title }}
+  {% endif %}
+  {{ title_suffix }}
+  {% if header %}
+    <div class="view-header flex-display flex-justify-between">
+      <div class="flex-display flex-end flex-gap-1">
+      {{ header }}
+      {{custom_header_searh_result}} 
+      </div>
+      
+      {% if view.element['#name'] == 'iniciativas' %}
+      {% set path_info = view.request.getPathInfo() %}
+      {% set language = path_info|split('/')[1] %}
+      {% set title_lower = view.title|lower %}
+      
+      {# No mostramos botones mapa y version accesible en el buscador de iniciativas.#}
+
+      {% if 'site-search' not in path_info %}
+      <div class="flex-display flex-gap-1">
+        <div class="option-view" title="{{ 'Show map'|t }}">
+          <a href="/{{ language }}/{{ title_lower }}">
+            <span class="option-item">
+              <img src="/themes/custom/dge_theme/images/icons/map-view.svg" alt="icono vista iniciativas mapa">
+            </span>
+          </a>
+        </div>
+        
+        <div class="option-view active" title="{{ 'Accesible version'|t }}">
+          <a href="/{{ language }}/accessible-initiatives">
+            <span class="option-item">
+              <img src="/themes/custom/dge_theme/images/icons/card-view.svg" alt="icono vista iniciativas accesible">
+            </span>
+          </a>
+        </div>
+
+        <div class="field field--name-field-button-primary field--type-link field--label-hidden field__items" title="{{ 'Download initiatives on CSV. Open a new window'|t }}">
+          <div class="field__item">
+              <a class="btn-link--csv" href="/{{ language }}/iniciativas/export" target="_blank"><span class="option-item">&nbsp;</span></a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+  {% endif %}
+
+    </div>
+  {% endif %}
+  {% if exposed %}
+    <div class="view-filters">
+      {{ exposed }}
+    </div>
+  {% endif %}
+  {% if attachment_before %}
+    <div class="attachment attachment-before">
+      {{ attachment_before }}
+    </div>
+  {% endif %}
+
+  <div class="tags hide">
+    <div class="badge-group">
+
+    </div>
+    <div class="badge-clear-all">
+
+    </div>
+  </div>
+  
+  {% if feed_icons %}
+    <div class="feed-icons">
+      {% for icon in feed_icons %}
+        {% if icon['#theme'] != 'export_icon' %}
+          {{ icon }}
+        {% endif %}      
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  {% if rows %}
+    <div class="view-content">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {% if pager %}
+    {{ pager }}
+  {% endif %}
+  {% if attachment_after %}
+    <div class="attachment attachment-after">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+  {% if more %}
+    {{ more }}
+  {% endif %}
+  {% if footer %}
+    <div class="view-footer">
+      {{ footer }}
+    </div>
+  {% endif %} 
+
+</div>

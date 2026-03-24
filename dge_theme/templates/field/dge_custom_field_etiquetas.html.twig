@@ -1,6 +1,6 @@
 {#
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -68,14 +68,19 @@
       {% endif %}
       
       {% for item in items %}
-        {% set tid = item.content['#url'].getRouteParameters().taxonomy_term %}
+
         {% set name_etiqueta = item.content['#title'] %}
-        {%- set formatted_name = name_etiqueta|lower|replace({'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'})|replace({' ':'-'}) %}
-        {% set final_url = path('view.' ~ name_view ~ '.page_1') ~ '/' ~ facet ~ '/' ~ formatted_name ~ '-' ~ tid %}
-        
+        {% set lang = app.request.getLocale() %}
+        {% set url_object = item.content['#url'] %}
+        {% set route_name = url_object.getRouteName() %}
+        {% set route_params = url_object.getRouteParameters() %}
+        {% set langcode = app.request.locale %}
+        {% set lang = language_manager.getLanguage(langcode) %}
+        {% set alias = url(route_name, route_params, {'language': lang}) %}
+
         <div{{ item.attributes.addClass('field__item') }}>
           {% if name_etiqueta is not empty %}
-            <a href="{{ final_url }}">{{ name_etiqueta }}</a>               
+            <a href="{{ alias }}">{{ name_etiqueta }}</a>               
           {% endif %}
         </div>
       {% endfor %}

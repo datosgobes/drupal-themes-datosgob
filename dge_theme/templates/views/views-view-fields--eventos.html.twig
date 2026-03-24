@@ -1,0 +1,143 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{% set node_url = path('entity.node.canonical', {'node': row._entity.id}) %}
+
+<div class="container container--card flex-nowrap flex-column">
+  <div class="view--desc flex-display flex-column p-4">
+
+    <div class="flex-gap-1 mb-4 flex-wrap flex-display container--card__info">
+      {% set fecha_html = fields.field_fecha.content|raw %}
+      {% set datetime_str = '' %}
+
+      {% for match in fecha_html|split(' ') %}
+          {% if 'datetime="' in match %}
+              {% set datetime_str = match|replace({'datetime="': '', '"': ''}) %}
+          {% endif %}
+      {% endfor %}
+
+      {% set fecha_obj = datetime_str|date('Y-m-d H:i:s') %}
+      {% set timestamp = datetime_str|date('U') %}
+
+      {# Extraer el idioma desde la URL correctamente #}
+      {% set url_parts = node_url|split('/') %}
+      {% set lang_code = url_parts[1] is defined ? url_parts[1] : '' %}
+
+      {# Validar que lang_code sea un código de idioma válido en Drupal #}
+      {% if lang_code not in ['en', 'es', 'ca', 'gl', 'eu'] %}
+          {% set lang_code = 'es' %}
+      {% endif %}
+
+      {# Obtener el día y el año #}
+      {% set day = fecha_obj|date('d') %}
+      {% set year = fecha_obj|date('Y') %}
+
+      {% if lang_code is not empty and timestamp is not empty %}
+        <div class="flex-display">
+          <a href="{{ node_url }}">
+            <div class="event-date">
+                <div class="event-date--month">
+                  {# Obtener la fecha larga en el idioma correspondiente #}
+                  {% set formatted_date = timestamp|format_date('long', '', null, lang_code) %}
+                  {% set date_parts = formatted_date|split(',', 2) %}
+                  {% set second_part = date_parts[1]|trim %}
+                  {% set date_parts2 = second_part|split(',', 2) %}
+                  {% set month_date = date_parts2[0]|trim %}
+                  {{ month_date|slice(0, -2) }}              
+                </div>
+                <div class="event-date--day">
+                    <div class="event-date--day_number">
+                        {{ day }}
+                    </div>
+                    <div class="event-date--day_week">
+                        {{ timestamp|format_date('long', '', null, lang_code)|split(' ')|first|replace({',': ''}) }}
+                    </div>
+                </div>
+                <div class="event-date--year">
+                    {{ year }}
+                </div>
+            </div>
+          </a>
+        </div>
+      {% endif %}
+
+      <div class="flex-display flex-column flex-1 min-w-event">
+
+        {% set fecha_render = fields.field_fecha.content %}
+          {% if fecha_render %}
+          <div class="flex-display mb-3 display-only-home flex-center regular datetimeViews">
+            <span class="flex-display icon--md mr-2"><img src="/themes/custom/dge_theme/images/icons/calendario.svg"
+                alt="calendar icon"></img></span>
+            {{ fecha_render}}
+          </div>
+        {% endif %}
+    
+        <a href="{{ node_url }}">
+          <div class="flex-display flex-center mb-2">
+            {% set params = {
+              field: fields.title
+              } 
+            %}
+            
+            {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+          </div>
+        </a>
+        <a href="{{ node_url }}">
+          <div class="flex-display flex-center mb-2">
+            <div class="views-field-field-descripcion-1">
+              {% set params = {
+                field: fields.field_descripcion,
+                strip_tags: true
+                } 
+              %}
+              
+              {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="flex-display flex-center mt-auto mb-2">
+      {% set params = {
+        etiquetas: fields.field_etiquetas
+        } 
+      %}
+      
+      {% include directory ~ '/templates/views/dge-custom-field-etiquetas.html.twig' with params %}
+    </div>
+    
+
+  </div>
+  <div class="flex-display flex-center relative align-self-center container--img-calendar">
+    <a class="h--100" href="{{ node_url }}">
+      {% set params = {
+          field: fields.field_image
+          } 
+        %}
+        
+        {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+        
+    </a>
+  </div>
+</div>

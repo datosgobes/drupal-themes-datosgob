@@ -1,0 +1,42 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%
+  set classes = [
+    'taxonomy-term',
+    'vocabulary-' ~ term.bundle|clean_class,
+  ]
+%}
+<div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  <div class="card-status" style="background-color:{{ elements['#taxonomy_term'].field_color.color }}">
+    <span class="card-status__icon">
+        <img src="{{file_url(elements['#taxonomy_term'].get('field_icono').entity.uri.value)}}" 
+            alt="{{elements['#taxonomy_term'].field_icono.alt}}"
+            width="{{elements['#taxonomy_term'].field_icono.width}}"
+            height="{{elements['#taxonomy_term'].field_icono.width}}">
+        </img>
+    </span>
+    <span class="card-status__name">{{ name }}</span>
+  </div>
+</div>

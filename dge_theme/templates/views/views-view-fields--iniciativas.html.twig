@@ -1,0 +1,173 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{%- set initiative =  fields.field_initiative_admin_level_1.content|striptags|trim %}
+{%- set initiative_entity = drupal_entity('taxonomy_term', initiative) %}
+<div class="views-row--inititive" style="border-top: 8px solid {{ initiative_entity['#taxonomy_term'].field_color.color }} !important;">
+    <div class="container">
+        
+        {% set field_initiative_link_html = fields.field_initiative_link.content|trim %}
+        {% set href_field_initiative_link_start = field_initiative_link_html|split('href="')[1] %}
+        {% set href_field_initiative_link = href_field_initiative_link_start|split('"')[0] %}
+        
+        <div class="flex-display w--100 flex-column mb-3">
+            <a href="{{ href_field_initiative_link }}" target="_blank" rel="noopener noreferrer">
+                {% set params = {
+                field: fields.title
+                }
+                %}
+                {% include directory ~ '/templates/views/dge-custom-field.html.twig' with params %}
+            </a>
+        </div>
+        <div class="flex-display w--100 flex-column mb-3">
+            <div class="text--italic primary-color-semi-dark regular nivel-administracion-org">
+            {{ fields.field_initiative_organization.content }}
+            </div>
+        </div>
+        <div class="flex-display w--100 flex-column mb-3">
+            <div class="nivel-administracion" style="background-color:{{ initiative_entity['#taxonomy_term'].field_color.color }}40">
+                {{ initiative_entity['#taxonomy_term'].name.value }}
+            </div>
+        </div>
+        
+        <div class="separator separator--gray separator--offside mt-1 mb-1"></div>
+    </div>
+
+    <div class="container flex-justify-between h--100">
+        <div class="flex-display flex-column">
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_initiative_link }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/link-initiative.svg" alt="icono estrategia iniciativa">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'Link to the initiative' | t }}</span>
+                </a>
+            </div>
+
+            {% set field_initiative_strategy_html = fields.field_initiative_strategy.content|trim %}
+            {% set href_field_initiative_strategy_start = field_initiative_strategy_html|split('href="')[1] %}
+            {% set href_field_initiative_strategy = href_field_initiative_strategy_start|split('"')[0] %}
+
+            {% if href_field_initiative_strategy is not empty %}
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_initiative_strategy }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/strategy-initiative.svg" alt="icono estrategia iniciativa">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'Data Opening Strategy' | t }}</span>
+                </a>
+            </div>
+            {% endif %}
+
+            {% set field_enlace_al_cat_logo_de_dato_html = fields.field_enlace_al_cat_logo_de_dato.content|trim %}
+            {% set href_field_enlace_al_cat_logo_de_dato_start = field_enlace_al_cat_logo_de_dato_html|split('href="')[1] %}
+            {% set href_field_enlace_al_cat_logo_de_dato = href_field_enlace_al_cat_logo_de_dato_start|split('"')[0] %}
+
+            {% if href_field_enlace_al_cat_logo_de_dato is not empty %}
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_enlace_al_cat_logo_de_dato }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/dataset-catalogue-initiative.svg" alt="icono catalogo de datos abiertos">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'Open Data Catalog' | t }}</span>
+                </a>
+            </div>
+            {% endif %}
+
+            {% set field_initiative_license_html = fields.field_initiative_license.content|trim %}
+            {% set href_field_initiative_license_start = field_initiative_license_html|split('href="')[1] %}
+            {% set href_field_initiative_license = href_field_initiative_license_start|split('"')[0] %}
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_initiative_license }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/license-initiative.svg" alt="icono licencia iniciativa">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'License' | t }}</span>
+                </a>
+            </div>
+
+            {% set field_initiative_channel_html = fields.field_initiative_channel.content|trim %}
+            {% set href_field_initiative_channel_start = field_initiative_channel_html|split('href="')[1] %}
+            {% set href_field_initiative_channel = href_field_initiative_channel_start|split('"')[0] %}
+
+            {% if href_field_initiative_channel is not empty %}
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_initiative_channel }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/request_chanel-initiative.svg" alt="icono canal iniciativa">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'Request Channel' | t }}</span>
+                </a>
+            </div>
+            {% endif %}
+
+            {% set field_initiative_catalog = fields.field_initiative_catalog.content|trim %}
+            {% set href_field_initiative_catalog_start = field_initiative_catalog|split('href="')[1] %}
+            {% set href_field_initiative_catalog = href_field_initiative_catalog_start|split('"')[0] %}
+
+            {% if href_field_initiative_catalog is not empty %}
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_initiative_catalog }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/catalogue_data-initiative.svg" alt="icono catalogo de aplicaciones">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'Application Catalog' | t }}</span>
+                </a>
+            </div>
+            {% endif %}
+
+            {% set field_initiative_resources_html = fields.field_initiative_resources.content|trim %}
+            {% set href_field_initiative_resources_start = field_initiative_resources_html|split('href="')[1] %}
+            {% set href_field_initiative_resources = href_field_initiative_resources_start|split('"')[0] %}
+
+            {% if href_field_initiative_resources is not empty %}
+            <div class="w--100 mb-3 flex-display flex-center">
+                <a href="{{ href_field_initiative_resources }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                    <span class="flex-display icon--sm">
+                        <img src="/themes/custom/dge_theme/images/icons/resources-initiative.svg" alt="icono recursos iniciativa">
+                    </span>
+                    <span class="flex-display regular text--bold align-self-end">{{ 'Initiative Resources' | t }}</span>
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+
+        {% if fields.field_initiative_collaborate is defined and fields.field_initiative_collaborate.content is defined %}
+            {# Convert content to plain text to avoid any markup interference #}
+            {% set collaborate = fields.field_initiative_collaborate.content|striptags|trim %}
+            {% set href_initiative_publicador = fields.field_initiative_organization.content|striptags|trim|replace({' ': '+'}) %}
+            
+            {# Check if the cleaned-up string is not empty #}
+            {% if collaborate is not empty %}
+                <div class="w--100 mt-auto flex-display flex-column flex-center flex-justify-center">
+                    <div class="decoration-line decoration-line__sm mb-2"></div>
+                    <a href="/catalogo?publisher_display_name={{ href_initiative_publicador }}" class="flex-display flex-gap-05 primary-color" target="_blank" rel="noopener noreferrer">
+                        <span class="regular bold text--color-primary-dark">{{ collaborate }}</span>
+                        <div><span class="flex-display icon--xxs"><img src="/themes/custom/dge_theme/images/icons/flecha-colabora-con-datos-gob.svg" alt=""></span></div>
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+</div>

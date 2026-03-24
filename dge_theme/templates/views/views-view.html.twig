@@ -1,0 +1,164 @@
+{#
+/**
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
+  *
+  * This file is part of "dge_theme (datos.gob.es)".
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#}
+
+
+{#
+/**
+ * @file
+ * Theme override for a main view template.
+ *
+ * Available variables:
+ * - attributes: Remaining HTML attributes for the element.
+ * - css_name: A CSS-safe version of the view name.
+ * - css_class: The user-specified classes names, if any.
+ * - header: The optional header.
+ * - footer: The optional footer.
+ * - rows: The results of the view query, if any.
+ * - empty: The content to display if there are no rows.
+ * - pager: The optional pager next/prev links to display.
+ * - exposed: Exposed widget form/info to display.
+ * - feed_icons: Optional feed icons to display.
+ * - more: An optional link to the next page of results.
+ * - title: Title of the view, only used when displaying in the admin preview.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the view title.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the view title.
+ * - attachment_before: An optional attachment view to be displayed before the
+ *   view content.
+ * - attachment_after: An optional attachment view to be displayed after the
+ *   view content.
+ * - dom_id: Unique id for every view being printed to give unique class for
+ *   JavaScript.
+ *
+ * @see template_preprocess_views_view()
+ */
+#}
+{%
+  set classes = [
+    'view',
+    'view-' ~ id|clean_class,
+    'view-id-' ~ id,
+    'view-display-id-' ~ display_id,
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if title %}
+    {{ title }}
+  {% endif %}
+  {{ title_suffix }}
+  {% if header %}
+    <div class="view-header flex-display flex-justify-between">
+      <div class="flex-display flex-end flex-gap-1">
+      {{ header }}
+      {{custom_header_searh_result}} 
+      </div>
+      {% if view.element['#name'] == 'iniciativas' %}
+      {% set path_info = view.request.getPathInfo() %}
+      {% set language = path_info|split('/')[1] %}
+      {% set title_lower = view.title|lower %}
+      
+      <div class="flex-display flex-gap-1">
+        <div class="option-view">
+          <a href="/{{ language }}/{{ title_lower }}">
+            <span class="option-item">
+              <img src="/themes/custom/dge_theme/images/icons/map-view.svg" alt="icono vista iniciativas mapa">
+            </span>
+          </a>
+        </div>
+        
+        <div class="option-view active">
+          <a href="/{{ language }}/accessible-initiatives">
+            <span class="option-item">
+              <img src="/themes/custom/dge_theme/images/icons/card-view.svg" alt="icono vista iniciativas accesible">
+            </span>
+          </a>
+        </div>
+      </div>
+    {% endif %}
+    </div>
+  {% endif %}
+  {% if exposed %}
+    <div class="view-filters">
+      {{ exposed }}
+    </div>
+  {% endif %}
+  {% if attachment_before %}
+    <div class="attachment attachment-before">
+      {{ attachment_before }}
+    </div>
+  {% endif %}
+
+  <div class="tags hide">
+    <div class="badge-group">
+
+    </div>
+
+  </div>
+  
+  {% if feed_icons %}
+    <div class="feed-icons">
+      {% for icon in feed_icons %}
+        {% if icon['#theme'] != 'export_icon' %}
+          {{ icon }}
+        {% endif %}      
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  {% if rows %}
+    <div class="view-content">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {% if pager %}
+    {{ pager }}
+  {% endif %}
+  {% if attachment_after %}
+    <div class="attachment attachment-after">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+  {% if more %}
+    {{ more }}
+  {% endif %}
+  {% if footer %}
+    <div class="view-footer">
+      {{ footer }}
+    </div>
+  {% endif %} 
+  {% if rows and feed_icons %}
+  <div class="feed-icons">
+    {% for icon in feed_icons %}
+      {% if icon['#theme'] == 'export_icon' %}
+        {{ icon }}
+      {% endif %}      
+    {% endfor %}
+  </div>
+{% endif %}
+</div>

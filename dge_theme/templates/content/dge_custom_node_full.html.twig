@@ -1,6 +1,6 @@
 {#
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -41,7 +41,16 @@ not node.isPublished() ? 'node--unpublished', view_mode ? 'node--view-mode-' ~ v
   "image/png": "PNG",
   "image/gif": "GIF",
   "text/plain": "TXT",
-  "application/zip": "ZIP"
+  "video/mp4": "MP4",
+  "application/zip": "ZIP",
+  "application/vnd.oasis.opendocument.presentation" : "ODP",
+  "application/vnd.oasis.opendocument.spreadsheet": "ODS",
+  "audio/mpeg": "MP3",
+  "video/quicktime": "MOV",
+  "video/x-msvideo": "AVI",
+  "video/mpeg": "MPEG",
+  "application/x-tar": "TAR",
+  "application/gzip": "GZ"
 } %}
 {{ attach_library('dge_theme/node') }}
 <article{{ attributes.addClass(classes) }}>

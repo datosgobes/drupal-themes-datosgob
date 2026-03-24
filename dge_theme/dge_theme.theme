@@ -1,7 +1,7 @@
 <?php
 
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -32,6 +32,8 @@ use Drupal\Core\Menu\MenuLinkManagerInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Url;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\block\BlockRepositoryInterface;
+use Drupal\Core\Access\AccessResultInterface;
 
 /**
  * Implements hook_preprocess_image_widget().
@@ -80,18 +82,36 @@ use Drupal\block\BlockRepositoryInterface;
  * Implements hook_preprocess_HOOK() for menu templates.
  */
 function dge_theme_preprocess_menu__main(&$variables) {
-  $variables['#cache']['max-age'] = 0;
-  $language_block = \Drupal::service('plugin.manager.block')
-    ->createInstance('language_block:language_interface');
-  $language_build = $language_block->build();
+  $block_manager = \Drupal::service('plugin.manager.block');
 
-  $language_build['#cache']['max-age'] = 0; 
-  $variables['language_switcher'] = \Drupal::service('renderer')->renderRoot($language_build);
+  $lang_plugin_id = 'language_block:language_interface';
+  if ($block_manager->hasDefinition($lang_plugin_id)) {
+    $instance = $block_manager->createInstance($lang_plugin_id, []);
+    $access = $instance->access(\Drupal::currentUser(), TRUE);
+    if ($access->isAllowed()) {
+      $build = $instance->build();
+      $build['#cache']['contexts'][] = 'languages:language_interface';
+      $build['#cache']['contexts'][] = 'route';
+      $build['#cache']['contexts'][] = 'url';
+      $variables['language_switcher'] = $build;
+    }
+  }
 
-  $user_block = \Drupal::service('plugin.manager.block')
-    ->createInstance('system_menu_block:account');
-  $user_build = $user_block->build();
-  $variables['user_profile'] = \Drupal::service('renderer')->renderRoot($user_build);
+  $user_plugin_id = 'system_menu_block:account';
+  if ($block_manager->hasDefinition($user_plugin_id)) {
+    $instance = $block_manager->createInstance($user_plugin_id, []);
+    $access = $instance->access(\Drupal::currentUser(), TRUE);
+    if ($access->isAllowed()) {
+      $build = $instance->build();
+      // Añadimos contextos de caché adecuados
+      $build['#cache']['contexts'][] = 'user.roles';
+      $build['#cache']['contexts'][] = 'session';
+      $build['#cache']['contexts'][] = 'route';
+      $variables['user_profile'] = $build;
+    }
+  }
+
+
 }
 
 /**
@@ -345,6 +365,9 @@ function dge_theme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
     $form['code']['#suffix'] = '</div>';
     $form['actions']['login']['#weight'] = 10;
     $form['#attributes']['class'][] = 'tfa-entry-form';
+
+    $form['#attached']['library'][] = 'dge_theme/tfa-action_js';
+
     if ($is_email_otp) {
       $description1 = $config->get('dge-tfa-step1');
       if (!empty($description1['value']) && !empty($description1['format'])) {
@@ -429,29 +452,53 @@ function dge_theme_redirect_submit(array &$form, \Drupal\Core\Form\FormStateInte
   }
 }
 
+
+function dge_flatten_menu(array $items, array &$flat) {
+  foreach ($items as $item) {
+    $flat[$item->link->getPluginId()] = $item->link;
+
+    if (!empty($item->subtree)) {
+      dge_flatten_menu($item->subtree, $flat);
+    }
+  }
+}
+
+
 /**
  * Implements hook_proprocess_breadcrumb().
  */
 function dge_theme_preprocess_breadcrumb(&$variables) {
-  $route_name = \Drupal::routeMatch()->getRouteName();
-  $node_type = \Drupal::routeMatch()->getParameter('node_type');
-  if ($route_name === 'node.add' && $node_type && ($node_type->id() === 'aplicacion' || $node_type->id() === 'empresa_reutilizadora'
-  || $node_type->id() === 'iniciativa')) {
-    if ($node_type->id() === 'aplicacion') {
-      $custom_title = t('Share your application');
+
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
+  $node_type = $route_match->getParameter('node_type');
+  $node = $route_match->getParameter('node');
+  $breadcrumb_conocimiento_text=[];
+
+  if ($route_name === 'node.add' && $node_type &&
+    ($node_type->id() === 'aplicacion' 
+    || $node_type->id() === 'empresa_reutilizadora'
+    || $node_type->id() === 'iniciativa')) {
+
+
+    $custom_titles = [
+    'aplicacion'            => t('Share your application'),
+    'empresa_reutilizadora' => t('Share your company'),
+    'iniciativa'            => t('Share your initiative'),
+    ];
+
+    $node_type_id = $node_type->id();
+
+    if (isset($custom_titles[$node_type_id])) {
+      $custom_title = $custom_titles[$node_type_id];
     }
-    if ($node_type->id() === 'empresa_reutilizadora') {
-      $custom_title = t('Share your company');
-    }
-    if ($node_type->id() === 'iniciativa') {
-      $custom_title = t('Share your initiative');
-    }
+
     if (!empty($variables['breadcrumb'])) {
-      $last_breadcrumb = array_pop($variables['breadcrumb']);
-      if (isset($last_breadcrumb['text'])) {
-        $last_breadcrumb['text'] = $custom_title;
+      $last_index = array_key_last($variables['breadcrumb']);
+
+      if ($last_index !== null) {
+          $variables['breadcrumb'][$last_index]['text'] = $custom_title;
       }
-      $variables['breadcrumb'][] = $last_breadcrumb;
     } else {
       $variables['breadcrumb'][] = [
         'text' => $custom_title,
@@ -467,7 +514,11 @@ function dge_theme_preprocess_breadcrumb(&$variables) {
     $variables['breadcrumb'] = $filtered_breadcrumb;
     $variables['#cache']['contexts'][] = 'url';
 
-  } elseif(strpos($route_name, 'view') !== FALSE && strpos($route_name, 'buscador') !== FALSE) {
+  }
+
+
+  elseif (str_contains($route_name, 'view') && str_contains($route_name, 'buscador')) {
+    // Se asigna como título por defecto 'Search' cuando estamos en el buscador
     $custom_title = t('Search');
     $filtered_breadcrumb[] = [
       'text' => $custom_title,
@@ -475,8 +526,10 @@ function dge_theme_preprocess_breadcrumb(&$variables) {
     ];
 
     $variables['breadcrumb'] = $filtered_breadcrumb;
+  }
 
-  } elseif ($route_name === 'tfa.entry') {
+
+  elseif ($route_name === 'tfa.entry') {
     $config = \Drupal::config('dge_tfa.settings');
     $custom_title  = ($config->get('dge-tfa-title')!=null)?$config->get('dge-tfa-title'):'Account verification';
 
@@ -485,127 +538,201 @@ function dge_theme_preprocess_breadcrumb(&$variables) {
       'attributes' => new Attribute(['class' => ['active']]),
     ];
   } else {
-    if ($variables['breadcrumb']) {
+
+    if (!empty($variables['breadcrumb'])) {
+
       $request = \Drupal::request();
-      $route_match = \Drupal::routeMatch();
-      $page_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
+      $route = $route_match->getRouteObject();
+      $title_resolver = \Drupal::service('title_resolver');
+      $page_title = $title_resolver->getTitle($request, $route);
 
-      $normalized_page_title = is_string($page_title) ? strtolower($page_title) : '';
-      $filtered_breadcrumb = [];
-      $title_added = false;
+      $normalized_page_title = strtolower((string) $page_title);
 
+      $filtered = [];
+
+      $is_knowledge = ['conocimiento', 'knowledge', 'coneixement', 'coñecemento', 'ezagutzaren'];
+      if ( count($variables['breadcrumb']) > 1 
+        && isset($variables['breadcrumb'][1]['text'])
+        && is_string($variables['breadcrumb'][1]['text'])
+        && in_array(strtolower(strip_tags($variables['breadcrumb'][1]['text'])), $is_knowledge)
+      ) {
+        $path_conocimiento = \Drupal::service('path.current')->getPath();
+
+        $path = ltrim($path_conocimiento, '/');
+
+        $parts = explode('/', $path);
+
+        if ($parts[0] !== 'node') {
+          if (count($parts) < 3 || $parts[0] !== 'conocimiento' || $parts[1] !== 'tipo') {
+            return NULL; // No coincide el patrón esperado.
+          }
+
+          $term = $parts[2];
+
+          if ($parts[2] === 'tipo' && isset($parts[3])) {
+            $term = $parts[3];
+          }
+
+          $term = preg_replace('/-\d+$/', '', $term);
+
+          $term = str_replace('-', ' ', $term);
+
+          if ($term == 'informes y estudios') {
+            $term = "informes y guias";
+          }
+
+          $breadcrumb_conocimiento_text =[
+            'text'       => $term,
+            'attributes' => ""
+          ] ;
+        }
+      }
+      
       foreach ($variables['breadcrumb'] as $item) {
-        $normalized_item_text = isset($item['text']) && is_string($item['text']) ? strtolower($item['text'] ?? '') : '';
-        if (isset($item['url']) && $normalized_item_text === $normalized_page_title && !$title_added) {
+        if (isset($item['text']) && is_string($item['text'])) {
+          $txt = strtolower(strip_tags($item['text'] ?? ''));
+        }
+        if (isset($item['url']) && $txt === $normalized_page_title) {
           continue;
         }
-        $filtered_breadcrumb[] = $item;
+        $filtered[] = $item;
       }
 
-      if (!empty($page_title) && !$title_added) {
-        $filtered_breadcrumb[] = [
-          'text' => $page_title,
-          'attributes' => new Attribute(['class' => ['active']]),
+      // Añadir título actual
+      if (!empty($page_title)) {
+        $filtered[] = [
+          'text'       => $page_title,
+          'attributes' => new Attribute(['class' => ['active']])
         ];
-        $title_added = true; 
       }
 
-      $variables['breadcrumb'] = $filtered_breadcrumb;
+      $variables['breadcrumb'] = $filtered;
       $variables['#cache']['contexts'][] = 'url';
     }
   }
 
-  $menu_name = 'main';
-
   $menu_tree = \Drupal::menuTree();
-  $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
-  $path_current = \Drupal::service('path.current')->getPath();
-  $current_url = Url::fromUserInput($path_current)->toString();
-
-  $tree = $menu_tree->load($menu_name, new MenuTreeParameters());
-  $flat_links = [];
-
-  function flatten_menu_tree(array $items, &$flat_links) {
-    foreach ($items as $item) {
-      $flat_links[$item->link->getPluginId()] = $item->link;
-      if ($item->subtree) {
-        flatten_menu_tree($item->subtree, $flat_links);
-      }
-    }
-  }
-  flatten_menu_tree($tree, $flat_links);
-
-  $matched_link = null;
-  $best_match_length = 0;
-
-
-  $breadcrumb_conocimiento = [];
-
-  foreach ($flat_links as $plugin_id => $link) {
-    $url_object = $link->getUrlObject();
-    if (!$url_object->isRouted()) {
-      continue;
-    }
-
-    $menu_path = $url_object->toString();
-
-    $languages = ['es', 'ca', 'gl', 'eu', 'en'];
-
-    $menu_path_length = strlen($menu_path);
-
-    if (str_starts_with($current_url, $menu_path) && $menu_path_length > $best_match_length) {
-      $matched_link = $link;
-      $best_match_length = $menu_path_length;
-    } else {
-      foreach ($languages as $langcode) {
-        $lang_conocimiento_path = '/' . $langcode . '/conocimiento/';
-        $lang_path_length = strlen($lang_conocimiento_path);
-
-        if (str_starts_with($current_url, $lang_conocimiento_path) && $lang_path_length > $best_match_length) {
-
-          $breadcrumb_conocimiento[] = "conocimiento";
-
-          break; 
-        }
-      }
-    }
-
-
-  }
+  $tree = $menu_tree->load('main', new MenuTreeParameters());
+  $flat_menu = [];
+  dge_flatten_menu($tree, $flat_menu);
 
   $breadcrumb_labels = [];
+  foreach ($variables['breadcrumb'] as $item) {
+    $text = $item['text'] ?? '';
+    if ($text instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+      $text = $text->__toString();
+    }
+    elseif (is_array($text) && isset($text['#markup'])) {
+      $text = $text['#markup'];
+    }
+    elseif (is_array($text)) {
+      $text = '';
+    }
 
-  if ($matched_link instanceof MenuLinkInterface) {
-    $current = $matched_link;
-    while ($current instanceof MenuLinkInterface) {
-      array_unshift($breadcrumb_labels, $current->getTitle());
-
-      $parent_id = $current->getParent();
-      if (empty($parent_id)) {
-        break;
-      }
-
-      try {
-        $current = $menu_link_manager->createInstance($parent_id);
-      } catch (\Exception $e) {
-        break;
-      }
+    $label = strip_tags((string) $text);
+    if (strtolower($label) !== strtolower(t('Home'))) {
+      $breadcrumb_labels[] = $label;
     }
   }
 
-  
+  $breadcrumb_for_menu = strtolower(
+    count($breadcrumb_labels) > 1 ?
+    $breadcrumb_labels[count($breadcrumb_labels) - 2] :
+    end($breadcrumb_labels)
+  );
 
-  $current_title = \Drupal::service('title_resolver')->getTitle(\Drupal::request(), \Drupal::routeMatch()->getRouteObject());
-  if (!empty($current_title) &&  !is_array($current_title) && !in_array($current_title, $breadcrumb_labels)) {
-    if(empty($breadcrumb_labels) && !empty($breadcrumb_conocimiento)){
-       $breadcrumb_labels[] = t('Conocimiento');
+  if($breadcrumb_for_menu === 'bloga'){
+    $breadcrumb_for_menu= 'blog-a';
+  }
+  if($breadcrumb_for_menu === 'gertaerak'){
+    $breadcrumb_for_menu= 'jardunaldiak';
+  }
+
+  // Buscar item del menú
+  $matched = null;
+  $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
+
+  foreach ($flat_menu as $link) {
+    if (strtolower($link->getTitle()) === $breadcrumb_for_menu) {
+      $matched = $link;
+      break;
     }
-    $breadcrumb_labels[] = strip_tags($current_title);
-    
+  }
+
+  if ($matched) {
+    $menu_labels = [];
+    $current = $matched;
+
+    while ($current instanceof \Drupal\Core\Menu\MenuLinkInterface) {
+      array_unshift(
+        $menu_labels,
+        $current->getTitle() === 'Jardunaldiak' ? 'Gertaerak' : $current->getTitle()
+      );
+      
+      $parent = $current->getParent();
+      if (!$parent) break;
+
+      try {
+        $current = $menu_link_manager->createInstance($parent);
+      } catch (\Exception $e) { break; }
+    }
+
+    $breadcrumb_labels = array_merge([t('Inicio')], $menu_labels);
+
+    if ( count($variables['breadcrumb']) > 2 ) {
+      $last_real = end($variables['breadcrumb']);
+      if (!empty($last_real['text'])) {
+        $breadcrumb_labels[] = strip_tags($last_real['text']);
+      }
+    } elseif (count($variables['breadcrumb']) &&  
+    ( !empty($breadcrumb_conocimiento_text) &&  !empty(($breadcrumb_conocimiento_text['text']))) ) {
+      $breadcrumb_labels[] = strip_tags($breadcrumb_conocimiento_text['text']);
+    }
+  }
+
+  $current = strtolower($breadcrumb_labels[0]);
+
+  $map = [
+    strtolower(t('Share your application')) => t('Applications'),
+    strtolower(t('Share your company'))     => t('Companies'),
+    strtolower(t('Share your initiative'))  => t('Initiatives'),
+  ];
+
+  if (isset($map[$current])) {
+    array_unshift($breadcrumb_labels, $map[$current]);
+    array_unshift($breadcrumb_labels, t('Comunidad'));
+    array_unshift($breadcrumb_labels, t('Inicio'));
   }
 
   if (empty($breadcrumb_labels) || strtolower($breadcrumb_labels[0]) !== 'inicio') {
     array_unshift($breadcrumb_labels, t('Inicio'));
+  }
+  if ( isset($node) && $node->getType() === 'desafio_aporta') {
+    $node_title = $node->getTitle();
+
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    if( isset($breadcrumb_labels[1]) && ($langcode != 'es' || $langcode != 'gl') 
+      && ( $breadcrumb_labels[1] === $node_title  )  )
+    {
+      $parent_title = '';
+      $menu_link_manager_challenge = \Drupal::service('plugin.manager.menu.link');
+      $menu_link = $menu_link_manager_challenge->createInstance('menu_link_content:3efcd98a-804e-4184-822f-5a8ecd2d8730');
+      $parent_plugin_id = $menu_link->getParent();
+      if (!empty($parent_plugin_id)) {
+        $parent_link = $menu_link_manager->createInstance($parent_plugin_id);
+        $parent_title = $parent_link->getTitle();
+      }
+
+      $title_challenge = $menu_link->getTitle();
+    
+      $breadcrumb_challenge = [
+        'text' => $title_challenge,
+        'url' => $menu_link->getUrlObject()->toString()
+      ];
+      array_splice($variables['breadcrumb'], 1, 0, [$breadcrumb_challenge]);
+      array_splice($breadcrumb_labels, 1, 0, [$parent_title]);
+      array_splice($breadcrumb_labels, 2, 0, [$title_challenge]);
+    }
   }
 
   $variables['attributes']['data-breadcrumb'] = implode('|', $breadcrumb_labels);
@@ -704,6 +831,33 @@ function dge_theme_preprocess_views_view(array &$variables){
             '#markup' => $custom_header,
           ];
         }
+      }
+    }
+  }
+}
+
+function dge_theme_preprocess_views_view_fields(&$variables) {
+  $view = $variables['view'];
+
+  $views_target = ['noticias', 'eventos','applications','blog','conocimiento','empresas_reutilizadoras', 'entrevistas'];
+  if (in_array($view->id(), $views_target, TRUE)) {
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    
+    if (isset($variables['fields']['field_etiquetas']) && $langcode !== 'es') {
+      $node = $variables['row']->_entity;
+
+      if ($node->hasField('field_etiquetas')) {
+        $terms = $node->get('field_etiquetas')->referencedEntities();
+
+        $links = [];
+        $aliasManager = \Drupal::service('path_alias.manager');
+        foreach ($terms as $term) {
+          $term_path = '/taxonomy/term/' . $term->id();
+          $alias = $aliasManager->getAliasByPath($term_path, $langcode);
+          $links[] = '<a href="/' . $langcode . $alias . '" hreflang="es">' . $term->label() . '</a>';
+        }
+        $output = implode(' ,', $links);
+        $variables['fields']['field_etiquetas']->content = Markup::create($output);
       }
     }
   }

@@ -1,5 +1,5 @@
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -465,7 +465,9 @@
   #block-dge-theme-aplicacionformulariocabecera,
   #block-dge-theme-empresaformulariocabecera,
   #block-dge-theme-searchtabsblock,
-  #block-dge-theme-cabecerainiciativasaccesible {
+  #block-dge-theme-cabecerainiciativasaccesible,
+  #block-dge-theme-buscadorcabeceratexto
+  {
     grid-column: 1 / -1;
   }
 }

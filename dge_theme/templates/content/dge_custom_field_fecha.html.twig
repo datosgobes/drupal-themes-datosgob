@@ -1,6 +1,6 @@
 {#
 /**
-  * Copyright (C) 2025 Entidad Pública Empresarial Red.es
+  * Copyright (C) 2026 Entidad Pública Empresarial Red.es
   *
   * This file is part of "dge_theme (datos.gob.es)".
   *
@@ -27,15 +27,18 @@
 {% set fecha_fin_exclusion = '2025-09-01' %}
 <!-- Fecha de publicación -->
 {% set field_fecha_public = fecha_publicacion[0]['#markup'] %}
-{% set fecha_public_comparar = field_fecha_public|date("Y-m-d") %}
+{% set fecha_public_comparar = field_fecha_public ? field_fecha_public|date("Y-m-d") : null %}
 
 <!-- Fecha publicación -->
 {% set field_fecha_publicacion_contenid = fecha_publicacion_contenido[0]['#attributes']['datetime'] %}
 {% set fecha_publicacion_comparar = fecha_publicacion_contenido[0]['#attributes']['datetime']|date("Y-m-d") %}
 
 <!-- Fecha de actualización -->
-{% set changed = fecha_actualizacion|date("d/m/Y") %}
-{% set changed_comparar = fecha_actualizacion|date("Y-m-d") %}
+{% set changed = fecha_actualizacion ? fecha_actualizacion|date("d/m/Y") : null %}
+{% set changed_comparar = fecha_actualizacion ? fecha_actualizacion|date("Y-m-d") : null %}
+
+<!-- Fecha de actualización peticion datos-->
+{% set changed_data_request = fecha_actualizacion_peticion_datos ? fecha_actualizacion_peticion_datos|date("d/m/Y") : null %}
 
 {% set dentro_rango_exclusion = changed_comparar >= fecha_inicio_exclusion and changed_comparar <= fecha_fin_exclusion %}
 
@@ -51,6 +54,9 @@ and fecha_publicacion_contenido is not empty
 and changed_comparar != fecha_publicacion_comparar 
 and changed not in fechas_excluidas
 and not dentro_rango_exclusion
+%}
+
+{% set show_fecha_actualizacion_peticion_datos = changed_data_request is not empty
 %}
 
 
@@ -74,6 +80,17 @@ and not dentro_rango_exclusion
     <span class="label bold primary-color-dark mb-2">{{ fecha_publicacion_contenido['#title'] }}</span>
     <span class="label primary-color-semi-dark mb-0">{{ field_fecha_publicacion_contenid|date("d/m/Y") }}</span>
   </div>
+</div>
+{% endif %}
+
+{% if show_fecha_actualizacion_peticion_datos  and not show_fecha_actualizacion_empresa and not  show_fecha_actualizacion_aplicacion  %}
+<!-- Fecha actualizacion peticion datos -->
+<div class="flex-display flex-center flex-row mb-4">
+    <span class="pl-5 b-l mb-0"></span>
+    <div class="flex-display flex-column">
+        <span class="label bold primary-color-dark mb-2">{{ 'Fecha actualización'|t }}</span>
+        <span class="label primary-color-semi-dark mb-0">{{ changed_data_request }}</span>
+    </div>
 </div>
 {% endif %}
 
