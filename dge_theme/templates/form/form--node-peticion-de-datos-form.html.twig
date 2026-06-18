@@ -35,7 +35,11 @@
       title: 'Request Information'
       }
     %}
-    {% include directory ~ '/templates/form/dge-custom-form-informacion-general.html.twig' with params %}
+    <fieldset class="container">
+      <legend class="visually-hidden">
+        {{ 'Request Information'|t }}
+      </legend>
+      {% include directory ~ '/templates/form/dge-custom-form-informacion-general.html.twig' with params %}
 
     <div class="container">
       <div class="col-1">
@@ -66,6 +70,6 @@
       }
     %}
     {% include directory ~ '/templates/form/dge-custom-form-action-buttons.html.twig' with params %}
-
+    </fieldset>
   </form>
 </div>

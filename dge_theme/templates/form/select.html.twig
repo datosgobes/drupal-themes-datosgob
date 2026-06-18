@@ -117,20 +117,20 @@
       {% for option in options %}
         {% if option.value == 'custom_content_type_ckan' %}
           <li>
-            <a class="dropdown-item special-highlight" idParent="{{ attributes.id }}-dropdown" idSelect="{{ attributes.id }}" data-value="{{ option.value }}">
+            <a class="dropdown-item special-highlight" idParent="{{ attributes.id }}-dropdown" idSelect="{{ attributes.id }}" data-id-parent="{{ attributes.id }}-dropdown" data-id-select="{{ attributes.id }}" data-value="{{ option.value }}">
               {{ option.label }}
             </a>
           </li>
         {% else %}
           <li>
-            <a class="dropdown-item" idParent="{{ attributes.id }}-dropdown" idSelect="{{ attributes.id }}" data-value="{{ option.value }}">
+            <a class="dropdown-item" idParent="{{ attributes.id }}-dropdown" idSelect="{{ attributes.id }}" data-id-parent="{{ attributes.id }}-dropdown" data-id-select="{{ attributes.id }}" data-value="{{ option.value }}">
               {{ option.label }}
             </a>
           </li>
         {% endif %}
         {% for sub_option in option.options %}
           <li>
-            <a class="dropdown-item" idParent="{{ attributes.id }}-dropdown" idSelect="{{ attributes.id }}" data-value="{{ sub_option.value }}">
+            <a class="dropdown-item" data-id-parent="{{ attributes.id }}-dropdown" idParent="{{ attributes.id }}-dropdown" idSelect="{{ attributes.id }}" data-id-select="{{ attributes.id }}" data-value="{{ sub_option.value }}">
               {{ sub_option.label }}
             </a>
           </li>

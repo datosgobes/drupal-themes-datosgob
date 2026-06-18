@@ -124,8 +124,7 @@
               {%- set icono = term_state_data[state.name].icono ? term_state_data[state.name].icono : null -%}
               <div class="card-status filter" style="background-color:{{ color }}">
                 <span class="card-status__icon">
-                  <img src="{{ icono }}" alt="" width="" height="">
-                  </img>
+                  <img src="{{ icono }}" alt="">
                 </span>
                 <div class="card-status__name">
                   {%- if count != 0 -%}
@@ -169,8 +168,7 @@
                   </div>
                   <div class="card-status filter" style="background-color:{{ color_noviable }}">
                     <span class="card-status__icon">
-                      <img src="{{ icono_noviable }}" alt="" width="" height="">
-                      </img>
+                      <img src="{{ icono_noviable }}" alt="">
                     </span> 
                     <div class="card-status__name">
                       {%- if count_noviable != 0 -%}

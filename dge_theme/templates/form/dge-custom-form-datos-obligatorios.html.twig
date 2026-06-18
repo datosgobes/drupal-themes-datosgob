@@ -23,7 +23,13 @@
 <div id="error_messages"></div>
 
 <div class="container mt-2 mb-2 flex-gap-05">
-  <span class="text--color-danger">* </span><span class="text--italic text--color-gray-dark">{{'Indicates required fields' | t}}</span>
+  <div>
+    <span class="text--color-danger">*</span>
+    <span class="text--italic text--color-gray-dark">
+      {{ 'Indicates required fields' | t }}
+    </span>
+  </div>
+
   {{ element.messages }}
 </div>
 

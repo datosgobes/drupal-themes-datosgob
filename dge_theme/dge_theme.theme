@@ -34,6 +34,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\block\BlockRepositoryInterface;
 use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * Implements hook_preprocess_image_widget().
@@ -76,7 +77,6 @@ function dge_theme_theme_suggestions_alter(array &$suggestions, array $variables
 
 }
 
-use Drupal\block\BlockRepositoryInterface;
 
 /**
  * Implements hook_preprocess_HOOK() for menu templates.
@@ -356,12 +356,14 @@ function dge_theme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
       $is_email_otp = false;
     }
     $config = \Drupal::config('dge_tfa.settings');
-    $form['actions']['send']['#prefix'] = '<div class="tfa-button">';
+
+    
+    $form['actions']['send']['#prefix'] = '<div class="tfa-button step-one">';
     $form['actions']['send']['#suffix'] = '</div>';
-    $form['actions']['login']['#prefix'] = '<div class="tfa-button">';
+    $form['actions']['login']['#prefix'] = '<div class="tfa-button step-two">';
     $form['actions']['login']['#suffix'] = '</div>';
     $form['code']['#weight'] = 0;
-    $form['code']['#prefix'] = '<div class="tfa-text">';
+    $form['code']['#prefix'] = '<div class="tfa-text step-two">';
     $form['code']['#suffix'] = '</div>';
     $form['actions']['login']['#weight'] = 10;
     $form['#attributes']['class'][] = 'tfa-entry-form';
@@ -409,9 +411,34 @@ function dge_theme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
         '#type' => 'markup',
         '#markup' => $description2,
         '#weight' => -5,
-        '#prefix' => '<div class="dge-tfa-description dge-tfa-step-2">',
+        '#prefix' => '<div class="dge-tfa-description dge-tfa-step-2 step-two">',
         '#suffix' => '</div>',
       ];
+
+      
+      $back_link_config = $config->get('dge-tfa-back-link');
+
+      
+      $link_html = '<a href="#" class="js-tfa-back-to-step-1">' . t('new code') . '</a>';
+
+      
+      if (!empty($back_link_config)) {
+        
+        $final_back_text = str_replace('@new_code', $link_html, t($back_link_config));
+      } else {
+        
+        $final_back_text = t("<p>If you don't receive the code, we advise you to check your Spam folder. If you still can't find it, wait a minute and you can request a @new_code.</p>", ['@new_code' => Markup::create($link_html)]);
+      }
+
+     
+      $form['tfa_back_to_step1'] = [
+        '#type' => 'markup',
+        '#markup' => Markup::create($final_back_text),
+        '#weight' => 120, 
+        '#prefix' => '<div class="dge-tfa-back-link dge-tfa-step-2 step-two">', // Clase dge-tfa-step-2 para que herede la visibilidad del JS
+        '#suffix' => '</div>',
+      ];
+
     }
   }
 }
@@ -861,4 +888,19 @@ function dge_theme_preprocess_views_view_fields(&$variables) {
       }
     }
   }
+}
+
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function dge_theme_preprocess_menu__account(array &$variables) {
+  $current_user = \Drupal::currentUser();
+
+  $variables['is_authenticated'] = $current_user->isAuthenticated();
+  $variables['username'] = $variables['is_authenticated'] ? $current_user->getDisplayName() : NULL;
+
+  $cacheability = new CacheableMetadata();
+  $cacheability->setCacheContexts(['user']);
+  $cacheability->applyTo($variables);
 }

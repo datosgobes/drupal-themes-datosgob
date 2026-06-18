@@ -32,45 +32,40 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
 
-      <div class="dataset-card">
-        <div class="dataset-card__image">
-          {% if content.field_url[0]['#url'] is defined and content.field_url[0]['#url'].uri is defined %}
-            <a href="{{ content.field_url[0]['#url'] }}">
-              <div class="dataset-card__image__src">
-                {{content.field_imagen_media}}
-              </div>
-              <div class="dataset-card__image__title">
-                {{ content.field_titulo[0]['#context'].value }}
-                <div class="decoration-line decoration-line__sm decoration-line__white mt-1 ml-auto mr-auto">&nbsp;</div>
-              </div>
-            </a>
-          {% else %}
-            <div class="dataset-card__image__src">
-              {{content.field_imagen_media}}
-            </div>
-            <div class="dataset-card__image__title" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(104, 165, 20, 0.65) 100%);">
-              {{ content.field_titulo[0]['#context'].value }}
-              <div class="decoration-line decoration-line__sm decoration-line__white mt-1 ml-auto mr-auto">&nbsp;</div>
-            </div>
+      {# Twig accesible para dataset cards #}
+      <article class="dataset-card" role="region"
+         aria-labelledby="dataset-title-{{ content.field_titulo[0]['#context'].value|clean_id }}">
 
+        <div class="dataset-card__image">
+          {% if content.field_imagen_media is not empty %}
+            <div class="dataset-card__image__src">
+              {{ content.field_imagen_media }}
+            </div>
+          {% endif %}
+
+          <h2 id="dataset-title-{{ content.field_titulo[0]['#context'].value|clean_id }}"
+              class="dataset-card__image__title">
+            {{ content.field_titulo[0]['#context'].value }}
+            <span class="decoration-line decoration-line__sm decoration-line__white"
+                  aria-hidden="true"></span>
+          </h2>
+        </div>
+
+        <div class="dataset-card__description">
+          <div class="dataset-card__description__text">
+            {{ content.field_description }}
+          </div>
+      
+          {% if content.field_url[0]['#url'] is defined and content.field_url[0]['#url'].uri is defined %}
+            <div class="dataset-card__description__link">
+              <a href="{{ content.field_url[0]['#url'] }}">
+                {{ 'View data set'|t }}
+              </a>
+            </div>
           {% endif %}
         </div>
-        <div class="dataset-card__description">
-          <div class="flex-display flex-column flex-justify-between">
-            <div class="dataset-card__description__text">
-              {{ content.field_description }}
-            </div>
-          </div>
 
-          <div class="dataset-card__description__link">
-            {% if content.field_url[0]['#url'] is defined and content.field_url[0]['#url'].uri is defined %}
-              <a href="{{ content.field_url[0]['#url'] }}">
-                {{ 'View data set' | t }}
-              </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
+      </article>
 
     {% endblock %}
   </div>

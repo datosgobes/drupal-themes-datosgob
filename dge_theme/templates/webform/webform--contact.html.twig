@@ -25,41 +25,54 @@
 
 <div class="mt-8">
   <form{{ attributes }}>
-    {% set params = {
-      element: element
-      }
-    %}
+
+    {# Información obligatoria (ya existente) #}
+    {% set params = { element: element } %}
     {% include directory ~ '/templates/webform/dge-custom-webform--datos-obligatorios.html.twig' with params %}
 
-    <div class="container">
+    {# === DATOS DE CONTACTO === #}
+    <fieldset class="container">
+      <legend class="visually-hidden">Nombre y mail</legend>
       <div class="col-3">
-      {{ element.elements.name }}
-      </div>
+        {{ element.elements.name }}
+      </div> 
+
       <div class="col-3">
-      {{ element.elements.email }}
+        {{ element.elements.email }}
       </div>
-      <div class="col-3" title="{{ 'Select an item from the list'|t }}">
+    <div class="col-3" title="{{ 'Select an item from the list'|t }}">
       {{ element.elements.tipo }}
       </div>
-    </div>
+    </fieldset>
 
-    <div class="container">
+    {# === MENSAJE === #}
+    <fieldset class="container">
+      <legend class="visually-hidden">
+        {{ 'Message'|t }}
+      </legend>
+
       <div class="col-1">
-      {{ element.elements.message }}
+        {{ element.elements.message }}
       </div>
-    </div>
+    </fieldset>
 
-    <div class="container">
-      <div class="col-1" title="{{ 'Select this checkbox if you want to continue'|t }}">
-      {{ element.elements.acepto_las_condiciones_de_servicio }}
+    {# === CONSENTIMIENTO === #}
+    <fieldset class="container">
+      <legend class="visually-hidden">
+        {{ 'Select this checkbox if you want to continue'|t }}
+      </legend>
+
+      <div class="col-1">
+        {{ element.elements.acepto_las_condiciones_de_servicio }}
       </div>
-    </div>
+    </fieldset>
 
+    {# === ACCIONES === #}
     <div class="container flex-justify-center mt-6 mb-6">
       <div class="col-3">
         {{ element.elements.actions }}
       </div>
     </div>
-  </form>
 
+  </form>
 </div>

@@ -654,7 +654,7 @@
             z-index: 2;
           }
           &>div{
-            .view-noticias, .view-eventos, .view-noticias-o-eventos, .view-conocimiento-o-entrevistas {
+            .view-noticias, .view-eventos, .view-noticias-o-eventos, .view-noticias-o-eventos-home-sectores, .view-conocimiento-o-entrevistas, .view-conocimiento-o-entrevistas-home-sectores {
               .view-content{
                 .views-row{
                   background-color: transparent !important;
@@ -1306,7 +1306,7 @@
               bottom: auto;
             }
             &>div{
-              .view-noticias, .view-eventos, .view-noticias-o-eventos, .view-conocimiento-o-entrevistas{
+              .view-noticias, .view-eventos, .view-noticias-o-eventos, .view-noticias-o-eventos-home-sectores, .view-conocimiento-o-entrevistas, .view-conocimiento-o-entrevistas-home-sectores{
                 .view-content{
                   .views-row{
                     .container--card{
@@ -1573,7 +1573,7 @@
         &--second{
           .block-views{
             &>div{
-              .view-noticias, .view-eventos, .view-noticias-o-eventos, .view-conocimiento-o-entrevistas{
+              .view-noticias, .view-eventos, .view-noticias-o-eventos, .view-noticias-o-eventos-home-sectores, .view-conocimiento-o-entrevistas, .view-conocimiento-o-entrevistas-home-sectores{
                 .view-content{
                   .views-row{
                     .container--card{

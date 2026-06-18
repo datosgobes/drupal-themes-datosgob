@@ -31,32 +31,36 @@
     %}
     {% include directory ~ '/templates/webform/dge-custom-webform--datos-obligatorios.html.twig' with params %}
 
-    <div class="container">
+    <fieldset class="container">
+    <legend class="visually-hidden">Nombre y email</legend>
       <div class="col-3">
       {{ element.elements.name }}
       </div>
       <div class="col-3">
       {{ element.elements.email }}
       </div>
-    </div>
+    </fieldset>
 
-    <div class="container">
+    <fieldset class="container">
+    <legend class="visually-hidden">mensaje</legend>
       <div class="col-1">
       {{ element.elements.message }}
       </div>
-    </div>
+    </fieldset>
 
-    <div class="container">
+    <fieldset class="container">
+    <legend class="visually-hidden">Condiciones de servicio</legend>
       <div class="col-1" title="{{ 'Select this checkbox if you want to continue'|t }}">
       {{ element.elements.acepto_las_condiciones_de_servicio }}
       </div>
-    </div>
+    </fieldset>
 
-    <div class="container flex-justify-center mt-6 mb-6">
+    <fieldset class="container flex-justify-center mt-6 mb-6">
+    <legend class="visually-hidden">Enviar</legend>
       <div class="col-3">
         {{ element.elements.actions }}
       </div>
-    </div>
+    </fieldset>
   </form>
 
 </div>

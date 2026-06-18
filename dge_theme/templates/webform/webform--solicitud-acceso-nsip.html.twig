@@ -31,38 +31,39 @@
     %}
     {% include directory ~ '/templates/webform/dge-custom-webform--datos-obligatorios.html.twig' with params %}
 
-    <div class="container">
-      <div class="col-1">
-        <h4 class="mb-3 titleBold">{{ 'Request Information' | t }}</h4>
-      </div>
-    </div>
+    <fieldset class="container">
+      <h4 class="mb-3 titleBold">{{ 'Request Information' | t }}</h4>
+      <legend class="mb-3 titleBold visually-hidden">
+        {{ 'Request Information' | t }}
+      </legend>
     
-    <div class="container">
-      <div class="col-66">
-      {{ element.elements._que_datos_solicita_ }}
+      <div class="container">
+        <div class="col-66 form-wrapper">
+        {{ element.elements._que_datos_solicita_ }}
+        </div>
+        <div class="col-3" title="{{ 'Select an item from the list'|t }}">
+        {{ element.elements.categorias }}
+        </div>
       </div>
-      <div class="col-3" title="{{ 'Select an item from the list'|t }}">
-      {{ element.elements.categorias }}
+      <div class="container">
+        <div class="col-1">
+        {{ element.elements.descripcion }}
+        </div>
       </div>
-    </div>
-    <div class="container">
-      <div class="col-1">
-      {{ element.elements.descripcion }}
-      </div>
-    </div>
 
-    <div class="container">
-      <div class="col-1">
-      {{ element.elements.motivo_de_peticion }}
+      <div class="container">
+        <div class="col-1">
+        {{ element.elements.motivo_de_peticion }}
+        </div>
       </div>
-    </div>
 
-    <div class="container">
-      <div class="col-1">
-      {{ element.elements.beneficios_esperados }}
+      <div class="container">
+        <div class="col-1">
+        {{ element.elements.beneficios_esperados }}
+        </div>
       </div>
-    </div>
-
+    </fieldset>
+    <!-- Peticion de acceso NSIP - Datos de contacto -->
     {% set altTitle = 'Requester Information' | t %}
     {% set params = {
       title: altTitle,
@@ -77,11 +78,11 @@
     {{ element.elements.markup_01 }}
     {{ element.elements.markup_02 }}
 
-    <div class="container flex-justify-center mt-6 mb-6">
+    <fieldset class="container flex-justify-center mt-6 mb-6">
+    <legend class="visually-hidden">Enviar</legend>
       <div class="col-3">
         {{ element.elements.actions }}
       </div>
-    </div>
+    </fieldset>
   </form>
-
 </div>

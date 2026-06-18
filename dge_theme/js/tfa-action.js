@@ -19,7 +19,14 @@
 
 (function (Drupal) {
   Drupal.behaviors.tfaEnterFix = {
-    attach: function (context) {
+    attach: function (context, settings) {
+
+      // Reset del paso si estamos en la página de login
+      if (settings.path && settings.path.currentPath === 'user/login') {
+        sessionStorage.removeItem('dge_tfa_step');
+      }
+
+      
       const codeInput = context.querySelector('#edit-code');
       const verifyBtn = context.querySelector('#edit-login');
 

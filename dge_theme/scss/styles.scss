@@ -24,17 +24,48 @@
 /* ==========================================================================
 Generic styles
 ========================================================================== */
+.tfa-spinner {
+  display:inline-block;
+  width:16px;
+  height:16px;
+  border:2px solid #ccc;
+  border-top:2px solid #000;
+  border-radius:50%;
+  animation: tfa-spin 0.8s linear infinite;
+  margin-right:8px;
+}
+
+@keyframes tfa-spin {
+  to { transform: rotate(360deg); }
+}
+
+#tfa-entry-form {
+  .step-two {
+    display: none;
+  }
+}
+
+.js-tfa-back-to-step-1.is-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+
 
 html {
   position: relative;
   min-height: 100%;
   scroll-behavior: smooth;
   line-height: initial;
+  overflow-y: scroll;           /* scroll siempre reservado */
+  scrollbar-gutter: stable;     /* modern browsers */
 }
 
 body {
   font-family: 'montserrat';
-  overflow-x: hidden;
+  overflow-x: hidden!important;
 
   b,
   strong,
@@ -67,7 +98,12 @@ body {
       text-decoration: underline;
       transition: 0.3s;
     }
-
+    &:focus-visible {
+      outline: 3px solid $primary-500;
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    
     em {
       font-style: italic; // O lo que necesites
       color: inherit; // Hereda el color del <a>
@@ -239,6 +275,21 @@ strong em{
   }
 }
 
+.container-style.container-link{
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 0;
+}
+.container-style.container-link-variable{
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 4%;
+}
+.container-style.container-link-plataforma{
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 1%;
+}
 .node__content{
   position: relative;
 }
@@ -324,6 +375,13 @@ strong em{
     }
   }
 }
+@media (max-width: 56.25rem) {
+  .container-style.container-link, .container-link-variable, .container-link-plataforma {
+    margin: 0 auto;
+    width: calc(100% - 32px);
+  }
+}
+
 /*----------------------------------------*/
 /* END - MEDIA QUERIES */
 /*----------------------------------------*/
