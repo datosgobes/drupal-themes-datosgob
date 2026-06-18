@@ -42,6 +42,13 @@
 
 {{element.author.name}}
 {{element.author.mail}}
+
+{% if comment_helper_org %}
+  <span class="comment-helper text--italic text--color-gray-dark">
+    El comentario aparecerá publicado en nombre de <span>{{ comment_helper_org }}</span>
+  </span>
+{% endif %}
+
 {{element.comment_body}}
 {{element.field_acepto_las_condiciones_del}}
 

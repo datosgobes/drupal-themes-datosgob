@@ -21,7 +21,9 @@
   'use strict';
 
   let outsideClickListenerAttached = false;
+  const mediaQuery = window.matchMedia('(min-width: 1200px)');
 
+  const isDesktop = () => mediaQuery.matches;
   Drupal.behaviors.userMenu = {
     attach: function (context) {
       const userProfileItems = context.querySelectorAll('.user-profile');
@@ -37,6 +39,7 @@
           menuItem.setAttribute('aria-expanded', 'false');
 
           const toggleMenu = () => {
+            if (!isDesktop()) return;
             const isOpen = menuItem.classList.contains('is-open');
             closeMenu();
 
@@ -69,6 +72,7 @@
 
           if (!outsideClickListenerAttached) {
             document.addEventListener('click', function (event) {
+              if (!isDesktop()) return;
               const openMenu = document.querySelector('.user-profile.is-open');
               if (openMenu && !event.target.closest('.user-profile')) {
                 closeMenu();
@@ -90,4 +94,16 @@
       openMenu.querySelector('ul.menu')?.classList.remove('show');
     }
   }
+
+   
+  function handleViewportChange(e) {
+    if (!e.matches) {
+      closeMenu();
+    }
+  }
+
+  
+  handleViewportChange(mediaQuery);
+
+  mediaQuery.addEventListener('change', handleViewportChange);
 })();

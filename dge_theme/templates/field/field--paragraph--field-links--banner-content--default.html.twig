@@ -75,54 +75,34 @@
   ]
 %}
 
-{% if label_hidden %}
-  {% if multiple %}
-    <div{{ attributes.addClass(classes, 'field__items') }}>
-      {% for item in items %}
-      <div class="btn-link--secondary">
-        <div{{ item.attributes.addClass('field__item') }}>
-          {# Check if the item content has a URL and title #}
-          {% if item.content['#url'] and item.content['#title'] %}
-            <a href="{{ item.content['#url'].toString }}">{{ item.content['#title'] }}
-              <span class="decoration-arrow"><img src="/themes/custom/dge_theme/images/icons/decoration-arrow.svg" alt="Decoration arrow icon"></img></span>
-            </a>
-          {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    {% for item in items %}
-    <div class="btn-link--secondary">
-        <div{{ item.attributes.addClass('field__item') }}>
-          {% if item.content['#url'] and item.content['#title'] %}
-            <a href="{{ item.content['#url'].toString }}">{{ item.content['#title'] }}
-              <span class="decoration-arrow"><img src="/themes/custom/dge_theme/images/icons/decoration-arrow.svg" alt="Decoration arrow icon"></img></span>
-            </a>
-          {% endif %}
-        </div>
-      </div>
-    {% endfor %}
-  {% endif %}
-{% else %}
+{% if not label_hidden %}
   <div{{ attributes.addClass(classes) }}>
     <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
-    {% if multiple %}
-      <div class="field__items">
-    {% endif %}
-    {% for item in items %}
-    <div class="btn-link--secondary">
-        <div{{ item.attributes.addClass('field__item') }}>
-          {% if item.content['#url'] and item.content['#title'] %}
-            <a href="{{ item.content['#url'].toString }}">{{ item.content['#title'] }}
-              <span class="decoration-arrow"><img src="/themes/custom/dge_theme/images/icons/decoration-arrow.svg" alt="Decoration arrow icon"></img></span>
-            </a>
-          {% endif %}
-        </div>
-      </div>
-    {% endfor %}
-    {% if multiple %}
-      </div>
-    {% endif %}
+{% endif %}
+
+{% if multiple %}
+  <div{{ attributes.addClass(classes, 'field__items') }}>
+{% endif %}
+
+{% for item in items %}
+  <div class="btn-link--secondary">
+    <div{{ item.attributes.addClass('field__item') }}>
+      {% if item.content['#url'] and item.content['#title'] %}
+        <a href="{{ item.content['#url'].toString }}">
+          {{ item.content['#title'] }}
+          <span class="decoration-arrow">
+            <img src="/themes/custom/dge_theme/images/icons/decoration-arrow.svg" alt="Decoration arrow icon">
+          </span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
+
+{% if multiple %}
+  </div>
+{% endif %}
+
+{% if not label_hidden %}
   </div>
 {% endif %}

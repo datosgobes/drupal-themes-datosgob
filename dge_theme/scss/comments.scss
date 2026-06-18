@@ -18,6 +18,12 @@
 */
 
 // COMMENTS STYLES
+.comment-helper{
+  span {
+    font-family: 'montserrat-semiBold';
+    font-style: italic;
+  }
+}
 .field--name-comment{
     width: 100%;
 }

@@ -19,23 +19,18 @@
 */
 #}
 
+{# Set the URL of the node #}
+{% set node_url = path('entity.node.canonical', {'node': row._entity.id}) %}
 
-{%
-  set classes = [
-    'taxonomy-term',
-    'vocabulary-' ~ term.bundle|clean_class,
-  ]
+{% set params = {
+  image: fields.field_image,
+  title: fields.title,
+  audiencia: fields.field_audiencia,
+  autoria: fields.field_autoria,
+  descripcion: fields.field_descripcion,
+  etiquetas: fields.field_etiquetas,
+  fecha_publicacion: fields.field_fecha_publicacion_contenid,
+  tipo: fields.field_tipo
+  }
 %}
-<div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes) }}>
-  {{ title_prefix }}
-  {{ title_suffix }}
-  <div class="card-status" style="background-color:{{ elements['#taxonomy_term'].field_color.color }}">
-    <span class="card-status__icon">
-        <img src="{{file_url(elements['#taxonomy_term'].get('field_icono').entity.uri.value)}}" 
-            alt="{{elements['#taxonomy_term'].field_icono.alt}}"
-            width="{{elements['#taxonomy_term'].field_icono.width}}"
-            height="{{elements['#taxonomy_term'].field_icono.width}}">
-    </span>
-    <span class="card-status__name">{{ name }}</span>
-  </div>
-</div>
+{% include directory ~ '/templates/views/dge-custom-views-view-fields.html.twig' with params %}

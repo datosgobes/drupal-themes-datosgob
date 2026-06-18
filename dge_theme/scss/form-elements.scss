@@ -19,15 +19,21 @@
 
 // FORM ELEMENTS
 
-/* inputs */ 
-input[type=password], input[type=text], input[type=search], input[type=email], input[type=url], input[type=file], input[type=date]  {
+/* inputs */
+input[type="password"],
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+input[type="file"],
+input[type="date"] {
   width: calc(100% - 1.876rem);
   border-radius: $border-radius;
   background-color: white;
   box-shadow: $box-shadow-centered;
   color: $primary-700;
   font-size: 0.875rem;
-  padding: 0rem .938rem;
+  padding: 0rem 0.938rem;
   transition: 0.3s;
   border: 1px solid transparent;
   outline: none;
@@ -192,7 +198,10 @@ input[type="checkbox"] {
   right: 0;
   left: auto;
 }
-.dropdown-menu[x-placement^="top"], .dropdown-menu[x-placement^="right"], .dropdown-menu[x-placement^="bottom"], .dropdown-menu[x-placement^="left"] {
+.dropdown-menu[x-placement^="top"],
+.dropdown-menu[x-placement^="right"],
+.dropdown-menu[x-placement^="bottom"],
+.dropdown-menu[x-placement^="left"] {
   right: auto;
   bottom: auto;
 }
@@ -885,6 +894,31 @@ details {
     color: $white;
     background: $rdf;
   }
+
+  &[data-format*="mp3"] {
+    color: $white;
+    background: $mp3;
+  }
+  &[data-format*="mov"] {
+    color: $white;
+    background: $mov;
+  }
+  &[data-format*="avi"] {
+    color: $white;
+    background: $avi;
+  }
+  &[data-format*="mpeg"] {
+    color: $white;
+    background: $mpeg;
+  }
+  &[data-format*="tar"] {
+    color: $white;
+    background: $tar;
+  }
+  &[data-format*="gz"] {
+    color: $white;
+    background: $gz;
+  }
 }
 
 /* Fieldset styles */
@@ -895,6 +929,7 @@ fieldset {
 
 /* Flex colums */
 .container {
+  border: none!important;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -1056,7 +1091,7 @@ fieldset {
     font-size: .875rem;
     line-height: normal;
     color: $primary-600;
-    font-family: 'montserrat-medium';
+    font-family: "montserrat-medium" !important;
     margin-top: 0.83em;
     font-weight: normal;
   }
@@ -1272,7 +1307,7 @@ fieldset {
     font-size: .875rem;
     line-height: normal;
     color: $primary-600;
-    font-family: 'montserrat-medium';
+    font-family: "montserrat-medium" !important;
     margin-top: 0.83em;
   }
 }
@@ -1459,9 +1494,11 @@ fieldset {
         color: $primary-500;
         background-color: transparent !important;
       }
-      &.pager__item--next, &.pager__item--previous,
-      &.pager__item--last, &.pager__item--first{
-        a{
+      &.pager__item--next,
+      &.pager__item--previous,
+      &.pager__item--last,
+      &.pager__item--first {
+        a {
           text-decoration: none;
           span{
             font-size: 2rem;
@@ -1600,7 +1637,26 @@ fieldset {
     word-break: break-word;
     &::marker{
       color: $primary-500;
-      font-family: 'montserrat-semiBold';
+      font-family: "montserrat-semiBold";
+    }
+
+    &:has(> h2)::marker {
+      font-size: 1.75rem;
+    }
+
+    &:has(> h3)::marker {
+      font-size: 1.375rem;
+    }
+
+     &:has(> h4)::marker {
+      font-size: 1.125rem;
+    }
+
+     &:has(> h5)::marker {
+      font-size: 0.8rem;
+    }
+     &:has(> h6)::marker {
+      font-size: 0.67em;
     }
   }
 }
@@ -1649,9 +1705,15 @@ iframe {
   display: none;
 }
 
-@media (min-width: 1024px) { 
-  table[id^="field-url-aplicacion-values"].field-multiple-table tbody tr td:nth-child(2),
-  table[id^="field-url-catalogo-values"].field-multiple-table tbody tr td:nth-child(2) {
+@media (min-width: 1024px) {
+  table[id^="field-url-aplicacion-values"].field-multiple-table
+    tbody
+    tr
+    td:nth-child(2),
+  table[id^="field-url-catalogo-values"].field-multiple-table
+    tbody
+    tr
+    td:nth-child(2) {
     width: 100% !important;
   }
 }
@@ -1725,9 +1787,10 @@ pre {
 /* START - MEDIA QUERIES */
 /*----------------------------------------*/
 // Desktop - SM
-@media (max-width: 64rem) {
+@media (min-width: 48rem) and (max-width: 68rem) {
   .container {
-    .col{
+    flex-direction: row!important;
+    .col {
       &-2 {
         flex: 1 0 calc((100% - 2rem) / 2);
         max-width: calc((100% - 2rem) / 2);

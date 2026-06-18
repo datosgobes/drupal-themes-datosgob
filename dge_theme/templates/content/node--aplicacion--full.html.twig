@@ -44,8 +44,8 @@
   <div{{ content_attributes.addClass('node__content') }}>
 
     <div class="container flex-flow-column flex-justify-between">
-      <div class="flex-display flex-gap-1-2 flex-justify-between mb-4 responsive-lg-flex-column">
-        <div class="flex-display flex-center align-self-center responsive-lg-w-100">
+      <div class="flex-display w--100 flex-gap-1-2 flex-justify-between responsive-lg-flex-column flex-align-center">
+        <div class="flex-display mt-5 responsive-lg-w-100">
           {{ content.field_imagen }}
           <div class="flex-display ml-auto hide responsive-lg-show">
             {{ drupal_block('social_sharing_block', {id : 'social_sharing_block', label : 'Social
@@ -87,6 +87,37 @@
             </div>
           {% endif %}
 
+          {% if node.field_plataforma|length %}
+            <div class="flex-display flex-center flex-row">
+              <div  class="flex-display">
+                <span class="label bold mb-0 primary-color-dark">{{'Platforms:'|t}}</span>
+                {% for item in node.field_plataforma %}
+                  {% set term = item.entity %}
+                  {% if term %}
+                    
+                    <div class="plataforma-item icon--sm">
+
+                      {# Imagen del término #}
+                      
+                      {% if term.field_icono.entity %}
+                        <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': term.id()})}}">
+                          <img
+                            title="{{ term.name.value }}"  
+                            src="{{ file_url(term.field_icono.entity.uri.value) }}"
+                            alt="{{ term.name.value }}"
+                            class="plataforma-icon"
+                            loading="lazy"
+                          />
+                        </a>
+                      {% endif %}
+
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>        
+            </div>
+          {% endif %}
+
 
           {% set field_licencia = content.field_licencia|render %}
           {% if node.changed.value is not empty or content.field_fecha_publicacion_contenid is not empty or field_licencia is not empty %}
@@ -112,7 +143,28 @@
           {% endif %}
         </div>
 
-        <div class="flex-display flex-column flex-gap-1 flex-wrap mb-4 container-style responsive-lg-flex-row">
+        
+        {% set has_autor_desarrollador = has_autor_desarrollador|default(false) %}
+        {% set has_empresa_organismo = has_empresa_organismo|default(false) %}
+        {% set has_plataforma = node.field_plataforma|length > 0 %}
+
+        
+        {% set only_plataforma = has_plataforma 
+          and not has_autor_desarrollador 
+          and not has_empresa_organismo 
+        %}
+
+        {% set app_class = '' %}
+
+        {% if only_plataforma %}
+          {% set app_class = 'container-link-plataforma' %}
+        {% elseif has_plataforma or has_autor_desarrollador or has_empresa_organismo %}
+          {% set app_class = 'container-link-variable' %}
+        {% else %}
+          {% set app_class = 'container-link' %}
+        {% endif %}
+
+        <div class="flex-display flex-column flex-gap-1 flex-wrap mb-4 container-style {{ app_class }} responsive-lg-flex-row mt-5">
           {% for item in content.field_url_aplicacion %}
             {% if item['#type'] == 'link' %}
               {% set urls = item['#url'].uri|split(',') %}
@@ -145,15 +197,7 @@
               {% endfor %}
             {% endif %}
           {% endfor %}
-          {% if content.field_plataforma.0 %}
-            <div class="flex-display flex-center w--100 mt-2 flex-row">
-              <div class="flex-display flex-gap-05 flex-column">
-                {% for item in content.field_plataforma|filter(item => item['#type'] == 'link') %}
-                  <span>{{ item }}</span>
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
+
           </div>
 
         <div class="flex-display responsive-lg-hide">
